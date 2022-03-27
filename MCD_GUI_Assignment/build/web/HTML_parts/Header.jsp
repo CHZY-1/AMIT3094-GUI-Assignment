@@ -19,6 +19,7 @@
     .navbar a{
         font-size: larger;
     }
+    
 </style>
 
 <div id="primary-nav">
