@@ -5,19 +5,24 @@ import java.util.*;
 
 public class Order implements Serializable {
     
-    private String orderId;
+    private int orderId;
     private String orderStatus;
     private ArrayList<Product> productList = new ArrayList<Product>();
 
     public Order() {
     }
 
-    public Order(String orderId, String orderStatus) {
+    public Order(int orderId, String orderStatus) {
         this.orderId = orderId;
         this.orderStatus = orderStatus;
     }
+
+    public Order(String orderStatus, ArrayList<Product> productList) {
+        this.orderStatus = orderStatus;
+        this.productList = productList;
+    }
     
-    public Order(String orderId, String orderStatus, ArrayList productList) {
+    public Order(int orderId, String orderStatus, ArrayList<Product> productList) {
         this.orderId = orderId;
         this.orderStatus = orderStatus;
         this.productList = productList;
@@ -25,7 +30,7 @@ public class Order implements Serializable {
     
     
     // Getter
-    public String getOrderId() {
+    public int getOrderId() {
         return orderId;
     }
 
@@ -39,7 +44,7 @@ public class Order implements Serializable {
     
     
     // Setter
-    public void setOrderId(String orderId) {
+    public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
 
