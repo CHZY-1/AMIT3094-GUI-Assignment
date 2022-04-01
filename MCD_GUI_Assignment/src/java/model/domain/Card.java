@@ -4,50 +4,62 @@ import java.io.Serializable;
 
 public class Card implements Serializable{
     
-    private String Card_Holder_Name;
-    private String Card_Type;
-    private float Expired_Month;
-    private float Expired_Year;
+    private String cardNo;
+    private String cardHolderName;
+    private String cardType;
+    private String expiredMonth;
+    private int expiredYear;
     
     public Card(){
     }
 
-    public Card(String Card_Holder_Name, String Card_Type, float Expired_Month, float Expired_Year) {
-        this.Card_Holder_Name = Card_Holder_Name;
-        this.Card_Type = Card_Type;
-        this.Expired_Month = Expired_Month;
-        this.Expired_Year = Expired_Year;
+    public Card(String cardNo, String cardHolderName, String cardType, String expiredMonth, int expiredYear) {
+        this.cardNo = cardNo;
+        this.cardHolderName = cardHolderName;
+        this.cardType = cardType;
+        this.expiredMonth = expiredMonth;
+        this.expiredYear = expiredYear;
     }
 
-    public String getCard_Holder_Name() {
-        return Card_Holder_Name;
+    public String getCardNo() {
+        return cardNo;
     }
 
-    public void setCard_Holder_Name(String Card_Holder_Name) {
-        this.Card_Holder_Name = Card_Holder_Name;
+    public void setCardNo(String cardNo) {
+        this.cardNo = cardNo;
     }
 
-    public String getCard_Type() {
-        return Card_Type;
+    public String getCardHolderName() {
+        return cardHolderName;
     }
 
-    public void setCard_Type(String Card_Type) {
-        this.Card_Type = Card_Type;
+    public void setCardHolderName(String cardHolderName) {
+        this.cardHolderName = cardHolderName;
     }
 
-    public float getExpired_Month() {
-        return Expired_Month;
+    public String getCardType() {
+        return cardType;
     }
 
-    public void setExpired_Month(float Expired_Month) {
-        this.Expired_Month = Expired_Month;
+    public void setCardType(String cardType) {
+        this.cardType = cardType;
     }
 
-    public float getExpired_Year() {
-        return Expired_Year;
+    public String getExpiredMonth() {
+        return expiredMonth;
     }
 
-    public void setExpired_Year(float Expired_Year) {
-        this.Expired_Year = Expired_Year;
+    public void setExpiredMonth(String expiredMonth) {
+        this.expiredMonth = expiredMonth;
     }
+
+    public int getExpiredYear() {
+        return expiredYear;
+    }
+
+    public void setExpiredYear(int expiredYear) {
+        this.expiredYear = expiredYear;
+    }
+
+    
 }

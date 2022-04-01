@@ -3,9 +3,10 @@ package model.domain;
 import java.io.Serializable;
 
 public class Customer implements Serializable{
+    private String customerID;
     private String customerName;
     private String email;
-    private int phoneNum;
+    private String phoneNum;
     private String password;
     private Address address;
 
@@ -21,7 +22,8 @@ public class Customer implements Serializable{
         this.password = password;
     }
 
-    public Customer(String customerName, String email, int phoneNum, String password, Address address) {
+    public Customer(String customerID, String customerName, String email, String phoneNum, String password, Address address) {
+        this.customerID = customerID;
         this.customerName = customerName;
         this.email = email;
         this.phoneNum = phoneNum;
@@ -29,49 +31,57 @@ public class Customer implements Serializable{
         this.address = address;
     }
     
-    public String getCustomerName() {
-        return customerName;
+    // Getters
+    public String getCustomerID() {
+        return customerID;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public String getCustomerName() {
+        return customerName;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public int getPhoneNum() {
+    public String getPhoneNum() {
         return phoneNum;
-    }
-
-    public void setPhoneNum(int phoneNum) {
-        this.phoneNum = phoneNum;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public Address getAddress() {
         return address;
+    }
+    
+    
+    // Setters
+    public void setCustomerID(String customerID) {
+        this.customerID = customerID;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setAddress(Address address) {
         this.address = address;
     }
+
     
-    @Override
-    public String toString() {
-        return String.format("%s %s %d %s %s", customerName, email, phoneNum, password, address);
-    }
     
 }
