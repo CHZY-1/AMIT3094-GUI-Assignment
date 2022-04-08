@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import model.da.ProductDA;
@@ -25,15 +26,16 @@ public class ProductController{
         return productDA.getAllProduct();
     }
     
-    public int insertProduct(Product product) throws SQLException{
+    public int insertProduct(Product product) throws SQLException, IOException{
         return productDA.insertNewProduct(product);
     }
     
-    public int updateProduct(Product product) throws SQLException{
+    public int updateProduct(Product product) throws SQLException, IOException{
         return productDA.updateProduct(product);
     }
     
     public int deleteProduct(String productID) throws SQLException{
         return productDA.deleteProduct(productID);
     }
+    
 }

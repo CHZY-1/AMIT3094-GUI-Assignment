@@ -1,16 +1,18 @@
 package model.domain;
 
 import java.io.Serializable;
-import java.sql.Blob;
 import java.io.ByteArrayOutputStream;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.WritableRaster;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 public class Product implements Serializable {
@@ -67,6 +69,8 @@ public class Product implements Serializable {
     }
     
     
+    
+    //Setter
 
     public void setProductID(String productID) {
         this.productID = productID;
@@ -92,6 +96,23 @@ public class Product implements Serializable {
         this.productCategory = productCategory;
     }
     
+    public void setBase64Image(String imgStringBase64){
+        this.base64Image = imgStringBase64;
+    }
+    
+    public void setBase64ImageFromBytes(byte[] imageBytes){
+        try {
+            String imgBase64String = Product.convertByteToBase64(imageBytes);
+            setBase64Image(imgBase64String);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+      
+    public String getProductImageBase64() throws UnsupportedEncodingException {
+        return Product.convertByteToBase64(productImage);
+    }
+    
     public String getFileExtension(String filePath){
         String extension = "";
         int i = filePath.lastIndexOf('.');
@@ -102,61 +123,40 @@ public class Product implements Serializable {
          return extension;
     }
     
-//    public void setImageFile(String filePath){
-//        try{
-//            
-//            File file = new File(filePath);
-//            
-//            BufferedImage Image = ImageIO.read(file);
-//
-//            String fileExtension = getFileExtension(filePath);
-//            
-//            byte[] imageInByte;
-//            try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-//                baos.flush();
-//                imageInByte = baos.toByteArray();
-//            }
-//            
-//            setProductImage(imageInByte);
-//            
-//        }catch(FileNotFoundException ex){
-//            ex.getMessage();
-//        }catch(IOException ex){
-//            ex.getMessage();
-//        }
-//        
-//    }
-    
     public void setImageFile(String imageFilePath) throws FileNotFoundException,IOException {
-        
-        BufferedImage bImage = null;
-        byte[] imgByte = null;
-        
-        File imageFile = new File(imageFilePath);
-        bImage = ImageIO.read(imageFile);
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-//            ImageIO.write(bImage, "jpg", output);
+//        BufferedImage bImage = null;
+//        File imageFile = new File(imageFilePath);
+//        bImage = ImageIO.read(imageFile);
+//        ByteArrayOutputStream output = new ByteArrayOutputStream();
+//        ImageIO.write(bImage, "png", output);
+//
+//        imgByte = output.toByteArray();
 
-        imgByte = output.toByteArray(); //convert stream to byte array format
+        byte[] imgByte = null;
+        imgByte = Product.convertImageToBytes(imageFilePath);
         setProductImage(imgByte);
-        
     }
     
     public String imageFileToBase64String(String imageFilePath){
         
         String base64Image = "";
+        byte[] imageBytes = null;
         BufferedImage bImage = null;
         
         try{
-            File imageFile = new File(imageFilePath);
-//            System.out.println(getClass().getResource("../image/apple.jpg").getFile());
-//            bImage = ImageIO.read(getClass().getResource("../image/apple.jpg")); //renderred Image
-            bImage = ImageIO.read(imageFile); //renderred Image
-            ByteArrayOutputStream output = new ByteArrayOutputStream();
-            ImageIO.write(bImage, "png", output);
-            
-            base64Image = Base64.getEncoder().encodeToString(output.toByteArray());
+//            File imageFile = new File(imageFilePath);
+//            bImage = ImageIO.read(imageFile); //renderred Image
+//            ByteArrayOutputStream output = new ByteArrayOutputStream();
+//            ImageIO.write(bImage, "png", output);
+            imageBytes = Product.convertImageToBytes(imageFilePath);
+            base64Image = Product.convertByteToBase64(imageBytes);
+//            base64Image = Base64.getEncoder().encodeToString(output.toByteArray());
 //            System.out.println(base64Image);
+//            
+//            bImage.flush();
+//            output.close();
+            
+            
         }catch(IOException ex){
             ex.getMessage();
         }
@@ -165,26 +165,43 @@ public class Product implements Serializable {
     }
     
     public static byte[] convertImageToBytes(String imagePath) throws IOException{
+        //ImageIO Class Documentation
+        //https://docs.oracle.com/javase/7/docs/api/javax/imageio/ImageIO.html#read(java.io.InputStream)
         
-//        BufferedImage Image = ImageIO.read(file);
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        byte [] data = baos.toByteArray();
-//        
-//        return data;
+        //ImageIO - supported format 
+        //GIF, PNG, JPEG, BMP, and WBMP
+        
         File imgFile = new File(imagePath);
-        BufferedImage bufferedImage = ImageIO.read(imgFile);
-        // get DataBufferBytes from Raster
-        WritableRaster raster = bufferedImage .getRaster();
-        DataBufferByte data   = (DataBufferByte) raster.getDataBuffer();
-
-        return ( data.getData() );
+        
+        //ImageIO.read() is for reading images in a defined file format, not reading pixels
+        BufferedImage bImage = ImageIO.read(imgFile); //create buffered image object with the File(imagePath)
+        
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        
+        //ImageIO.write is a must to correctly save buffered image into bytes array else the image is null
+        ImageIO.write(bImage, "png", baos); //write buffered image into byteArrayOutput Stream
+        byte [] data = baos.toByteArray();  //convert content of output stream to byte array
+        
+        bImage.flush();
+        baos.close();
+        
+        return data;
     }
     
     public static String convertByteToBase64(byte[] bytes) throws UnsupportedEncodingException{
+        
 //        byte[] encodeBase64 = Base64.getEncoder().encode(bytes);
 //        String base64Encoded = new String(encodeBase64, "UTF-8");
+        
         String base64Encoded = new String(Base64.getEncoder().encode(bytes), "UTF-8");
         return base64Encoded;
+    }
+    
+    public static BufferedImage byteArrayToBufferedImage(byte[] array) throws IOException {
+        InputStream in = new ByteArrayInputStream(array);
+        BufferedImage bImageFromConvert = ImageIO.read(in);
+        in.close();
+        return bImageFromConvert;
     }
     
     @Override
@@ -198,14 +215,9 @@ public class Product implements Serializable {
     }
     
     public static void main(String args[]) throws IOException{
-//        File file = new File("C:\\Users\\zyang\\Desktop\\AMIT3094  GUI AND WEB APPLICATION PROGRAMMING\\Projects\\MCD_GUI_Assignment\\web\\Pictures\\apple.jpg");
         Product product = new Product();
-//        byte[] imageByte = Product.convertImageToBytes("C:\\Users\\zyang\\Desktop\\AMIT3094  GUI AND WEB APPLICATION PROGRAMMING\\Projects\\MCD_GUI_Assignment\\web\\Pictures\\apple.jpg");
-//        System.out.println(imageByte.length);
-//        for(int i=0; i< imageByte.length ; i++) {
-//         System.out.println(imageByte[i] +" ");
-//         }
 
-        product.imageFileToBase64String("C:\\Users\\zyang\\Desktop\\AMIT3094  GUI AND WEB APPLICATION PROGRAMMING\\Projects\\MCD_GUI_Assignment\\web\\Pictures\\apple.jpg");
+        product.setImageFile("C:\\Users\\zyang\\Desktop\\AMIT3094  GUI AND WEB APPLICATION PROGRAMMING\\Projects\\MCD_GUI_Assignment\\web\\Pictures\\apple.jpg");
+        System.out.println(Arrays.toString(product.getProductImage()));
     }
 }

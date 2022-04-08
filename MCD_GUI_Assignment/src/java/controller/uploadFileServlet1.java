@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.domain.Product;
 import model.domain.ProductCategory;
-import controller.ProductController;
-import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -67,16 +65,34 @@ public class uploadFileServlet1 extends HttpServlet {
             }
             
             int success = 0;
+            
             //Test db
-            Product product = new Product("Prod-1a", "Banana", 8.50, 10, new ProductCategory("C1", "Burger"));
-            product.setImageFile(uploadImagePath);
+            ProductCategory fruits = new ProductCategory("F1","Fruits");
+//            Product product1 = new Product("Prod-1a", "Apple", 8.50, 10, new ProductCategory("C1", "Burger"));
+//            product1.setImageFile(uploadImagePath);
             
-//            ProductController prodController = new ProductController();
-//            success = prodController.insertProduct(product);
+//            Product product2 = new Product("Prod-1b", "Banana", 7.50, 20, new ProductCategory("C1", "Burger"));
+//            product2.setImageFile(uploadImagePath);
             
-            String base64Image = product.imageFileToBase64String(uploadImagePath);
-            request.setAttribute("imageByte", product.getProductImage());
-            request.setAttribute("base64Image", base64Image);
+            ProductController prodController = new ProductController();
+//            success = prodController.insertProduct(product1);
+//            success = prodController.insertProduct(product2);
+            
+            //Product1
+            Product productReturned1 = prodController.getProductByID("Prod-1a");
+            String productImage1 =  productReturned1.getProductImageBase64();
+            request.setAttribute("imageByte", productReturned1.getProductImage());
+            request.setAttribute("productImage1", productImage1);
+            
+            //Product2
+            Product productReturned2 = prodController.getProductByID("Prod-1b");
+            String productImage2 =  productReturned2.getProductImageBase64();
+            request.setAttribute("imageByte", productReturned2.getProductImage());
+            request.setAttribute("productImage2", productImage2);
+            
+//            String base64Image = product.imageFileToBase64String(uploadImagePath);
+//            request.setAttribute("base64Image", base64Image);
+
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("testImage.jsp");
             requestDispatcher.forward(request, response);
             

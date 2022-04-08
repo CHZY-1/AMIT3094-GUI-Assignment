@@ -9,6 +9,8 @@ import model.domain.ProductCategory;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Base64;
+import javax.imageio.ImageIO;
+import javax.sql.rowset.serial.SerialBlob;
 
 public final class ProductDA{
     private String host = "jdbc:derby://localhost:1527/MCD";
@@ -43,31 +45,33 @@ public final class ProductDA{
     public Product getProduct(String productID) throws SQLException {
         String queryStr = "SELECT * FROM " + tableName + " WHERE PRODUCT_ID = ?";
         Product product = null;
+        
         try {
             //bind query and parameter
             stmt = conn.prepareStatement(queryStr);
             stmt.setString(1, productID);
-            //execute query
-            ResultSet rs = stmt.executeQuery();
-            
-            if (rs.next()) {
-                
-                Blob blob = rs.getBlob("PRODUCT_IMAGE");
-                
-                //retrieve image blob length
-                int blobLength = (int) blob.length();
-                
-                //convert blob to bytes array
-                byte[] imageBytes = blob.getBytes(1, blobLength);
-                blob.free();
-                
-                product = new Product(productID,
-                        rs.getString("PRODUCT_NAME"), 
-                        imageBytes,
-                        rs.getDouble("PRODUCT_PRICE"), 
-                        rs.getInt("ORDER_QUANTITY"),
-                        new ProductCategory(rs.getString("CATEGORY_ID")));
+            try ( //execute query
+                    ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    
+                    Blob blob = rs.getBlob("PRODUCT_IMAGE");
+                    
+                    //retrieve image blob length
+                    int blobLength = (int) blob.length();
+                    
+                    //convert blob to bytes array
+                    byte[] imageBytes = blob.getBytes(1, blobLength);
+                    blob.free();
+                    
+                    product = new Product(productID,
+                            rs.getString("PRODUCT_NAME"),
+                            imageBytes,
+                            rs.getDouble("PRODUCT_PRICE"),
+                            rs.getInt("ORDER_QUANTITY"),
+                            new ProductCategory(rs.getString("CATEGORY_ID")));
                 }
+            }
+            stmt.close();
             
         } catch (SQLException ex) {
             throw ex;
@@ -105,8 +109,14 @@ public final class ProductDA{
                         rs.getInt("ORDER_QUANTITY"),
                         new ProductCategory(rs.getString("CATEGORY_ID")));
                 
-               productList.add(product); 
+               productList.add(product);
+               
+               
             }
+            
+            rs.close();
+            stmt.close();
+            
         } catch (SQLException ex) {
             throw ex;
         }
@@ -115,23 +125,30 @@ public final class ProductDA{
     }
 
     
-    public int insertNewProduct(Product product) throws SQLException{
-        String sqlStr= "INSERT INTO PRODUCT VALUES(?,?,?,?,?,?)";
+    public int insertNewProduct(Product product) throws SQLException, IOException{
+        String sqlStr= "INSERT INTO PRODUCT(PRODUCT_ID, PRODUCT_NAME, PRODUCT_IMAGE, PRODUCT_PRICE, ORDER_QUANTITY, CATEGORY_ID) VALUES(?,?,?,?,?,?)";
         int affectedRows = 0;
         
         ByteArrayInputStream productImageBS= new ByteArrayInputStream(product.getProductImage());
+
+//        Blob image = new SerialBlob(product.getProductImage());
         
         try{
             stmt = conn.prepareStatement(sqlStr);
             
             stmt.setString(1, product.getProductID());
             stmt.setString(2, product.getProductName());
-            stmt.setBinaryStream(3, productImageBS);
+            stmt.setBinaryStream(3, productImageBS, productImageBS.available());
+//            stmt.setBlob(3, image);
             stmt.setDouble(4, product.getProductPrice());
             stmt.setInt(5, product.getOrderQuantity());
             stmt.setString(6, product.getProductCategory().getCategoryID());
             
             affectedRows = stmt.executeUpdate();
+            
+            productImageBS.close();
+            
+            stmt.close();
             
         }catch(SQLException ex){
             throw ex;
@@ -140,8 +157,11 @@ public final class ProductDA{
         return affectedRows;
     }
     
+    public void updateProductImageBlob(String productID){
+        
+    }
     
-    public int updateProduct(Product product) throws SQLException{
+    public int updateProduct(Product product) throws SQLException, IOException{
         
         String sqlStr = "UPDATE PRODUCT SET PRODUCT_ID=?, "
                 + "PRODUCT_NAME=?, "
@@ -160,13 +180,17 @@ public final class ProductDA{
             
             stmt.setString(1, product.getProductID());
             stmt.setString(2, product.getProductName());
-            stmt.setBinaryStream(3, productImageBS);
+            stmt.setBinaryStream(3, productImageBS, productImageBS.available());
             stmt.setDouble(4, product.getProductPrice());
             stmt.setInt(5, product.getOrderQuantity());
             stmt.setString(6, product.getProductCategory().getCategoryID());
             stmt.setString(7, product.getProductID());
             
             affectedRows = stmt.executeUpdate();
+            
+            productImageBS.close();
+            
+            stmt.close();
             
         }catch(SQLException ex){
             throw ex;
@@ -186,6 +210,7 @@ public final class ProductDA{
             
             affectedRows = stmt.executeUpdate();
             
+            stmt.close();
             
         }catch(SQLException ex){
             throw ex;

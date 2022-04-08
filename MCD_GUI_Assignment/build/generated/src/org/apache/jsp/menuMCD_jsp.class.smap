@@ -1,0 +1,30 @@
+SMAP
+menuMCD_jsp.java
+JSP
+*S JSP
+*F
++ 0 menuMCD.jsp
+menuMCD.jsp
++ 1 Meta.jsp
+HTML_parts/Meta.jsp
++ 2 Header.jsp
+HTML_parts/Header.jsp
++ 3 Footer.jsp
+HTML_parts/Footer.jsp
+*L
+1,8:55
+1#1,22:63
+8#0,155:84
+1#2,35:239
+36:274,3
+37,3:277
+40:280,3
+41,3:283
+44:286,3
+45,3:289
+48:292,3
+49,7:295
+162#0,139:301
+1#3,15:440
+300#0,5:454
+*E
