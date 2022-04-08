@@ -36,15 +36,19 @@ public class uploadFileServlet1 extends HttpServlet {
         
         String servletDirectory = getServletContext().getRealPath("/"); //Absolute Path (servlet dir)
         String uploadDirPath = servletDirectory + UPLOAD_DIR; // concat servlet dir path and the name of upload folder
+        //Sample Path - NetbeanProjectAbsolutePath\\web\\images(UPLOAD_DIR)
+        
         String uploadImagePath = "";
         
-        //Create new directory for uploading product image
+        //Create a new directory for uploading product image
         File directory = new File(uploadDirPath);
-            if (! directory.exists()){
+            if (! directory.exists()){ //Create a new directory if not exists
                 directory.mkdir();
             }
             
         try {
+            
+            //org.apache.commons.fileupload Library
             
             //Upload Image file to upload dir
             ServletFileUpload servletFileUpload = new ServletFileUpload(new DiskFileItemFactory());
@@ -64,9 +68,10 @@ public class uploadFileServlet1 extends HttpServlet {
                 
             }
             
-            int success = 0;
+           
             
             //Test db
+            int success = 0;
             ProductCategory fruits = new ProductCategory("F1","Fruits");
 //            Product product1 = new Product("Prod-1a", "Apple", 8.50, 10, new ProductCategory("C1", "Burger"));
 //            product1.setImageFile(uploadImagePath);
@@ -99,8 +104,8 @@ public class uploadFileServlet1 extends HttpServlet {
 //            out.println("<html><body>"+uploadImagePath+"<body></html>");
             
         } catch (FileUploadException ex) {
-            ex.getMessage();
-            out.println("<html><body>File Upload Exception :"+uploadImagePath+" <body></html>");
+            out.println("<html><body>File Upload Exception :"+ex.getMessage() +"<br/>File Path: "
+                    +uploadImagePath+" <body></html>");
         } catch (SQLException ex) {
             out.println("<html><body>SQL Exception :"+ex.getMessage()+"<body></html>");
         }catch (IOException ex) {
