@@ -8,10 +8,10 @@ public class ProductCategory implements Serializable  {
             
   public ProductCategory(){
   }
-  
-  public ProductCategory(String CategoryName) {
-        this.categoryName = CategoryName;
-  }
+
+    public ProductCategory(String categoryID) {
+        this.categoryID = categoryID;
+    }
   
   public ProductCategory(String CategoryID, String CategoryName){
       this.categoryID = CategoryID;
