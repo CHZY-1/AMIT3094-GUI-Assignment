@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 public class Product implements Serializable {
- 
+
     private String productID;
     private String productName;
     private byte[] productImage;
@@ -25,8 +25,9 @@ public class Product implements Serializable {
     private int orderQuantity;
     private ProductCategory productCategory;
 
-    public Product(){}
-    
+    public Product() {
+    }
+
     public Product(String productID, String productName, double productPrice, int orderQuantity, ProductCategory productCategory) {
         this.productID = productID;
         this.productName = productName;
@@ -67,11 +68,8 @@ public class Product implements Serializable {
     public ProductCategory getProductCategory() {
         return productCategory;
     }
-    
-    
-    
-    //Setter
 
+    //Setter
     public void setProductID(String productID) {
         this.productID = productID;
     }
@@ -95,12 +93,12 @@ public class Product implements Serializable {
     public void setProductCategory(ProductCategory productCategory) {
         this.productCategory = productCategory;
     }
-    
-    public void setBase64Image(String imgStringBase64){
+
+    public void setBase64Image(String imgStringBase64) {
         this.base64Image = imgStringBase64;
     }
-    
-    public void setBase64ImageFromBytes(byte[] imageBytes){
+
+    public void setBase64ImageFromBytes(byte[] imageBytes) {
         try {
             String imgBase64String = Product.convertByteToBase64(imageBytes);
             setBase64Image(imgBase64String);
@@ -108,22 +106,22 @@ public class Product implements Serializable {
             Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-      
+
     public String getProductImageBase64() throws UnsupportedEncodingException {
         return Product.convertByteToBase64(productImage);
     }
-    
-    public String getFileExtension(String filePath){
+
+    public String getFileExtension(String filePath) {
         String extension = "";
         int i = filePath.lastIndexOf('.');
-           if (i > 0) {
-               extension = filePath.substring(i+1);
-           }
-           
-         return extension;
+        if (i > 0) {
+            extension = filePath.substring(i + 1);
+        }
+
+        return extension;
     }
-    
-    public void setImageFile(String imageFilePath) throws FileNotFoundException,IOException {
+
+    public void setImageFile(String imageFilePath) throws FileNotFoundException, IOException {
 //        BufferedImage bImage = null;
 //        File imageFile = new File(imageFilePath);
 //        bImage = ImageIO.read(imageFile);
@@ -136,14 +134,14 @@ public class Product implements Serializable {
         imgByte = Product.convertImageToBytes(imageFilePath);
         setProductImage(imgByte);
     }
-    
-    public String imageFileToBase64String(String imageFilePath){
-        
+
+    public String imageFileToBase64String(String imageFilePath) {
+
         String base64Image = "";
         byte[] imageBytes = null;
         BufferedImage bImage = null;
-        
-        try{
+
+        try {
 //            File imageFile = new File(imageFilePath);
 //            bImage = ImageIO.read(imageFile); //renderred Image
 //            ByteArrayOutputStream output = new ByteArrayOutputStream();
@@ -155,55 +153,52 @@ public class Product implements Serializable {
 //            
 //            bImage.flush();
 //            output.close();
-            
-            
-        }catch(IOException ex){
+
+        } catch (IOException ex) {
             ex.getMessage();
         }
-        
+
         return base64Image;
     }
-    
-    public static byte[] convertImageToBytes(String imagePath) throws IOException{
+
+    public static byte[] convertImageToBytes(String imagePath) throws IOException {
         //ImageIO Class Documentation
         //https://docs.oracle.com/javase/7/docs/api/javax/imageio/ImageIO.html#read(java.io.InputStream)
-        
+
         //ImageIO - supported format 
         //GIF, PNG, JPEG, BMP, and WBMP
-        
         File imgFile = new File(imagePath);
-        
+
         //ImageIO.read() is for reading images in a defined file format, not reading pixels
         BufferedImage bImage = ImageIO.read(imgFile); //create buffered image object with the File(imagePath)
-        
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        
+
         //ImageIO.write is a must to correctly save buffered image into bytes array else the image is null
         ImageIO.write(bImage, "png", baos); //write buffered image into byteArrayOutput Stream
-        byte [] data = baos.toByteArray();  //convert content of output stream to byte array
-        
+        byte[] data = baos.toByteArray();  //convert content of output stream to byte array
+
         bImage.flush();
         baos.close();
-        
+
         return data;
     }
-    
-    public static String convertByteToBase64(byte[] bytes) throws UnsupportedEncodingException{
-        
+
+    public static String convertByteToBase64(byte[] bytes) throws UnsupportedEncodingException {
+
 //        byte[] encodeBase64 = Base64.getEncoder().encode(bytes);
 //        String base64Encoded = new String(encodeBase64, "UTF-8");
-        
         String base64Encoded = new String(Base64.getEncoder().encode(bytes), "UTF-8");
         return base64Encoded;
     }
-    
+
     public static BufferedImage byteArrayToBufferedImage(byte[] array) throws IOException {
         InputStream in = new ByteArrayInputStream(array);
         BufferedImage bImageFromConvert = ImageIO.read(in);
         in.close();
         return bImageFromConvert;
     }
-    
+
     @Override
     public String toString() {
         return "Product{" + "productID=" + productID + ", "
@@ -213,8 +208,8 @@ public class Product implements Serializable {
                 + "orderQuantity=" + orderQuantity + ", "
                 + "productCategory=" + productCategory + '}';
     }
-    
-    public static void main(String args[]) throws IOException{
+
+    public static void main(String args[]) throws IOException {
         Product product = new Product();
 
         product.setImageFile("C:\\Users\\zyang\\Desktop\\AMIT3094  GUI AND WEB APPLICATION PROGRAMMING\\Projects\\MCD_GUI_Assignment\\web\\Pictures\\apple.jpg");
