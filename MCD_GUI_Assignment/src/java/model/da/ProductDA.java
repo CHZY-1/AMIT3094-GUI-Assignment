@@ -9,6 +9,8 @@ import model.domain.ProductCategory;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public final class ProductDA {
 
@@ -39,9 +41,10 @@ public final class ProductDA {
         }
     }
 
-    public Product getProduct(String productID) throws SQLException {
+    public Product getProduct(String productID) throws SQLException, NullPointerException{
         String queryStr = "SELECT * FROM " + tableName + " WHERE PRODUCT_ID = ?";
         Product product = null;
+        byte[] imageBytes = new byte[0];
 
         try {
             //bind query and parameter
@@ -52,13 +55,15 @@ public final class ProductDA {
                 if (rs.next()) {
 
                     Blob blob = rs.getBlob("PRODUCT_IMAGE");
+                    
+                    if(blob != null){
+                        //retrieve image blob length
+                        int blobLength = (int) blob.length();
 
-                    //retrieve image blob length
-                    int blobLength = (int) blob.length();
-
-                    //convert blob to bytes array
-                    byte[] imageBytes = blob.getBytes(1, blobLength);
-                    blob.free();
+                        //convert blob to bytes array
+                        imageBytes = blob.getBytes(1, blobLength);
+                        blob.free();
+                    }
 
                     product = new Product(productID,
                             rs.getString("PRODUCT_NAME"),
@@ -77,9 +82,12 @@ public final class ProductDA {
         return product;
     }
 
-    public ArrayList<Product> getAllProduct() throws SQLException {
-        String queryStr = "SELECT * FROM " + tableName;
-        Product product = null;
+    public ArrayList<Product> getAllProduct() throws SQLException, NullPointerException{
+        String queryStr = "SELECT * FROM " + tableName + 
+                " INNER JOIN PRODUCT_CATEGORY "
+                + "ON PRODUCT.CATEGORY_ID = PRODUCT_CATEGORY.CATEGORY_ID "
+                + "ORDER BY CATEGORY_NAME";
+        Product product = new Product();
         ArrayList<Product> productList = new ArrayList<Product>();
 
         try {
@@ -87,24 +95,30 @@ public final class ProductDA {
             stmt = conn.prepareStatement(queryStr);
             //execute query
             ResultSet rs = stmt.executeQuery();
+            byte[] imageBytes = new byte[0];
 
             while (rs.next()) {
-
+//                System.out.println("Record Found");
+//                System.out.println(rs.getString("PRODUCT_ID"));
+                
+                //Note: Product Image cannot be Null else will throw null pointer exception
                 Blob blob = rs.getBlob("PRODUCT_IMAGE");
 
-                //retrieve image blob length
-                int blobLength = (int) blob.length();
+                if(blob != null){
+                        //retrieve image blob length
+                        int blobLength = (int) blob.length();
 
-                //convert blob to bytes array
-                byte[] imageBytes = blob.getBytes(1, blobLength);
-                blob.free();
-
+                        //convert blob to bytes array
+                        imageBytes = blob.getBytes(1, blobLength);
+                        blob.free();
+                    }
+                
                 product = new Product(rs.getString("PRODUCT_ID"),
                         rs.getString("PRODUCT_NAME"),
                         imageBytes,
                         rs.getDouble("PRODUCT_PRICE"),
                         rs.getInt("ORDER_QUANTITY"),
-                        new ProductCategory(rs.getString("CATEGORY_ID")));
+                        new ProductCategory(rs.getString("CATEGORY_ID"),rs.getString("CATEGORY_NAME")));
 
                 productList.add(product);
 
@@ -264,6 +278,23 @@ public final class ProductDA {
                 throw ex;
             }
         }
+    }
+    
+    public static void main(String[] args){
+        try {
+            ProductDA productDA = new ProductDA();
+            ArrayList<Product> productList = productDA.getAllProduct();
+            
+            productList.forEach((product) -> {
+                System.out.println(product.toString());
+            });
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDA.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
     }
 
 }

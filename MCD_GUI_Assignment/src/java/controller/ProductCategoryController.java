@@ -1,6 +1,7 @@
 package controller;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import model.da.ProductCategoryDA;
 import model.domain.ProductCategory;
 
@@ -19,6 +20,11 @@ public class ProductCategoryController{
     public ProductCategory getProductCategoryByID(String  productCategoryID) throws SQLException {
         
         return productCategoryDA.getProductCategory(productCategoryID);
+    }
+    
+    public ArrayList<ProductCategory> getAllProductCategory() throws SQLException {
+        
+        return productCategoryDA.getAllProductCategory();
     }
     
     public int addProductCategory(ProductCategory productCategory) throws SQLException{

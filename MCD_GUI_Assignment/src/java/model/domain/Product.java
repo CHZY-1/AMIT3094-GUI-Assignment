@@ -54,6 +54,7 @@ public class Product implements Serializable {
     }
 
     public byte[] getProductImage() {
+        //Returns image bytes array
         return productImage;
     }
 
@@ -108,6 +109,8 @@ public class Product implements Serializable {
     }
 
     public String getProductImageBase64() throws UnsupportedEncodingException {
+        //Use this function to display image in the browser
+        // Convert imageBytes to Base64 String and returns it
         return Product.convertByteToBase64(productImage);
     }
 
@@ -206,7 +209,7 @@ public class Product implements Serializable {
                 + "productImage=" + productImage + ", "
                 + "productPrice=" + productPrice + ", "
                 + "orderQuantity=" + orderQuantity + ", "
-                + "productCategory=" + productCategory + '}';
+                + "productCategory=" + productCategory.toString() + "}\n\n";
     }
 
     public static void main(String args[]) throws IOException {

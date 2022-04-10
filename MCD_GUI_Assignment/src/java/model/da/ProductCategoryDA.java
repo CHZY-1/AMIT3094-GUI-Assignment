@@ -2,6 +2,7 @@ package model.da;
 
 import model.domain.*;
 import java.sql.*;
+import java.util.ArrayList;
 
 public final class ProductCategoryDA{
     private String host = "jdbc:derby://localhost:1527/MCD";
@@ -46,11 +47,36 @@ public final class ProductCategoryDA{
             if (rs.next()) {
                 productCategory = new ProductCategory(categoryID, rs.getString("CATEGORY_NAME"));
             }
+            
+            rs.close();
+            stmt.close();
+            
         } catch (SQLException ex) {
             throw ex;
         }
         
         return productCategory;
+    }
+    
+    public ArrayList<ProductCategory> getAllProductCategory() throws SQLException {
+        String queryStr = "SELECT * FROM " + tableName ;
+        ProductCategory productCategory = null;
+        ArrayList<ProductCategory> productCategoryList = new ArrayList<>();
+        
+        try {
+            stmt = conn.prepareStatement(queryStr);
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                productCategory = new ProductCategory(rs.getString("CATEGORY_ID"), rs.getString("CATEGORY_NAME"));
+                
+                productCategoryList.add(productCategory);
+            }
+        } catch (SQLException ex) {
+            throw ex;
+        }
+        
+        return productCategoryList;
     }
 
     
@@ -65,6 +91,8 @@ public final class ProductCategoryDA{
             stmt.setString(2, productCategory.getCategoryName());
             
             affectedRows = stmt.executeUpdate();
+            
+            stmt.close();
             
         }catch(SQLException ex){
             throw ex;
@@ -85,7 +113,9 @@ public final class ProductCategoryDA{
             stmt.setString(1, productCategory.getCategoryID());
             stmt.setString(2, productCategory.getCategoryName());
             stmt.setString(3, productCategory.getCategoryID());
-            affectedRows = stmt.executeUpdate();        
+            affectedRows = stmt.executeUpdate();
+            
+            stmt.close();
             
         }catch(SQLException ex){
             throw ex;
@@ -105,6 +135,7 @@ public final class ProductCategoryDA{
             
             affectedRows = stmt.executeUpdate();
             
+            stmt.close();
             
         }catch(SQLException ex){
             throw ex;

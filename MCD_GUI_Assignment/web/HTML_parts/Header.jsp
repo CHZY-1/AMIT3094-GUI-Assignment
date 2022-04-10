@@ -37,7 +37,7 @@
              </li>
 
              <li class="nav-item">
-                 <a href="#" class="nav-link ${pageContext.request.requestURI.endsWith('/Menu.jsp') ? 'active' : ''}">Menu</a>
+                 <a href="Menu.jsp" class="nav-link ${pageContext.request.requestURI.endsWith('/Menu.jsp') ? 'active' : ''}">Menu</a>
              </li>
 
              <li class="nav-item">

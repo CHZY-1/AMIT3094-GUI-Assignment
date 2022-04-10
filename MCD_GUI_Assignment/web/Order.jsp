@@ -1,311 +1,318 @@
- <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="en">
-  <head>
-       <%@ include file="HTML_parts/Meta.jsp" %>
-    <title>Order</title>
-    
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <head>
+        <%@ include file="HTML_parts/Meta.jsp" %>
+        
+        <title>Order</title>
 
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    
-   
-    
-    <style></style>
-    
-  </head>
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-  <body class="d-flex flex-column min-vh-100">
-      
-     <%@ include file="HTML_parts/Header.jsp" %>
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-    <div class="container bg-light mx-auto border">
-      <div class="py-5 text-center">
-        <h1>Order Details</h1>
-      </div>
 
-      <div class="row">
-          
-          <div class="col-md-4 order-md-2 mb-4">
+
+        <style>
+            div.form-check{
+                margin-top: 3%;
+                margin-bottom: 3%;
+            }
+
+            div.form-check>label#time{
+                padding-left: 6%;
+            }
+
+            div#order-row{
+                margin-top: 3%;
+            }
+
+            div#payment-method{
+                width: 100%;
+            }
+
+            div#payment-method>label#payment-method{
+                padding-left: 5%;
+            }
+
+            div#customer-details table {
+                border-spacing: 15px;
+            }
+
+            div#customer-details td {
+                padding: 10px;
+            }
+
+            div#delivery-later-div label,input{
+                padding-left: 3%;
+                margin-left: 3%;
+                margin-top: 3%;
+            }
+
+            #page-progress .active {
+                font-weight: 700;
+                position: relative
+            }
             
-              <div class="p-2 border">
-                    <h4 class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="text-muted pl-3">Products</span>
-                      <span class="badge badge-secondary badge-pill">3</span>
-                    </h4>
+            #page-progress .active .fa-check {
+                position: absolute;
+                left: 50%;
+                bottom: -27px;
+                background-color: #fff;
+                font-size: 0.7rem;
+                padding: 5px;
+                border: 1px solid #008000;
+                border-radius: 50%;
+                color: #008000
+            }
 
-                      <ul class="list-group mb-3">
+            .progress {
+                height: 15px;
+                background-color: #ccc
+            }
+            .progress div {
+                display: flex;
+                align-items: center;
+                justify-content: center
+            }
+            .progress .progress-bar {
+                width: 49%;
+            }
 
-                      <li class="list-group-item d-flex justify-content-between lh-condensed">
-                        <div>
-                          <h4 class="my-0">Product name</h4>
-                          <small class="text-muted">Brief description</small>
-                        </div>
-                        <span class="text-muted">$12</span>
-                      </li>
+        </style>
 
-                      <li class="list-group-item d-flex justify-content-between bg-light">
-                        <div class="text-success">
-                          <small class="my-0">Taxes and Delivery Fees</small>
-                        </div>
-                        <span class="text-success">+ $5</span>
-                      </li>
+    </head>
 
-                      <li class="list-group-item d-flex justify-content-between">
-                        <span>Total (MYR)</span>
-                        <strong>$20</strong>
-                      </li>
-                    </ul>
+    <body class="d-flex flex-column min-vh-100">
 
-                    <form class="card p-2">
-                      <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Promo code">
-                        <div class="input-group-append">
-                          <button type="submit" class="btn btn-secondary rounded mt-2 ml-1">Redeem</button>
-                        </div>
-                      </div>
-                    </form>
+        <%@ include file="HTML_parts/Header.jsp" %>
+
+        <div class="container bg-light mx-auto border rounded mb-5">
+
+            <div id="title" class="row bg-warning">
+                <div class="col py-5 text-center">
+                    <h1>Order Details</h1>
+                </div>
             </div>
-              
-              <div class="" style="margin-top: 40px;">
-                  
-                  <h4 class="d-flex justify-content-between align-items-center mb-3">
-                      <span class="text-muted" style="padding-left:5px;">Address</span>
-                  </h4>
+            
+            <div class='row'>
+                <div class="col-12">
+                    <div id="page-progress" class="d-flex justify-content-center align-items-center pt-4 pb-3">
+                        <div class="px-sm-5 px-2">CART</div>
+                        <div class="px-sm-5 px-2 active">ORDER DETAILS<i class="fas fa-check"></i></div>
+                        <div class="px-sm-5 px-2">CHECKOUT</div>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar bg-success" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
 
-                      <ul class="list-group mb-3">
+            <div id="main-content" class="row mt-1 ml-1 mb-5">
 
-                      <li class="list-group-item d-flex justify-content-between lh-condensed">
-                        <div>
-                          <h4 class="my-0">Product name</h4>
-                          <small class="text-muted">Brief description</small>
+                <div id="side-panel" class="col-md-4 order-md-2 mb-4">
+
+                    <div class="p-2 border">
+                        <h4 class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-muted pl-3">Order Items</span>
+                            <span class="badge badge-secondary badge-pill">3</span>
+                        </h4>
+
+                        <ul class="list-group mb-3">
+
+                            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                <div>
+                                    <h4 class="my-0">Product name</h4>
+                                    <small class="text-muted">Brief description</small>
+                                </div>
+                                <span class="text-muted">$12</span>
+                            </li>
+
+                            <li class="list-group-item d-flex justify-content-between bg-light">
+                                <div class="text-success">
+                                    <small class="my-0">Taxes and Delivery Fees</small>
+                                </div>
+                                <span class="text-success">+ $5</span>
+                            </li>
+
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Total (MYR)</span>
+                                <strong>$20</strong>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-8 order-md-1 border">
+
+                    <div class="container-fluid">
+                        <div class="row border-bottom">
+                            <div class="col-12 pl-3"><h3>Order #1234</h3></div>
                         </div>
-                        <span class="text-muted">$12</span>
-                      </li>
 
-                      <li class="list-group-item d-flex justify-content-between bg-light">
-                        <div class="text-success">
-                          <small class="my-0">Delivery Fee</small>
+                        <div id="order-row" class="row d-flex h-100 border-bottom">
+
+                            <div class="col-3"><div class="text-align-top"><h4>Delivery Time</h4></div></div>
+
+                            <div class="col-9 align-items-center">
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="delivery-time-radios" value="delivery-now" id="order-now" checked required>
+                                    <label id="time" class="form-check-label" for="delivery-now">
+                                        Delivery Now
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="delivery-time-radios" value="delivery-later" id="order-later" required>
+                                    <label id="time" class="form-check-label" for="delivery-later">
+                                        Delivery Later
+                                    </label>
+                                </div>
+
+                            </div>
+
+                            <div id="delivery-later-div" class="container-fluid d-flex mb-3 border">
+                                <div class="row w-100">
+                                    <div class="col-5">
+                                        <label id="delivery-later-date" for="delivery-later-date">Select a Date: </label>
+                                        <input  type="date" id="appt" name="delivery-later-date">
+                                    </div>
+                                    <div class="col-5">
+                                        <label for="delivery-later-time">Time: </label>
+                                        <input  type="time" id="appt" name="delivery-later-time">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <span class="text-success">+ $5</span>
-                      </li>
 
-                      <li class="list-group-item d-flex justify-content-between">
-                        <span>Total (MYR)</span>
-                        <strong>$20</strong>
-                      </li>
-                    </ul>
-                  
-              </div>
-              
+                        <div id="order-row" class="row h-100 border-bottom">
+
+                            <div class="col-3">
+                                <div class="text-align-top">
+                                    <h4>Customer Details</h4>
+                                    <a href="#">Edit</a>
+                                </div>
+                            </div>
+
+                            <div class="col-9 d-flex align-items-center mb-3">
+                                <div class="container-fluid">
+
+                                    <div id="customer-details" class="row">
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td><p>ID</p></td>
+                                                    <td><p>Cust-1</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p>Name</p></td>
+                                                    <td><p>John</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p>Email</p></td>
+                                                    <td><p>John@gmail.com</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p>Phone</p></td>
+                                                    <td><p>0111223344</p></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="order-row" class="row h-100 border-bottom">
+
+                            <div class="col-3"><div class="text-align-top"><h4>Address</h4></div></div>
+
+                            <div class="col-9 d-flex align-items-center mb-3">
+                                <div>
+                                    <h5>Street 1, address 2, state1, country</h5>
+                                    <span><a href="#">Change Address</a></span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!--                        <div class="container-fluid mb-5 mt-5">
+                                                    
+                                                    <div class="row mt-3">
+                                                    <div class="col-9 mb-3">
+                                                        <label for="address">Street</label>
+                                                        <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+                                                    </div>
+                                                 </div>
+                        
+                                                    <div class="row">
+                                                        <div class="col-md-3 mb-3">
+                                                            <label for="state">State</label>
+                                                            <select class="custom-select" id="state" required>
+                                                                <option value="">Choose...</option>
+                                                                <option>California</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-3 mb-3 ml-3">
+                                                            <label for="zip">Postcode</label>
+                                                            <input type="text" class="form-control" id="postcode" placeholder="" required>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="row mt-3 border-bottom">
+                                                        <div class="col-12">
+                                                            <button class="btn btn-primary btn-lg btn-block" type="submit">Save Address</button>
+                                                        </div>
+                                                    </div>
+                                                </div>-->
+
+
+                        <div id="order-row" class="row h-100 border-bottom">
+
+                            <div class="col-3"><div class="text-align-top"><h4>Payment Method</h4></div></div>
+
+                            <div class="col-9 d-block mb-3">
+
+                                <div class="form-check" id="payment-method">
+                                    <input class="form-check-input" type="radio" name="payment-method-radios" value="" id="payment-method" checked required>
+                                    <label class="form-check-label" id="payment-method" for="payment-method">Cash</label>
+                                </div>
+
+                                <div class="form-check" id="payment-method">
+                                    <input class="form-check-input" type="radio" name="payment-method-radios" value="" id="payment-method" required>
+                                    <label class="form-check-label" id="payment-method" for="payment-method">Credit Card</label>
+                                </div>
+
+                                <div class="form-check" id="payment-method">
+                                    <input class="form-check-input" type="radio" name="payment-method-radios" value="" id="payment-method" required>
+                                    <label class="form-check-label" id="payment-method" for="payment-method">Debit Card</label>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row mt-5 mb-5">
+                            <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
         </div>
-          
-          
-          <!-- Product -->
-          
-        <div class="col-md-8 order-md-1 border">
-            
-            <div class="col">
-            <h4 class="mb-3">My Products</h4>
-                <form class="needs-validation" novalidate>
-                  <div class="row">
-                    <div class="col-md-6 mb-3">
-                      <label for="firstName">First name</label>
-                      <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-                      <div class="invalid-feedback">
-                        Valid first name is required.
-                      </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                      <label for="lastName">Last name</label>
-                      <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
-                      <div class="invalid-feedback">
-                        Valid last name is required.
-                      </div>
-                    </div>
-                  </div>
-                </form>
-            </div>
-            
-            <div class="col">
-            <h4 class="mb-3">Shipping Options</h4>
-                <form class="needs-validation" novalidate>
-                  <div class="row">
-                    <div class="col-md-6 mb-3">
-                      <label for="firstName">First name</label>
-                      <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-                      <div class="invalid-feedback">
-                        Valid first name is required.
-                      </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                      <label for="lastName">Last name</label>
-                      <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
-                      <div class="invalid-feedback">
-                        Valid last name is required.
-                      </div>
-                    </div>
-                  </div>
-                </form>
-            </div>
-            
-            
-          <h4 class="mb-3">Billing address</h4>
-          <form class="needs-validation" novalidate>
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label for="firstName">First name</label>
-                <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-                <div class="invalid-feedback">
-                  Valid first name is required.
-                </div>
-              </div>
-              <div class="col-md-6 mb-3">
-                <label for="lastName">Last name</label>
-                <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
-                <div class="invalid-feedback">
-                  Valid last name is required.
-                </div>
-              </div>
-            </div>
 
-            <div class="mb-3">
-              <label for="username">Username</label>
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">@</span>
-                </div>
-                <input type="text" class="form-control" id="username" placeholder="Username" required>
-                <div class="invalid-feedback" style="width: 100%;">
-                  Your username is required.
-                </div>
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <label for="email">Email <span class="text-muted">(Optional)</span></label>
-              <input type="email" class="form-control" id="email" placeholder="you@example.com">
-              <div class="invalid-feedback">
-                Please enter a valid email address for shipping updates.
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <label for="address">Address</label>
-              <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
-              <div class="invalid-feedback">
-                Please enter your shipping address.
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
-              <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
-            </div>
-
-            <div class="row">
-              <div class="col-md-5 mb-3">
-                <label for="country">Country</label>
-                <select class="custom-select d-block w-100" id="country" required>
-                  <option value="">Choose...</option>
-                  <option>United States</option>
-                </select>
-                <div class="invalid-feedback">
-                  Please select a valid country.
-                </div>
-              </div>
-              <div class="col-md-4 mb-3">
-                <label for="state">State</label>
-                <select class="custom-select d-block w-100" id="state" required>
-                  <option value="">Choose...</option>
-                  <option>California</option>
-                </select>
-                <div class="invalid-feedback">
-                  Please provide a valid state.
-                </div>
-              </div>
-              <div class="col-md-3 mb-3">
-                <label for="zip">Zip</label>
-                <input type="text" class="form-control" id="zip" placeholder="" required>
-                <div class="invalid-feedback">
-                  Zip code required.
-                </div>
-              </div>
-            </div>
-            <hr class="mb-4">
-            <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="same-address">
-              <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
-            </div>
-            <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="save-info">
-              <label class="custom-control-label" for="save-info">Save this information for next time</label>
-            </div>
-            <hr class="mb-4">
-
-            <h4 class="mb-3">Payment</h4>
-
-            <div class="d-block my-3">
-              <div class="custom-control custom-radio">
-                <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
-                <label class="custom-control-label" for="credit">Credit card</label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
-                <label class="custom-control-label" for="debit">Debit card</label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required>
-                <label class="custom-control-label" for="paypal">Paypal</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label for="cc-name">Name on card</label>
-                <input type="text" class="form-control" id="cc-name" placeholder="" required>
-                <small class="text-muted">Full name as displayed on card</small>
-                <div class="invalid-feedback">
-                  Name on card is required
-                </div>
-              </div>
-              <div class="col-md-6 mb-3">
-                <label for="cc-number">Credit card number</label>
-                <input type="text" class="form-control" id="cc-number" placeholder="" required>
-                <div class="invalid-feedback">
-                  Credit card number is required
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-3 mb-3">
-                <label for="cc-expiration">Expiration</label>
-                <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
-                <div class="invalid-feedback">
-                  Expiration date required
-                </div>
-              </div>
-              <div class="col-md-3 mb-3">
-                <label for="cc-expiration">CVV</label>
-                <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
-                <div class="invalid-feedback">
-                  Security code required
-                </div>
-              </div>
-            </div>
-            <hr class="mb-4">
-            <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
-          </form>
-        </div>
-      </div>
-
-       
-    </div>
-     
-     <%@ include file="HTML_parts/Footer.jsp" %>
-  </body>
+        <%@ include file="HTML_parts/Footer.jsp" %>
+    </body>
 </html>

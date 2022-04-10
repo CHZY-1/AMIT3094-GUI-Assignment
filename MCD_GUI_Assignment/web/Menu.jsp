@@ -21,22 +21,21 @@
                 margin-bottom: 3%;
             }
 
-            .title h4{
-                text-transform: captitalize;
+            .title h3{
                 font-size: 36px;
                 position: relative;
-                display: insline-block;
+                display: inline-block;
                 padding-bottom: 20px;
             } 
 
-            .title h4 span{
+            .title h3 span{
                 display: block;
                 font-size: 18px;
                 font-style: italic;
-                margin-bottom: -15px;    
+                margin-bottom: -13px;    
             }
 
-            .title h4:before{
+            .title h3:before{
                 position: absolute;
                 content: "";
                 width: 100px;
@@ -47,40 +46,7 @@
                 transform: translateX(-50%);
             }
 
-            .menu{
-                display: flex ;
-                flex-wrap: wrap;
-            }
 
-            .single-menu{
-                flex-basis:550px;
-                margin-bottom: 10px;
-                padding-bottom: 20px;
-                border-bottom: 1px solid #ddd;
-            }
-
-            .single-menu{
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-                margin-left: 7px;
-                margin-right: 7px;
-            }
-
-            .single-menu h4{
-                text-transform: capitalize;
-                font-size: 22px;
-                border-bottom: 1px dashed #333;
-                margin-bottom: 5px;
-                padding-bottom: 5px;
-            }
-
-            .single-menu h4 span{
-                float: right;
-                color: #ff9900;
-                font-style: italic;
-            }
 
             .sidebar{
                 max-width: 200px;
@@ -156,19 +122,32 @@
 
             #product-card{
                 width: 18rem;
-                margin-top: 3px;
-                margin-bottom: 5px;
+                margin-top: 7%;
+                margin-bottom: 7%;
             }
 
         </style> 
 
     </head>
 
+    <%
+        ArrayList<Product> productList = new ArrayList<Product>();
+        ArrayList<ProductCategory> productCategoryList = new ArrayList<ProductCategory>();
+        String active = "";
+
+        if (session.getAttribute("productList") == null || session.getAttribute("productCategoryList") == null) {
+            response.sendRedirect("productMenuServlet");
+        } else {
+            productList = (ArrayList<Product>) session.getAttribute("productList");
+            productCategoryList = (ArrayList<ProductCategory>) session.getAttribute("productCategoryList");
+        }
+    %>
+
     <body class="d-flex flex-column min-vh-100">
 
         <%@ include file="HTML_parts/Header.jsp" %>
 
-        <div class="container-fluid">
+        <div id="main-body-container" class="container-fluid">
 
             <div class="row border" id="main">
 
@@ -178,29 +157,32 @@
                             <li class="nav-item disabled">
                                 <h2 id="catalog">Category</h2>
                             </li>
+                            
+                            <!-- set active class to nav-link according to the parameter "searchProductByCategory" -->
+                            <% active = (request.getParameter("searchProductByCategory") == null) ? "active" : "";  %>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">All</a>
+                                <a class="nav-link  <%= active%>" href="productMenuServlet">All</a>
                             </li>
+                            
+                            <% for (ProductCategory productCategory : productCategoryList) {%>
+                            
+                            <% active = (productCategory.getCategoryName().equalsIgnoreCase(request.getParameter("searchProductByCategory"))) ? "active" : "";%>
+                            
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Burgers</a>
+                                <a class="nav-link  <%= active%>"
+                                   href="productMenuServlet?searchProductByCategory=<%= productCategory.getCategoryName()%> "><%= productCategory.getCategoryName()%></a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Drinks</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Desserts</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Others</a>
-                            </li>
+
+                            <% }%> 
+
                         </ul>
                     </div>
                 </div>
 
-                <div id="main-content" class="col-10  mt-4">
+                <div id="main-content" class="col-10  mt-4 mb-5">
 
                     <div class ="title">
-                        <h4>McDonald<span>Menu</span></h4>
+                        <h3>McDonald<span>Menu</span></h3>
                     </div>
 
                     <div id="search" class="d-flex mb-5 mx-auto">
@@ -210,75 +192,42 @@
                         </button>
                     </div>
 
+
+
                     <div id="product" class="container-fluid">
-                        <form method="post" action="MenuS.java">
-                            <div class="menu d-flex justify-content-center">
 
-                                <div class="card-group">
+                        <div id="menu" class="row">
 
-                                    <div class="single-menu border justify-content-center">
+                            <% for (Product product : productList) {%>
+
+                            <div class="col-lg-4 d-flex align-items-stretch">
+                                <form method="post" action="#">
+                                    <div class="card-group h-100">
+
+
                                         <div id="product-card" class="card">
-                                            <img class="card-img-top" src="Pictures/apple.jpg" alt="Product Name">
+                                            <img class="card-img-top rounded" src="data:image/jpg;base64,<%= product.getProductImageBase64()%>" height="270" width="100" alt="<%= product.getProductName()%>">
                                             <div class="card-body">
-                                                <h5 class="card-title">Card title</h5>
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                                                <h5 class="card-title"><%= product.getProductName()%></h5>
+                                                <p class="card-text"><%= product.getProductPrice()%></p>
+                                                <a href="#" class="btn btn-primary">Add To Cart</a>
                                             </div>
                                         </div>
+
                                     </div>
-
-                                    <div class="single-menu border justify-content-center">
-                                        <div id="product-card" class="card">
-                                            <img class="card-img-top" src="Pictures/apple.jpg" alt="Card image cap">
-                                            <div class="card-body">
-                                                <h5 class="card-title">Card title</h5>
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="single-menu border">
-                                        <div id="product-card" class="card">
-                                            <img class="card-img-top" src="Pictures/apple.jpg" alt="Card image cap">
-                                            <div class="card-body">
-                                                <h5 class="card-title">Card title</h5>
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="single-menu">
-                                        <div id="product-card" class="card">
-                                            <img class="card-img-top" src="Pictures/apple.jpg" alt="Card image cap">
-                                            <div class="card-body">
-                                                <h5 class="card-title">Card title</h5>
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="single-menu">
-                                        <div id="product-card"><h4>Big Mac <span>RM11.79</span></h4> </div>
-                                    </div>
-
-                                    <div class="single-menu">
-                                        <div id="product-card"><h4>Big Mac <span>RM11.79</span></h4> </div>
-                                    </div>
-
-                                </div>
-
-
+                                </form>
                             </div>
-                        </form>
+
+
+                            <% }%> 
+
+                        </div>
+
+
                     </div>
-
-
                 </div>
-            </div>
 
+            </div>
         </div>
 
         <%@ include file="HTML_parts/Footer.jsp" %>
