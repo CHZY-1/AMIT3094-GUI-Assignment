@@ -94,9 +94,16 @@
         <%
             ArrayList<Product> cart = new ArrayList<Product>();
             double totalPrice = 0;
+            boolean cartIsEmpty = true;
 
             if (session.getAttribute("cart") != null) {
                 cart = (ArrayList<Product>) session.getAttribute("cart");
+            }
+
+            if (session.getAttribute("cart") != null && !cart.isEmpty()) {
+                cartIsEmpty = false;
+            } else {
+                cartIsEmpty = true;
             }
 
         %>
@@ -107,10 +114,10 @@
 
             <div class="row d-flex justify-content-center">
 
-                <div id="cart-body" class=”col-10”>
+                <div id="cart-body" class=”col-10 w-100”>
 
 
-                    <div id="cart" class="card mb-4">
+                     <div id="cart" class="card mb-4">
 
                         <div class="card-header py-3 bg-warning d-flex justify-content-between">
                             <h4 class="mb-0">Cart - <%= cart.size()%> items</h4>
@@ -118,6 +125,22 @@
                         </div>
 
                         <div class="card-body">
+
+                            <% if (cartIsEmpty == true) {%>
+
+                            <div class="card mb-3 ">
+                                <div class="row no-gutters">
+
+
+                                    <div class="col-12">
+
+                                        <h2 class="text-center">Nothing In the Cart Yet <%= cartIsEmpty%> </h2>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <% } else { %>
 
 
                             <% for (Product cartProduct : cart) {%>
@@ -197,6 +220,8 @@
 
                             <% } %>
 
+                            <% } %>
+
 
                         </div>
 
@@ -244,9 +269,18 @@
                                 </li>
                             </ul>
 
-                            <button type="button" class="btn btn-primary btn-lg btn-block">
-                                Go to checkout
-                            </button>
+                            <% if (cartIsEmpty != true) { %>
+
+                            <form method="post" action="orderServlet">
+
+                                <button type="button" class="btn btn-primary btn-lg btn-block">
+                                    Go to checkout
+                                </button>
+
+                            </form>
+
+                            <% }%>
+
                         </div>
                     </div>
 
