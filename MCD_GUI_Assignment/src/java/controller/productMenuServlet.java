@@ -78,45 +78,7 @@ public class productMenuServlet extends HttpServlet {
         }
         
     }
-//    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException{
-//        
-//            try {
-//                
-//                response.setContentType("text/html;charset=UTF-8");
-//                
-//                ProductDA productDA = new ProductDA();
-//                
-//                try (PrintWriter out = response.getWriter()) {
-//                    ArrayList<Product> productList = productDA.getAllProduct();
-//                    
-//                    out.println("<!DOCTYPE html>");
-//                    out.println("<html>");
-//                    out.println("<head>");
-//                    out.println("<title>Servlet productMenuServlet</title>");
-//                    out.println("</head>");
-//                    out.println("<body>");
-//                    out.println("<h1>Servlet productMenuServlet at " + request.getContextPath() + "</h1>");
-//                    
-//                    productList.forEach((product) -> {
-//                        try { 
-//                            out.println("<img src=\"data:image/jpg;base64," + product.getProductImageBase64() +" \" width=\"300\" height=\"300\"/>");
-//                        } catch (UnsupportedEncodingException ex) {
-//                            Logger.getLogger(productMenuServlet.class.getName()).log(Level.SEVERE, null, ex);
-//                        }catch (NullPointerException ex){
-//                            out.println("<p>" + product.getProductName()+": No Image Here</p>");
-//                        }
-//                        out.println("<p>" + product.getProductName()+"</p>");
-//                    });
-//                    out.println("</body>");
-//                    out.println("</html>");
-//                }
-//                
-//            }   catch (SQLException ex) {
-//            Logger.getLogger(productMenuServlet.class.getName()).log(Level.SEVERE, null, ex);
-//        } 
-//        
-//    }
+
         @Override
         protected void doGet
         (HttpServletRequest request, HttpServletResponse response)

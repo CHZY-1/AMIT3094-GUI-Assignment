@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="model.domain.Product"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -45,6 +47,16 @@
         </style>
         
     </head>
+    
+    <%
+        ArrayList<Product> productList = new ArrayList<Product>();
+        
+        if(request.getAttribute("randomProductList") == null){
+            response.sendRedirect("HomeServlet");
+        }else{
+            productList = (ArrayList<Product>) request.getAttribute("randomProductList");
+        }
+    %>
 
     <body class="d-flex flex-column min-vh-100">
             <%@ include file="HTML_parts/Header.jsp" %>
@@ -90,11 +102,15 @@
                 <div class="row mb-3"><div class="col bg-warning rounded d-flex align-items-center justify-content-center"><h1>Recommended</h1></div></div>
                 
                 <div class="row text-center mb-3">
+                    
+                    <% for(Product product : productList) { %>
                     <div class="col">
                         <div class="product">
-                            <h1> Product 1 </h1>
+                            <h1> <%= product.getProductName()%> </h1>
                         </div>
                     </div>
+                    <% } %>
+                    
                     <div class="col">
                         <div class="product">
                             <h1> Product 2 </h1>

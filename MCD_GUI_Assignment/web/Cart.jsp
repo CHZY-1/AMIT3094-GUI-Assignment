@@ -111,6 +111,19 @@
         <%@ include file="HTML_parts/Header.jsp" %>
 
         <div class="container-fluid my-5">
+            
+            <div class='row'>
+                <div class="col-12">
+                    <div id="page-progress" class="d-flex justify-content-center align-items-center pt-4 pb-3">
+                        <div class="px-sm-5 px-2">CART</div>
+                        <div class="px-sm-5 px-2 active">ORDER DETAILS<i class="fas fa-check"></i></div>
+                        <div class="px-sm-5 px-2">CHECKOUT</div>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar bg-success" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
 
             <div class="row d-flex justify-content-center">
 
