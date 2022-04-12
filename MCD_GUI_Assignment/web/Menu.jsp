@@ -141,6 +141,7 @@
             productList = (ArrayList<Product>) session.getAttribute("productList");
             productCategoryList = (ArrayList<ProductCategory>) session.getAttribute("productCategoryList");
         }
+        
     %>
 
     <body class="d-flex flex-column min-vh-100">
@@ -170,7 +171,8 @@
                             
                             <li class="nav-item">
                                 <a class="nav-link  <%= active%>"
-                                   href="productMenuServlet?searchProductByCategory=<%= productCategory.getCategoryName()%> "><%= productCategory.getCategoryName()%></a>
+                                   href="productMenuServlet?searchProductByCategory=<%= productCategory.getCategoryName()%> "><%= productCategory.getCategoryName()%>
+                                </a>
                             </li>
 
                             <% }%> 
@@ -201,16 +203,27 @@
                             <% for (Product product : productList) {%>
 
                             <div class="col-lg-4 d-flex align-items-stretch">
-                                <form method="post" action="#">
+                                
+                                <form method="post" action="cartServlet">
                                     <div class="card-group h-100">
 
 
                                         <div id="product-card" class="card">
                                             <img class="card-img-top rounded" src="data:image/jpg;base64,<%= product.getProductImageBase64()%>" height="270" width="100" alt="<%= product.getProductName()%>">
                                             <div class="card-body">
-                                                <h5 class="card-title"><%= product.getProductName()%></h5>
-                                                <p class="card-text"><%= product.getProductPrice()%></p>
-                                                <a href="#" class="btn btn-primary">Add To Cart</a>
+                                                <h4 class="card-title"><%= product.getProductName()%></h4>
+                                                <p class="card-text">Price: RM <%= String.format("%.2f",product.getProductPrice()) %></p>
+                                                
+                                                <input type="hidden" name="productID" value="<%= product.getProductID() %>" />
+                                                <input type="hidden" name="productName" value="<%= product.getProductName() %>" />
+                                                <input type="hidden" name="productImage" value="<%= product.getProductImageBase64() %>" />
+                                                <input type="hidden" name="productPrice" value="<%= product.getProductPrice() %>" />
+                                                <input type="hidden" name="productCategoryID" value="<%= product.getProductCategory().getCategoryID() %>" />
+                                                <input type="hidden" name="productCategoryName" value="<%= product.getProductCategory().getCategoryName() %>" />
+                                                <input type="hidden" name="action" value="addToCart" />
+                                                
+                                                <input type="submit" id="add-to-cart" class="btn btn-primary" name="add-to-cart-button" value="Add To Cart"/>
+                                                
                                             </div>
                                         </div>
 

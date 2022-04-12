@@ -36,6 +36,14 @@ public class Product implements Serializable {
         this.productCategory = productCategory;
     }
 
+    public Product(String productID, String productName, String base64Image, double productPrice, ProductCategory productCategory) {
+        this.productID = productID;
+        this.productName = productName;
+        this.base64Image = base64Image;
+        this.productPrice = productPrice;
+        this.productCategory = productCategory;
+    }
+
     public Product(String productID, String productName, byte[] productImage, double productPrice, int orderQuantity, ProductCategory productCategory) {
         this.productID = productID;
         this.productName = productName;
@@ -56,6 +64,10 @@ public class Product implements Serializable {
     public byte[] getProductImage() {
         //Returns image bytes array
         return productImage;
+    }
+
+    public String getBase64Image() {
+        return base64Image;
     }
 
     public double getProductPrice() {
@@ -177,8 +189,8 @@ public class Product implements Serializable {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        //ImageIO.write is a must to correctly save buffered image into bytes array else the image is null
-        ImageIO.write(bImage, "png", baos); //write buffered image into byteArrayOutput Stream
+        //ImageIO.write is a must to correctly compress the image and write buffered image into bytes array
+        ImageIO.write(bImage, "jpg", baos); //write buffered image into byteArrayOutput Stream
         byte[] data = baos.toByteArray();  //convert content of output stream to byte array
 
         bImage.flush();
@@ -187,10 +199,16 @@ public class Product implements Serializable {
         return data;
     }
 
-    public static String convertByteToBase64(byte[] bytes) throws UnsupportedEncodingException {
+    public static byte[] convertBase64ToByte(String base64Image) throws UnsupportedEncodingException {
+        
+        // Decode base 64
+        byte[] decodedByte = Base64.getDecoder().decode(base64Image);
+        return decodedByte;
+    }
 
-//        byte[] encodeBase64 = Base64.getEncoder().encode(bytes);
-//        String base64Encoded = new String(encodeBase64, "UTF-8");
+    public static String convertByteToBase64(byte[] bytes) throws UnsupportedEncodingException {
+        
+        // Encode byte array (Base64Format)
         String base64Encoded = new String(Base64.getEncoder().encode(bytes), "UTF-8");
         return base64Encoded;
     }
@@ -200,6 +218,11 @@ public class Product implements Serializable {
         BufferedImage bImageFromConvert = ImageIO.read(in);
         in.close();
         return bImageFromConvert;
+    }
+
+    public static byte[] byteStringToByteArray(String byteString) throws UnsupportedEncodingException {
+        byte[] byteArray = byteString.getBytes("UTF-8");
+        return byteArray;
     }
 
     @Override

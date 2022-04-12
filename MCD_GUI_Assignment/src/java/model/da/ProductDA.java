@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 public final class ProductDA {
 
-    private String host = "jdbc:derby://localhost:1527/MCD";
+    private String host = "jdbc:derby://localhost:1527/MCD1";
     private String user = "nbuser";
     private String password = "nbuser";
     private String tableName = "PRODUCT";

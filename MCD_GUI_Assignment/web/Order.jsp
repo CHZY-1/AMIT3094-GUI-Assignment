@@ -284,11 +284,6 @@
                             <div class="col-9 d-block mb-3">
 
                                 <div class="form-check" id="payment-method">
-                                    <input class="form-check-input" type="radio" name="payment-method-radios" value="" id="payment-method" checked required>
-                                    <label class="form-check-label" id="payment-method" for="payment-method">Cash</label>
-                                </div>
-
-                                <div class="form-check" id="payment-method">
                                     <input class="form-check-input" type="radio" name="payment-method-radios" value="" id="payment-method" required>
                                     <label class="form-check-label" id="payment-method" for="payment-method">Credit Card</label>
                                 </div>

@@ -5,7 +5,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public final class ProductCategoryDA{
-    private String host = "jdbc:derby://localhost:1527/MCD";
+    private String host = "jdbc:derby://localhost:1527/MCD1";
     private String user = "nbuser";
     private String password = "nbuser";
     private String tableName = "PRODUCT_CATEGORY";
