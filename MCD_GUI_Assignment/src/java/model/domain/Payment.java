@@ -10,37 +10,44 @@ public class Payment implements Serializable{
     private String paymentID;
     private String paymentMethod;
     private double totalPaymentAmount;
+    private String orderStatus;
     private Date dateTime;
-    private Order order;
     private Customer customer;
     private Card card;
 
     public Payment() {
     }
 
-    public Payment(String paymentID, String paymentMethod, double totalPaymentAmount, Order order, Customer customer, Card card) {
+    public Payment(String paymentMethod, double totalPaymentAmount, Customer customer, Card card) {
+        this.paymentMethod = paymentMethod;
+        this.totalPaymentAmount = totalPaymentAmount;
+        this.customer = customer;
+        this.card = card;
+    }
+
+    public Payment(String paymentID, String paymentMethod, double totalPaymentAmount, Customer customer, Card card) {
         this.paymentID = paymentID;
         this.paymentMethod = paymentMethod;
         this.totalPaymentAmount = totalPaymentAmount;
-        this.order = order;
         this.customer = customer;
         this.card = card;
         
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
-        setDateTime(date);
+        this.dateTime = date;
         
     }
 
-    public Payment(String paymentID, String paymentMethod, double totalPaymentAmount, Date dateTime, Order order, Customer customer, Card card) {
+    public Payment(String paymentID, String paymentMethod, double totalPaymentAmount, String orderStatus, Date dateTime, Customer customer, Card card) {
         this.paymentID = paymentID;
         this.paymentMethod = paymentMethod;
         this.totalPaymentAmount = totalPaymentAmount;
+        this.orderStatus = orderStatus;
         this.dateTime = dateTime;
-        this.order = order;
         this.customer = customer;
         this.card = card;
     }
+
 
     public String getPaymentID() {
         return paymentID;
@@ -54,8 +61,8 @@ public class Payment implements Serializable{
         return totalPaymentAmount;
     }
 
-    public Order getOrder() {
-        return order;
+    public String getOrderStatus() {
+        return orderStatus;
     }
 
     public Customer getCustomer() {
@@ -84,10 +91,6 @@ public class Payment implements Serializable{
         this.totalPaymentAmount = totalPaymentAmount;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
@@ -96,19 +99,22 @@ public class Payment implements Serializable{
         this.card = card;
     }
 
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
     public void setDateTime(Date dateTime) {
         this.dateTime = dateTime;
     }
 
     @Override
     public String toString() {
-        return "Payment{" + "paymentID=" + paymentID + ", "
+        return "Payment{" + "PaymentID=" + paymentID + ", "
                 + "paymentMethod=" + paymentMethod + ", "
-                + "totalPaymentAmount=" + totalPaymentAmount + ", "
-                + "dateTime=" + dateTime + ", "
-                + "order=" + order + ", "
-                + "customer=" + customer + ", "
-                + "card=" + card + '}';
+                + "PaymentAmount=" + totalPaymentAmount + ", "
+                + "PaymentTime=" + dateTime + ", "
+                + "customer=" + customer.getCustomerName() + ", "
+                + "card=" + card.getCardNo() + '}';
     }
     
     
