@@ -22,17 +22,17 @@ public class Product implements Serializable {
     private byte[] productImage;
     private String base64Image;
     private double productPrice;
-    private int orderQuantity;
+    private boolean hidden;
     private ProductCategory productCategory;
 
     public Product() {
     }
 
-    public Product(String productID, String productName, double productPrice, int orderQuantity, ProductCategory productCategory) {
+    public Product(String productID, String productName, double productPrice, boolean hidden, ProductCategory productCategory) {
         this.productID = productID;
         this.productName = productName;
         this.productPrice = productPrice;
-        this.orderQuantity = orderQuantity;
+        this.hidden = hidden;
         this.productCategory = productCategory;
     }
 
@@ -44,14 +44,15 @@ public class Product implements Serializable {
         this.productCategory = productCategory;
     }
 
-    public Product(String productID, String productName, byte[] productImage, double productPrice, int orderQuantity, ProductCategory productCategory) {
+    public Product(String productID, String productName, byte[] productImage, double productPrice, boolean hidden, ProductCategory productCategory) {
         this.productID = productID;
         this.productName = productName;
         this.productImage = productImage;
         this.productPrice = productPrice;
-        this.orderQuantity = orderQuantity;
+        this.hidden = hidden;
         this.productCategory = productCategory;
     }
+    
 
     public String getProductID() {
         return productID;
@@ -74,8 +75,8 @@ public class Product implements Serializable {
         return productPrice;
     }
 
-    public int getOrderQuantity() {
-        return orderQuantity;
+    public boolean isHidden() {
+        return hidden;
     }
 
     public ProductCategory getProductCategory() {
@@ -99,9 +100,10 @@ public class Product implements Serializable {
         this.productPrice = productPrice;
     }
 
-    public void setOrderQuantity(int orderQuantity) {
-        this.orderQuantity = orderQuantity;
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
+
 
     public void setProductCategory(ProductCategory productCategory) {
         this.productCategory = productCategory;
@@ -231,7 +233,7 @@ public class Product implements Serializable {
                 + "productName=" + productName + ", "
                 + "productImage=" + productImage + ", "
                 + "productPrice=" + productPrice + ", "
-                + "orderQuantity=" + orderQuantity + ", "
+                + "Is Hidden=" + hidden + ", "
                 + "productCategory=" + productCategory.toString() + "}\n\n";
     }
 

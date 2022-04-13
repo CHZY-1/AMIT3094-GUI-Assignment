@@ -85,6 +85,37 @@
         #remove-button{
             margin-left: 20%;
         }
+        
+        #page-progress .active {
+                font-weight: 700;
+                position: relative
+            }
+            
+            #page-progress .active .fa-check {
+                position: absolute;
+                left: 50%;
+                bottom: -27px;
+                background-color: #fff;
+                font-size: 0.7rem;
+                padding: 5px;
+                border: 1px solid #008000;
+                border-radius: 50%;
+                color: #008000
+            }
+
+            .progress {
+                height: 15px;
+                background-color: #ccc
+            }
+            .progress div {
+                display: flex;
+                align-items: center;
+                justify-content: center
+            }
+            .progress .progress-bar {
+                width: 49%;
+            }
+
 
 
     </style>

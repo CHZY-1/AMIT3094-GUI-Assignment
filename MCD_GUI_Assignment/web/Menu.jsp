@@ -141,7 +141,7 @@
             productList = (ArrayList<Product>) session.getAttribute("productList");
             productCategoryList = (ArrayList<ProductCategory>) session.getAttribute("productCategoryList");
         }
-        
+
     %>
 
     <body class="d-flex flex-column min-vh-100">
@@ -158,17 +158,17 @@
                             <li class="nav-item disabled">
                                 <h2 id="catalog">Category</h2>
                             </li>
-                            
+
                             <!-- set active class to nav-link according to the parameter "searchProductByCategory" -->
-                            <% active = (request.getParameter("searchProductByCategory") == null) ? "active" : "";  %>
+                            <% active = (request.getParameter("searchProductByCategory") == null) ? "active" : "";%>
                             <li class="nav-item">
                                 <a class="nav-link  <%= active%>" href="productMenuServlet">All</a>
                             </li>
-                            
+
                             <% for (ProductCategory productCategory : productCategoryList) {%>
-                            
+
                             <% active = (productCategory.getCategoryName().equalsIgnoreCase(request.getParameter("searchProductByCategory"))) ? "active" : "";%>
-                            
+
                             <li class="nav-item">
                                 <a class="nav-link  <%= active%>"
                                    href="productMenuServlet?searchProductByCategory=<%= productCategory.getCategoryName()%> "><%= productCategory.getCategoryName()%>
@@ -187,12 +187,16 @@
                         <h3>McDonald<span>Menu</span></h3>
                     </div>
 
-                    <div id="search" class="d-flex mb-5 mx-auto">
-                        <input type="text" class="searchTerm" placeholder="What are you looking for?">
-                        <button type="submit" class="searchButton">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </div>
+                    <form action="productMenuServlet" method="post">
+                        <div id="search" class="d-flex mb-5 mx-auto">
+
+                            <input type="text" name="search-value" class="searchTerm" placeholder="What are you looking for ?">
+                            <button type="submit" class="searchButton">
+                                <i class="fa fa-search"></i>
+                            </button>
+
+                        </div>
+                    </form>
 
 
 
@@ -203,7 +207,7 @@
                             <% for (Product product : productList) {%>
 
                             <div class="col-lg-4 d-flex align-items-stretch">
-                                
+
                                 <form method="post" action="cartServlet">
                                     <div class="card-group h-100">
 
@@ -212,18 +216,18 @@
                                             <img class="card-img-top rounded" src="data:image/jpg;base64,<%= product.getProductImageBase64()%>" height="270" width="100" alt="<%= product.getProductName()%>">
                                             <div class="card-body">
                                                 <h4 class="card-title"><%= product.getProductName()%></h4>
-                                                <p class="card-text">Price: RM <%= String.format("%.2f",product.getProductPrice()) %></p>
-                                                
-                                                <input type="hidden" name="productID" value="<%= product.getProductID() %>" />
-                                                <input type="hidden" name="productName" value="<%= product.getProductName() %>" />
-                                                <input type="hidden" name="productImage" value="<%= product.getProductImageBase64() %>" />
-                                                <input type="hidden" name="productPrice" value="<%= product.getProductPrice() %>" />
-                                                <input type="hidden" name="productCategoryID" value="<%= product.getProductCategory().getCategoryID() %>" />
-                                                <input type="hidden" name="productCategoryName" value="<%= product.getProductCategory().getCategoryName() %>" />
+                                                <p class="card-text">Price: RM <%= String.format("%.2f", product.getProductPrice())%></p>
+
+                                                <input type="hidden" name="productID" value="<%= product.getProductID()%>" />
+                                                <input type="hidden" name="productName" value="<%= product.getProductName()%>" />
+                                                <input type="hidden" name="productImage" value="<%= product.getProductImageBase64()%>" />
+                                                <input type="hidden" name="productPrice" value="<%= product.getProductPrice()%>" />
+                                                <input type="hidden" name="productCategoryID" value="<%= product.getProductCategory().getCategoryID()%>" />
+                                                <input type="hidden" name="productCategoryName" value="<%= product.getProductCategory().getCategoryName()%>" />
                                                 <input type="hidden" name="action" value="addToCart" />
-                                                
+
                                                 <input type="submit" id="add-to-cart" class="btn btn-primary" name="add-to-cart-button" value="Add To Cart"/>
-                                                
+
                                             </div>
                                         </div>
 

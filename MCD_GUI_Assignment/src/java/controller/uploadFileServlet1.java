@@ -73,10 +73,10 @@ public class uploadFileServlet1 extends HttpServlet {
             //Test db
             int success = 0;
             ProductCategory fruits = new ProductCategory("F1","Fruits");
-//            Product product1 = new Product("Prod-1a", "Apple", 8.50, 10, new ProductCategory("C1", "Burger"));
+//            Product product1 = new Product("Prod-1a", "Apple", 8.50, false, new ProductCategory("C1", "Burger"));
 //            product1.setImageFile(uploadImagePath);
             
-//            Product product2 = new Product("Prod-1b", "Banana", 7.50, 20, new ProductCategory("C1", "Burger"));
+//            Product product2 = new Product("Prod-1b", "Banana", 7.50, false, new ProductCategory("C1", "Burger"));
 //            product2.setImageFile(uploadImagePath);
             
             ProductController prodController = new ProductController();

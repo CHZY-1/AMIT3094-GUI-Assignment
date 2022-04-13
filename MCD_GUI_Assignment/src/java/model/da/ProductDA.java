@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 public final class ProductDA {
 
-    private String host = "jdbc:derby://localhost:1527/MCD1";
+    private String host = "jdbc:derby://localhost:1527/MCD";
     private String user = "nbuser";
     private String password = "nbuser";
     private String tableName = "PRODUCT";
@@ -69,7 +69,7 @@ public final class ProductDA {
                             rs.getString("PRODUCT_NAME"),
                             imageBytes,
                             rs.getDouble("PRODUCT_PRICE"),
-                            rs.getInt("ORDER_QUANTITY"),
+                            rs.getBoolean("HIDDEN"),
                             new ProductCategory(rs.getString("CATEGORY_ID")));
                 }
             }
@@ -117,7 +117,7 @@ public final class ProductDA {
                         rs.getString("PRODUCT_NAME"),
                         imageBytes,
                         rs.getDouble("PRODUCT_PRICE"),
-                        rs.getInt("ORDER_QUANTITY"),
+                        rs.getBoolean("HIDDEN"),
                         new ProductCategory(rs.getString("CATEGORY_ID"),rs.getString("CATEGORY_NAME")));
 
                 productList.add(product);
@@ -135,7 +135,7 @@ public final class ProductDA {
     }
 
     public int insertNewProduct(Product product) throws SQLException, IOException {
-        String sqlStr = "INSERT INTO PRODUCT(PRODUCT_ID, PRODUCT_NAME, PRODUCT_IMAGE, PRODUCT_PRICE, ORDER_QUANTITY, CATEGORY_ID) VALUES(?,?,?,?,?,?)";
+        String sqlStr = "INSERT INTO PRODUCT(PRODUCT_ID, PRODUCT_NAME, PRODUCT_IMAGE, PRODUCT_PRICE, HIDDEN, CATEGORY_ID) VALUES(?,?,?,?,?,?)";
         int affectedRows = 0;
 
         ByteArrayInputStream productImageBS = new ByteArrayInputStream(product.getProductImage());
@@ -149,7 +149,7 @@ public final class ProductDA {
             stmt.setBinaryStream(3, productImageBS, productImageBS.available());
 //            stmt.setBlob(3, image);
             stmt.setDouble(4, product.getProductPrice());
-            stmt.setInt(5, product.getOrderQuantity());
+            stmt.setBoolean(5, product.isHidden());
             stmt.setString(6, product.getProductCategory().getCategoryID());
 
             affectedRows = stmt.executeUpdate();
@@ -190,7 +190,7 @@ public final class ProductDA {
             stmt.setString(2, product.getProductName());
             stmt.setBinaryStream(3, productImageBS, productImageBS.available());
             stmt.setDouble(4, product.getProductPrice());
-            stmt.setInt(5, product.getOrderQuantity());
+            stmt.setBoolean(5, product.isHidden());
             stmt.setString(6, product.getProductCategory().getCategoryID());
             stmt.setString(7, product.getProductID());
 

@@ -41,6 +41,8 @@ public class HomeServlet extends HttpServlet {
             request.getRequestDispatcher("Home.jsp").forward(request, response);
             
         } catch (SQLException ex) {
+            final PrintWriter out = response.getWriter();
+            out.println("SQL Exception");
             Logger.getLogger(HomeServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -51,10 +53,10 @@ public class HomeServlet extends HttpServlet {
  
         ArrayList<Product> newProductList = new ArrayList<Product>();
         
-        for (int i = 0; i <  productList.size(); i++) {
+        for (int i = 0; i <=  productList.size(); i++) {
             
             if(i<size){
-                int randomIndex = ThreadLocalRandom.current().nextInt(0, productList.size() + 1);;
+                int randomIndex = ThreadLocalRandom.current().nextInt(0, productList.size());
  
                 newProductList.add(productList.get(randomIndex));
             }
