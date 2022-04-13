@@ -1,21 +1,13 @@
+<%@page import="model.domain.Product"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="en">
     <head>
         <%@ include file="HTML_parts/Meta.jsp" %>
-        
+
         <title>Order</title>
-
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-        
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-        <!-- jQuery library -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-        <!-- Latest compiled JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 
 
@@ -59,11 +51,11 @@
                 font-weight: 700;
                 position: relative
             }
-            
+
             #page-progress .active .fa-check {
                 position: absolute;
                 left: 50%;
-                bottom: -27px;
+                bottom: -35px;
                 background-color: #fff;
                 font-size: 0.7rem;
                 padding: 5px;
@@ -89,19 +81,43 @@
 
     </head>
 
+
+
+
     <body class="d-flex flex-column min-vh-100">
+
+        <%
+            ArrayList<Product> cart = new ArrayList<Product>();
+            double totalPrice = 0.0;
+            double tax = 0.0;
+            boolean cartIsEmpty = true;
+
+            if (session.getAttribute("cart") != null) {
+                cart = (ArrayList<Product>) session.getAttribute("cart");
+                totalPrice = (Double) session.getAttribute("totalPrice");
+                tax = totalPrice * 0.06;
+            }
+
+            if (session.getAttribute("cart") != null && !cart.isEmpty()) {
+                cartIsEmpty = false;
+            } else {
+                cartIsEmpty = true;
+            }
+
+        %>
+
 
         <%@ include file="HTML_parts/Header.jsp" %>
 
-        <div class="container bg-light mx-auto border rounded mb-5">
+        <div class="container bg-light mx-auto rounded mb-5 mt-4">
 
-            <div id="title" class="row bg-warning">
+            <div id="title" class="row bg-warning border rounded">
                 <div class="col py-5 text-center">
                     <h1>Order Details</h1>
                 </div>
             </div>
-            
-            <div class='row'>
+
+            <div class='row mb-4'>
                 <div class="col-12">
                     <div id="page-progress" class="d-flex justify-content-center align-items-center pt-4 pb-3">
                         <div class="px-sm-5 px-2">CART</div>
@@ -119,60 +135,71 @@
                 <div id="side-panel" class="col-md-4 order-md-2 mb-4">
 
                     <div class="p-2 border">
-                        <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="d-flex justify-content-between align-items-center mb-3">
                             <span class="text-muted pl-3">Order Items</span>
-                            <span class="badge badge-secondary badge-pill">3</span>
-                        </h4>
+                            <span class="badge badge-secondary badge-pill"><%= cart.size()%></span>
+                        </h5>
 
                         <ul class="list-group mb-3">
 
+                            <% for (Product cartProduct : cart) {%>
+
                             <li class="list-group-item d-flex justify-content-between lh-condensed">
                                 <div>
-                                    <h4 class="my-0">Product name</h4>
-                                    <small class="text-muted">Brief description</small>
+                                    <h5 class="my-0"> <%= cartProduct.getProductName()%> </h5>
+                                    <small class="text-muted"><%= cartProduct.getProductCategory().getCategoryName()%> </small>
                                 </div>
-                                <span class="text-muted">$12</span>
+                                <span class="text-muted">RM <%= String.format("%.2f", cartProduct.getProductPrice())%></span>
                             </li>
+
+                            <% }%>
 
                             <li class="list-group-item d-flex justify-content-between bg-light">
                                 <div class="text-success">
                                     <small class="my-0">Taxes and Delivery Fees</small>
                                 </div>
-                                <span class="text-success">+ $5</span>
+                                <span class="text-success">+ RM <%= String.format("%.2f", tax)%></span>
                             </li>
 
                             <li class="list-group-item d-flex justify-content-between">
                                 <span>Total (MYR)</span>
-                                <strong>$20</strong>
+                                <strong>RM <%= String.format("%.2f", totalPrice)%></strong>
                             </li>
                         </ul>
 
+                        <div class="container pt-2 mb-3">
+                            <button class="btn btn-primary btn-lg btn-block" type="submit">Continue Order</button>
+                        </div>
+
                     </div>
+
+
+
 
                 </div>
 
-                <div class="col-md-8 order-md-1 border">
+                <div id="order-form" class="col-md-8 order-md-1 border">
 
                     <div class="container-fluid">
                         <div class="row border-bottom">
-                            <div class="col-12 pl-3"><h3>Order #1234</h3></div>
+                            <div class="col-12 pl-5 py-2"><h2>Order #1234</h2></div>
                         </div>
 
                         <div id="order-row" class="row d-flex h-100 border-bottom">
 
-                            <div class="col-3"><div class="text-align-top"><h4>Delivery Time</h4></div></div>
+                            <div class="col-4"><div class="pt-2"><h5>Delivery Time</h5></div></div>
 
-                            <div class="col-9 align-items-center">
+                            <div class="col-8 align-items-center">
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="delivery-time-radios" value="delivery-now" id="order-now" checked required>
+                                    <input class="form-check-input" type="radio" name="delivery-time-radios" value="delivery-now" id="orderNow" required>
                                     <label id="time" class="form-check-label" for="delivery-now">
                                         Delivery Now
                                     </label>
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="delivery-time-radios" value="delivery-later" id="order-later" required>
+                                    <input class="form-check-input" type="radio" name="delivery-time-radios" value="delivery-later" id="orderLater" required>
                                     <label id="time" class="form-check-label" for="delivery-later">
                                         Delivery Later
                                     </label>
@@ -180,30 +207,30 @@
 
                             </div>
 
-                            <div id="delivery-later-div" class="container-fluid d-flex mb-3 border">
-                                <div class="row w-100">
-                                    <div class="col-5">
-                                        <label id="delivery-later-date" for="delivery-later-date">Select a Date: </label>
-                                        <input  type="date" id="appt" name="delivery-later-date">
-                                    </div>
-                                    <div class="col-5">
-                                        <label for="delivery-later-time">Time: </label>
-                                        <input  type="time" id="appt" name="delivery-later-time">
-                                    </div>
+
+                            <div class="row d-flex align-items-center mb-3 mt-2 w-100" id="deliveryLaterDiv">
+                                <div class="col-6 pl-4">
+                                    <label id="delivery-later-date" for="delivery-later-date">Select a Date: </label>
+                                    <input  type="date" id="appt" name="delivery-later-date">
+                                </div>
+                                <div class="col-6">
+                                    <label for="delivery-later-time">Time: </label>
+                                    <input  type="time" id="appt" name="delivery-later-time">
                                 </div>
                             </div>
+
                         </div>
 
                         <div id="order-row" class="row h-100 border-bottom">
 
-                            <div class="col-3">
-                                <div class="text-align-top">
-                                    <h4>Customer Details</h4>
+                            <div class="col-4">
+                                <div class="pt-2">
+                                    <h5>Customer Details</h5>
                                     <a href="#">Edit</a>
                                 </div>
                             </div>
 
-                            <div class="col-9 d-flex align-items-center mb-3">
+                            <div class="col-8 d-flex align-items-center mb-3">
                                 <div class="container-fluid">
 
                                     <div id="customer-details" class="row">
@@ -235,11 +262,11 @@
 
                         <div id="order-row" class="row h-100 border-bottom">
 
-                            <div class="col-3"><div class="text-align-top"><h4>Address</h4></div></div>
+                            <div class="col-4"><div class="pt-2"><h5>Address</h5></div></div>
 
-                            <div class="col-9 d-flex align-items-center mb-3">
+                            <div class="col-8 d-flex align-items-center mb-3">
                                 <div>
-                                    <h5>Street 1, address 2, state1, country</h5>
+                                    <p>Street 1, address 2, state1, country</p>
                                     <span><a href="#">Change Address</a></span>
                                 </div>
 
@@ -279,9 +306,9 @@
 
                         <div id="order-row" class="row h-100 border-bottom">
 
-                            <div class="col-3"><div class="text-align-top"><h4>Payment Method</h4></div></div>
+                            <div class="col-4"><div class="pt-2"><h5>Payment Method</h5></div></div>
 
-                            <div class="col-9 d-block mb-3">
+                            <div class="col-8 d-block mb-3">
 
                                 <div class="form-check" id="payment-method">
                                     <input class="form-check-input" type="radio" name="payment-method-radios" value="" id="payment-method" required>
@@ -310,4 +337,29 @@
 
         <%@ include file="HTML_parts/Footer.jsp" %>
     </body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+
+        $(document).ready(function () {
+
+            $("div#deliveryLaterDiv").hide();
+
+            $("input[name=delivery-time-radios]").change(function () {
+
+                if ($("#orderLater").prop("checked")) {
+                    $("#deliveryLaterDiv").show();
+                    //                console.log("show");
+
+                } else if ($("#orderNow").prop("checked")) {
+                    $("div#deliveryLaterDiv").hide();
+                    //                console.log("hide");
+
+                }
+            });
+            
+        });
+
+    </script>
+
 </html>
+

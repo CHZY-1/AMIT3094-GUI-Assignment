@@ -22,6 +22,7 @@ public class Product implements Serializable {
     private byte[] productImage;
     private String base64Image;
     private double productPrice;
+    private int orderQuantity;
     private boolean hidden;
     private ProductCategory productCategory;
 
@@ -53,6 +54,17 @@ public class Product implements Serializable {
         this.productCategory = productCategory;
     }
     
+    public Product(String productID, String productName, String base64Image, double productPrice, int orderQuantity, boolean hidden, ProductCategory productCategory) {
+        this.productID = productID;
+        this.productName = productName;
+        this.base64Image = base64Image;
+        this.productPrice = productPrice;
+        this.orderQuantity = orderQuantity;
+        this.hidden = hidden;
+        this.productCategory = productCategory;
+    }
+    
+    
 
     public String getProductID() {
         return productID;
@@ -81,6 +93,14 @@ public class Product implements Serializable {
 
     public ProductCategory getProductCategory() {
         return productCategory;
+    }
+
+    public int getOrderQuantity() {
+        return orderQuantity;
+    }
+
+    public void setOrderQuantity(int orderQuantity) {
+        this.orderQuantity = orderQuantity;
     }
 
     //Setter

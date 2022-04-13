@@ -175,7 +175,7 @@ public final class ProductDA {
                 + "PRODUCT_NAME=?, "
                 + "PRODUCT_IMAGE=?, "
                 + "PRODUCT_PRICE=?, "
-                + "ORDER_QUANTITY=?, "
+                + "HIDDEN=?, "
                 + "CATEGORY_ID=? "
                 + "WHERE PRODUCT_ID=?";
 

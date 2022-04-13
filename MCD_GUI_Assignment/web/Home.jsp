@@ -97,30 +97,24 @@
             </div>
             
             
-            <div id="home-recommend" class="container custom-container bg-light">
+            <div id="home-recommend" class="container custom-container bg-light rounded">
                 
-                <div class="row mb-3"><div class="col bg-warning rounded d-flex align-items-center justify-content-center"><h1>Recommended</h1></div></div>
+                <div class="row mb-3"><div class="col bg-warning rounded d-flex align-items-center justify-content-center"><h2>Recommended</h2></div></div>
                 
-                <div class="row text-center mb-3">
+                <div class="row text-center mb-1">
                     
                     <% for(Product product : productList) { %>
                     <div class="col">
                         <div class="product">
-                            <h1> <%= product.getProductName()%> </h1>
+                            <div>
+                                <a href="productMenuServlet">
+                                <img class="card-img-top rounded" src="data:image/jpg;base64,<%= product.getProductImageBase64()%>" height="250" width="60" alt="<%= product.getProductName()%>">
+                                </a>
+                            </div>
+                            <h4> <%= product.getProductName()%> </h4>
                         </div>
                     </div>
                     <% } %>
-                    
-                    <div class="col">
-                        <div class="product">
-                            <h1> Product 2 </h1>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="product">
-                            <h1> Product 3 </h1>
-                        </div>
-                    </div>
                 </div>
                 
             </div>
@@ -145,7 +139,9 @@
             
             <div class="container custom-container">
                 <div class="row" style="margin-bottom: 40px;">
+                    <a href="productMenuServlet">
                     <img class="img-fluid mx-auto d-block" src="Pictures/MCD-Home4.png" alt=""/>
+                    </a>
                 </div>
             </div>
             

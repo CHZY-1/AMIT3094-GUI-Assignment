@@ -51,8 +51,9 @@ public class cartServlet extends HttpServlet {
                 String productImage = request.getParameter("productImage");
                 double productPrice = Double.valueOf(request.getParameter("productPrice"));
                 String productCategoryID = request.getParameter("productCategoryID");
+                int productQuantity = Integer.parseInt(request.getParameter("productQuantity"));
                 String productCategoryName = request.getParameter("productCategoryName");
-                Product product = new Product(productID, productName, productImage, productPrice, new ProductCategory(productCategoryID, productCategoryName));
+                Product product = new Product(productID, productName, productImage, productPrice, productQuantity, false, new ProductCategory(productCategoryID, productCategoryName));
 
                 if (action.equalsIgnoreCase("addToCart")) {
                     doPost_AddItemToCart(request, response, product);
@@ -122,6 +123,8 @@ public class cartServlet extends HttpServlet {
         cart.remove(productToRemove);
         
         session.setAttribute("cart", cart);
+        PrintWriter out = response.getWriter();
+        out.println(cart);
 
         response.sendRedirect("Cart.jsp");
     }

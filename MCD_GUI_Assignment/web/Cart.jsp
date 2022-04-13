@@ -38,7 +38,8 @@
 
 
         .cart_item_name {
-            margin-left: 7%
+            margin-left: 7%;
+            margin-right: 2%;
         }
 
         .cart_item_title {
@@ -56,7 +57,7 @@
 
         .cart_info_col{
             display: block;
-            max-width: 35%;
+            max-width: 40%;
         }
 
         .icon-input-btn{
@@ -85,36 +86,36 @@
         #remove-button{
             margin-left: 20%;
         }
-        
-        #page-progress .active {
-                font-weight: 700;
-                position: relative
-            }
-            
-            #page-progress .active .fa-check {
-                position: absolute;
-                left: 50%;
-                bottom: -27px;
-                background-color: #fff;
-                font-size: 0.7rem;
-                padding: 5px;
-                border: 1px solid #008000;
-                border-radius: 50%;
-                color: #008000
-            }
 
-            .progress {
-                height: 15px;
-                background-color: #ccc
-            }
-            .progress div {
-                display: flex;
-                align-items: center;
-                justify-content: center
-            }
-            .progress .progress-bar {
-                width: 49%;
-            }
+        #page-progress .active {
+            font-weight: 700;
+            position: relative
+        }
+
+        #page-progress .active .fa-check {
+            position: absolute;
+            left: 44%;
+            bottom: -38px;
+            background-color: #fff;
+            font-size: 0.7rem;
+            padding: 5px;
+            border: 1px solid #008000;
+            border-radius: 50%;
+            color: #008000
+        }
+
+        .progress {
+            height: 15px;
+            background-color: #ccc
+        }
+        .progress div {
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+        .progress .progress-bar {
+            width: 33%;
+        }
 
 
 
@@ -126,6 +127,7 @@
             ArrayList<Product> cart = new ArrayList<Product>();
             double totalPrice = 0;
             boolean cartIsEmpty = true;
+            int index = 0;
 
             if (session.getAttribute("cart") != null) {
                 cart = (ArrayList<Product>) session.getAttribute("cart");
@@ -142,43 +144,46 @@
         <%@ include file="HTML_parts/Header.jsp" %>
 
         <div class="container-fluid my-5">
-            
-            <div class='row'>
-                <div class="col-12">
-                    <div id="page-progress" class="d-flex justify-content-center align-items-center pt-4 pb-3">
-                        <div class="px-sm-5 px-2">CART</div>
-                        <div class="px-sm-5 px-2 active">ORDER DETAILS<i class="fas fa-check"></i></div>
-                        <div class="px-sm-5 px-2">CHECKOUT</div>
-                    </div>
-                    <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+
+            <div class="container mb-5 w-100">
+                <div class='row'>
+                    <div class="col-12">
+                        <div id="page-progress" class="d-flex justify-content-center align-items-center pt-4 pb-3">
+                            <div class="px-sm-5 px-2 active">CART<i class="fas fa-check"></i></div>
+                            <div class="px-sm-5 px-2">ORDER DETAILS</div>
+                            <div class="px-sm-5 px-2">CHECKOUT</div>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="row d-flex justify-content-center">
 
-                <div id="cart-body" class=”col-10 w-100”>
+                <div id="cart-body" class=”col-10”>
 
 
-                     <div id="cart" class="card mb-4">
+                    <div id="cart" class="card mb-4">
 
                         <div class="card-header py-3 bg-warning d-flex justify-content-between">
                             <h4 class="mb-0">Cart - <%= cart.size()%> items</h4>
-                            <button type="button" onclick="location.href = 'Menu.jsp';" class="btn btn-primary mr-2">Back To Menu</button>
+                            <button type="button" onclick="location.href = 'productMenuServlet';" class="btn btn-primary mr-2">Back To Menu</button>
                         </div>
 
                         <div class="card-body">
 
                             <% if (cartIsEmpty == true) {%>
 
-                            <div class="card mb-3 ">
-                                <div class="row no-gutters">
+                            <div class="card mb-3" style="width: 760px;height: 300px;">
+                                <div class="row">
 
 
                                     <div class="col-12">
 
-                                        <h2 class="text-center">Nothing In the Cart Yet <%= cartIsEmpty%> </h2>
+                                        <h1 class="text-center mt-5">Nothing In the Cart Yet</h1>
+
                                     </div>
 
                                 </div>
@@ -194,12 +199,12 @@
                                 <input type="hidden" name="productName" value="<%= cartProduct.getProductName()%>" />
                                 <input type="hidden" name="productImage" value="<%= cartProduct.getBase64Image()%>" />
                                 <input type="hidden" name="productPrice" value="<%= cartProduct.getProductPrice()%>" />
+                                <input type="hidden" name="productQuantity" value="<%= cartProduct.getOrderQuantity() %>" />
                                 <input type="hidden" name="productCategoryID" value="<%= cartProduct.getProductCategory().getCategoryID()%>" />
                                 <input type="hidden" name="productCategoryName" value="<%= cartProduct.getProductCategory().getCategoryName()%>" />
                                 <input type="hidden" name="action" value="removeFromCart" />
 
-
-
+                                
                                 <div class="card mb-3 ">
                                     <div id="cart" class="row no-gutters">
 
@@ -225,9 +230,12 @@
                                                                 <div class="cart_item_text"><%= cartProduct.getProductCategory().getCategoryName()%></div>
                                                             </div>
 
-                                                            <div class="cart_info_col">
-                                                                <div class="cart_item_title">Quantity</div>
-                                                                <div class="cart_item_text">1</div>
+                                                            <div class="cart_info_co" style="max-width: 30%;">
+                                                                <div class="cart_item_title text-center">Quantity</div>
+                                                                <div class="cart_item_text d-block mx-auto" style="max-width: 60%;">
+                                                                        <!--<input type="text" id="quantity" name="quantity" class="form-control input-number bg-light text-center" value="" readonly>-->
+                                                                    <%= cartProduct.getOrderQuantity() %>
+                                                                </div>
                                                             </div>
 
                                                             <div class="cart_info_col">
@@ -290,36 +298,43 @@
                                 </li>
 
 
-                                <% for (Product cartProduct : cart) {%>
-                                <li
-                                    class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0 text-break">
-                                    <%= cartProduct.getProductName()%>
-                                    <span class="text-nowrap"><%= String.format("%.2f", cartProduct.getProductPrice())%></span>
+                                <% for (Product cartProduct : cart) { %>
+                                <li id="productItem"
+                                    class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                                    <div class="d-block text-break pr-1"><p id="product-name"><%= cartProduct.getProductName() %> &#215; <%= cartProduct.getOrderQuantity() %></p></div>
+                                    <span id="productPrice" class="text-nowrap"><%= String.format("%.2f", cartProduct.getProductPrice() * cartProduct.getOrderQuantity()) %></span>
                                 </li>
 
                                 <%
-                                    totalPrice += Double.valueOf(cartProduct.getProductPrice());
+                                    totalPrice += Double.valueOf(cartProduct.getProductPrice() * cartProduct.getOrderQuantity());
                                 %>
 
-                                <% }%>
+                                <% } 
+                                
+                                    totalPrice = totalPrice + (totalPrice * 6/100);
+                                    
+                                    session.setAttribute("totalPrice", totalPrice);
+                                %>
 
                                 <li
                                     class="list-group-item d-flex justify-content-between align-items-center px-0 mb-3">
                                     <div>
                                         <strong>Total amount</strong>
-                                        <p class="mb-0">(including TAX)</p>
+                                        <p class="mb-0">(including TAX 6%)</p>
                                     </div>
-                                    <span><strong><%= totalPrice%></strong></span>
+                                    <span><strong><%= String.format("%.2f", totalPrice ) %></strong></span>
                                 </li>
                             </ul>
 
                             <% if (cartIsEmpty != true) { %>
 
-                            <form method="post" action="orderServlet">
+                            <form method="post" action="Order.jsp">
+                                
+                                <input type="submit" name="submit" value="Go to checkout" class="btn btn-primary btn-lg btn-block">
 
-                                <button type="button" class="btn btn-primary btn-lg btn-block">
+<!--                                <button type="button" class="btn btn-primary btn-lg btn-block">
                                     Go to checkout
-                                </button>
+                                </button>-->
 
                             </form>
 

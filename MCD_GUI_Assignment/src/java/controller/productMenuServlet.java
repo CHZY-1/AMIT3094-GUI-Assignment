@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import java.io.IOException;
@@ -44,6 +39,7 @@ public class productMenuServlet extends HttpServlet {
             // Retreive all Product and Product Category from database
             ArrayList<Product> productList = prodController.getAllProduct();
             ArrayList<ProductCategory> productCategoryList = prodCategoryController.getAllProductCategory();
+            productCategoryList = fliterProductCategoryList(productCategoryList); //Remove Duplicated category
 
             // Set session Attribute
             session.setAttribute("productList", productList);
@@ -51,8 +47,9 @@ public class productMenuServlet extends HttpServlet {
 
             // If Parameter "searchProductByCategory" exists 
             if (request.getParameter("searchProductByCategory") != null) {
-
+                
                 productCategory = request.getParameter("searchProductByCategory");
+                request.setAttribute("searchedProductCategory",productCategory );
                 ArrayList<Product> newProductList = new ArrayList<>();
 
                 // Loop Every Product
@@ -92,6 +89,7 @@ public class productMenuServlet extends HttpServlet {
                 }
 
                 session.setAttribute("productList", newProductList);
+                
             }
 
             request.getRequestDispatcher("Menu.jsp").forward(request, response);
@@ -114,5 +112,32 @@ public class productMenuServlet extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
+    
+    private ArrayList<ProductCategory> fliterProductCategoryList(ArrayList<ProductCategory> productCategoryList){
+        
+         ArrayList<ProductCategory> newProductCategoryList = new ArrayList<ProductCategory>();
+         
+         for(ProductCategory productCategory : productCategoryList){
+             
+             if(newProductCategoryList.isEmpty()){
+                 newProductCategoryList.add(productCategory);
+             }
+             
+             if(isExisting(productCategory.getCategoryName(),newProductCategoryList) == false){
+                 newProductCategoryList.add(productCategory);
+             }
+             
+         }
+        
+         return newProductCategoryList;
+    }
+    
+    private boolean isExisting(String productCategoryID, ArrayList<ProductCategory> productCategoryList) {
+        for (int i = 0; i < productCategoryList.size(); i++) {
+            if (productCategoryList.get(i).getCategoryName().equalsIgnoreCase(productCategoryID)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
