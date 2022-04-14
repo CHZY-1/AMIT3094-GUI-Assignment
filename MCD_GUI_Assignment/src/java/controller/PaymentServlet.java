@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.da.PaymentDA;
 import model.domain.*;
 
 @WebServlet(name = "PaymentServlet", urlPatterns = {"/PaymentServlet"})
@@ -55,8 +56,8 @@ public class PaymentServlet extends HttpServlet {
         
         payment = new Payment(paymentID, paymentMethod, totalPaymentAmount, orderStatus, paymentTime, customer, card);
         
-        PaymentController paymentControl = new PaymentController();
-        int affectedRows = paymentControl.insertPayment(payment);
+        PaymentDA paymentDA = new PaymentDA();
+        int affectedRows = paymentDA.insertPayment(payment);
         
         out.println("Payment Insert Success: " + cardInsertSuccess);
         
@@ -71,6 +72,8 @@ public class PaymentServlet extends HttpServlet {
         
            
         }catch(SQLException ex){
+            out.println(ex.getMessage());
+        }catch(NullPointerException ex){
             out.println(ex.getMessage());
         }
         

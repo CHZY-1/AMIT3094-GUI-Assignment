@@ -11,10 +11,6 @@ public class PaymentController {
     public void PaymentController() throws SQLException {
         paymentDA = new PaymentDA();
     }
-    
-    public Payment retievePayment(String paymentID) throws SQLException {
-        return paymentDA.retievePaymentRecord(paymentID); 
-    }
 
     public int insertPayment(Payment payment) throws SQLException{
         return paymentDA.insertPayment(payment); 

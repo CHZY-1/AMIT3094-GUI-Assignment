@@ -58,6 +58,31 @@ public final class PaymentDA {
         }
         return payment;
     }
+    
+    public int insertPayment(Payment payment) throws SQLException {
+        String sqlStr = "INSERT INTO PAYMENT VALUES(?,?,?,?,?,?,?)";
+        int rows = 0;
+
+        try {
+            stmt = conn.prepareStatement(sqlStr);
+
+            stmt.setString(1, payment.getPaymentID());
+            stmt.setString(2, payment.getPaymentMethod());
+            stmt.setDouble(3, payment.getTotalPaymentAmount());
+            stmt.setString(4, payment.getOrderStatus());
+            stmt.setTimestamp(5, payment.getPaymentTimestamp());
+            stmt.setString(6, payment.getCustomer().getCustomerID());
+            stmt.setString(7, payment.getCard().getCardNo());
+            
+            rows = stmt.executeUpdate();
+
+            stmt.close();
+
+        } catch (SQLException ex) {
+            throw ex;
+        }
+        return rows;
+    }
 
     public int updatePayment(Payment payment) throws SQLException {
         String sqlStr = "UPDATE PAYMENT SET PAYMENT_ID=?, "
@@ -92,29 +117,8 @@ public final class PaymentDA {
 
         return rows;
     }
-
-    public int insertPayment(Payment payment) throws SQLException {
-        String sqlStr = "INSERT INTO PAYMENT VALUES(?,?,?,?,?,?,?)";
-        int rows = 0;
-
-        try {
-            stmt = conn.prepareStatement(sqlStr);
-
-            stmt.setString(1, payment.getPaymentID());
-            stmt.setString(2, payment.getPaymentMethod());
-            stmt.setDouble(3, payment.getTotalPaymentAmount());
-            stmt.setString(4, payment.getOrderStatus());
-            stmt.setTimestamp(5, payment.getPaymentTimestamp());
-            rows = stmt.executeUpdate();
-
-            stmt.close();
-
-        } catch (SQLException ex) {
-            throw ex;
-        }
-        return rows;
-    }
-
+    
+    
     public int deletePayment(String paymentID) throws SQLException {
         String sqlStr = "DELETE FROM PAYMENT WHERE PAYMENT_ID = ?";
         int rows = 0;
@@ -136,22 +140,22 @@ public final class PaymentDA {
     }
 
     public String newPaymentID() {
-        String ProductID = null;
+        String PaymentID = null;
         String sqlQuery = "SELECT PAYMENT_ID FROM PAYMENT";
 
         try {
             PreparedStatement stmt = conn.prepareStatement(sqlQuery);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                ProductID = rs.getString(1);
+                PaymentID = rs.getString(1);
             }
             stmt.close();
         } catch (SQLException ex) {
             ex.getMessage();
         }
 
-        ProductID = newID(ProductID);
-        return ProductID;
+        PaymentID = newID(PaymentID);
+        return PaymentID;
     }
 
     public String newID(String ProductID) {
