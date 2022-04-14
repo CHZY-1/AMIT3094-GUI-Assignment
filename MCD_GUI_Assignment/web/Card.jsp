@@ -86,85 +86,85 @@
         <%@ include file="HTML_parts/Header.jsp" %>
 
         <div class="container py-2 rounded" id="card-body">
-            
-            <div id="payment-form" class="">
-            <form method="POST" action="AddCard">
-                <h1 class="text-center">Payment</h1><br>
-                <div class="first-row pb-2">
-                    <div class="owner">
-                        <h3>Owner</h3>
-                        <div class="input-field">
-                            <input type="text" name="cardHolderName" required>
-                        </div>
-                    </div>
-                    <div class="cvv">
-                        <h3>CVV</h3>
-                        <div class="input-field">
-                            <input type="password" name="cvv" required>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="second-row py-1">
-                    <div class="card-number">
-                        <h3>Card Number</h3>
-                        <div class="input-field">
-                            <input type="text" name="cardNum" required>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="third-row py-1">
-                    <div class="selection">
-                        <div class="cardnumber">
-                            <h3>Expired Date</h3>
-                            <div class="date">
-                                <select name="months" id="months" required>
-                                    <option value="Jan">Jan</option>
-                                    <option value="Feb">Feb</option>
-                                    <option value="Mar">Mar</option>
-                                    <option value="Apr">Apr</option>
-                                    <option value="May">May</option>
-                                    <option value="Jun">Jun</option>
-                                    <option value="Jul">Jul</option>
-                                    <option value="Aug">Aug</option>
-                                    <option value="Sep">Sep</option>
-                                    <option value="Oct">Oct</option>
-                                    <option value="Nov">Nov</option>
-                                    <option value="Dec">Dec</option>
-                                </select>
-                                <select name="years" id="years">
-                                    <% for(int i=2022;i<=2035;i++){ %>
-                                    <option value="<%= i %>"><%= i %></option>
-                                    <% } %>
-                                </select>
-                            </div>
-                        </div>
-                                
-                        <div class="cardtype mr-3">
-                            <h3>Card type</h3>
-                            <div class="card type">
-                                <select name="cards" id="types" required>
-                                    <option value="Master">Master Card</option>
-                                    <option value="Visa">Visa Card</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <div class="first-row">
-                    <input type="submit" name="submit" value="Confirm" class="button btn btn-primary"/>
-                </div>
-                
-                <input type="hidden" name="paymentID" id="paymentID" value="<%= request.getParameter("paymentID") %>" />
-                <input type="hidden" name="delivery-time-radios" id="delivery-time-radios" value="<%= request.getParameter("delivery-time-radios") %>" />
-                <input type="hidden" name="delivery-later-date" id="delivery-later-date" value="<%= request.getParameter("delivery-later-date") %>" />
-                <input type="hidden" name="delivery-later-time" id="delivery-later-time" value="<%= request.getParameter("delivery-later-time") %>" />
-                <input type="hidden" name="payment-method-radios" id="payment-method-radios" value="<%= request.getParameter("payment-method-radios") %>" />
 
-            </form>
-                </div>
+            <div id="payment-form" class="">
+                <form action="PaymentServlet" method="POST">
+                    <h1 class="text-center">Payment</h1><br>
+                    <div class="first-row pb-2">
+                        <div class="owner">
+                            <h3>Owner</h3>
+                            <div class="input-field">
+                                <input type="text" name="cardHolderName" required>
+                            </div>
+                        </div>
+                        <div class="cvv">
+                            <h3>CVV</h3>
+                            <div class="input-field">
+                                <input type="password" name="cvv" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="second-row py-1">
+                        <div class="card-number">
+                            <h3>Card Number</h3>
+                            <div class="input-field">
+                                <input type="text" name="cardNum" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="third-row py-1">
+                        <div class="selection">
+                            <div class="cardnumber">
+                                <h3>Expired Date</h3>
+                                <div class="date">
+                                    <select name="months" id="months" required>
+                                        <option value="Jan">Jan</option>
+                                        <option value="Feb">Feb</option>
+                                        <option value="Mar">Mar</option>
+                                        <option value="Apr">Apr</option>
+                                        <option value="May">May</option>
+                                        <option value="Jun">Jun</option>
+                                        <option value="Jul">Jul</option>
+                                        <option value="Aug">Aug</option>
+                                        <option value="Sep">Sep</option>
+                                        <option value="Oct">Oct</option>
+                                        <option value="Nov">Nov</option>
+                                        <option value="Dec">Dec</option>
+                                    </select>
+                                    <select name="years" id="years">
+                                        <% for (int i = 2022; i <= 2035; i++) {%>
+                                        <option value="<%= i%>"><%= i%></option>
+                                        <% }%>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="cardtype mr-3">
+                                <h3>Card type</h3>
+                                <div class="card type">
+                                    <select name="cards" id="types" required>
+                                        <option value="Master">Master Card</option>
+                                        <option value="Visa">Visa Card</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="first-row">
+                        <input type="submit" name="submit" value="Confirm" class="button btn btn-primary"/>
+                    </div>
+
+                    <input type="hidden" name="paymentID" id="paymentID" value="<%= request.getParameter("paymentID")%>" />
+                    <input type="hidden" name="delivery-time-radios" id="delivery-time-radios" value="<%= request.getParameter("delivery-time-radios")%>" />
+                    <input type="hidden" name="delivery-later-date" id="delivery-later-date" value="<%= request.getParameter("delivery-later-date")%>" />
+                    <input type="hidden" name="delivery-later-time" id="delivery-later-time" value="<%= request.getParameter("delivery-later-time")%>" />
+                    <input type="hidden" name="payment-method-radios" id="payment-method-radios" value="<%= request.getParameter("payment-method-radios")%>" />
+
+                </form>
+            </div>
         </div>
 
         <%@ include file="HTML_parts/Footer.jsp" %>

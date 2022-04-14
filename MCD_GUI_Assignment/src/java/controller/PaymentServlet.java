@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
@@ -22,6 +23,8 @@ public class PaymentServlet extends HttpServlet {
         HttpSession session = request.getSession();
         PrintWriter out = response.getWriter();
         
+        try{
+        
         //Customer in session
         Customer customer = (Customer) session.getAttribute("customer");
         
@@ -35,6 +38,11 @@ public class PaymentServlet extends HttpServlet {
         
         Card card = new Card(cardNum, cardHolderName, cardType, expiredMonth, expiredYear);
         
+        // insert card
+        CardController cardControl = new CardController();
+        boolean cardInsertSuccess = cardControl.insertRecord(card);
+        
+        out.println("Card Insert Success: " + cardInsertSuccess);
         
         // Payment
         Payment payment = new Payment();
@@ -45,8 +53,12 @@ public class PaymentServlet extends HttpServlet {
         String orderStatus = "Order Placed";
         Timestamp paymentTime = payment.getPaymentTimestamp();
         
-        payment = new Payment(paymentID, paymentMethod, totalPaymentAmount, orderStatus, paymentTime, customer , card);
+        payment = new Payment(paymentID, paymentMethod, totalPaymentAmount, orderStatus, paymentTime, customer, card);
         
+        PaymentController paymentControl = new PaymentController();
+        int affectedRows = paymentControl.insertPayment(payment);
+        
+        out.println("Payment Insert Success: " + cardInsertSuccess);
         
         // Orders
         
@@ -56,6 +68,11 @@ public class PaymentServlet extends HttpServlet {
         String deliveryTimeOption = request.getParameter("delivery-time-radios");
         String deliveryLaterDate = request.getParameter("delivery-later-date");
         String deliveryLaterTime = request.getParameter("delivery-later-time");
+        
+           
+        }catch(SQLException ex){
+            out.println(ex.getMessage());
+        }
         
     }
 

@@ -27,7 +27,7 @@ public class AddCard extends HttpServlet {
         String months = request.getParameter("months");
         int years = Integer.parseInt(request.getParameter("years"));
 
-        CardControl cardControl = new CardControl();
+        CardController cardControl = new CardController();
         Card card = new Card(cardNum, holderName,  cardType, months, years);
 
         boolean success = cardControl.insertRecord(card);

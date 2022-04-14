@@ -1,4 +1,4 @@
-<%@page import="model.da.PaymentDA"%>
+<%@page import="controller.PaymentController"%>
 <%@page import="model.domain.Customer"%>
 <%@page import="model.domain.Product"%>
 <%@page import="java.util.ArrayList"%>
@@ -90,8 +90,8 @@
             ArrayList<Product> cart = new ArrayList<Product>();
             Customer customer = new Customer();
 
-            PaymentDA paymentDA = new PaymentDA();
-            String paymentID = paymentDA.newPaymentID();
+            PaymentController paymentControl = new PaymentController();
+            String paymentID = paymentControl.generateNewPaymentID();
 
             double totalPrice = 0.0;
             double tax = 0.0;
