@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public final class OrderDA {
+public final class OrderDA{
 
     private String host = "jdbc:derby://localhost:1527/MCD";
     private String user = "nbuser";

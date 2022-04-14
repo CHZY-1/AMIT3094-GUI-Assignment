@@ -1,5 +1,8 @@
 package model.da;
-import model.domain.*;
+
+import model.domain.Role;
+import model.domain.Staff;
+import model.domain.Address;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -17,7 +20,7 @@ public class StaffDA {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             conn = DriverManager.getConnection(host, user, password);
             // stmt = conn.prepareStatement(sqlQueryStr);
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             ex.getMessage();
         }
     }
@@ -54,7 +57,23 @@ public class StaffDA {
                 staff.add(new Staff(rs.getString(1), rs.getString(2),rs.getString(3), rs.getString(4),rs.getString(5), rs.getString(6),rs.getString(7), rs.getDouble(8),new Address(rs.getString(9)),new Role(rs.getString(10))));
             }
             stmt.close();
-        }catch (Exception ex) {
+        }catch (SQLException ex) {
+            ex.getMessage();
+        }
+        return staff;
+    }
+      public ArrayList<Staff> listStaffByRole(String roleID){
+        ArrayList<Staff> staff=new ArrayList<Staff>();
+        String sqlQuery="SELECT * FROM Staff WHERE ROLE_ID=?";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sqlQuery);
+            stmt.setString(1, roleID);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                staff.add(new Staff(rs.getString(1), rs.getString(2),rs.getString(3), rs.getString(4),rs.getString(5), rs.getString(6),rs.getString(7), rs.getDouble(8),new Address(rs.getString(9)),new Role(rs.getString(10))));
+            }
+            stmt.close();
+        }catch (SQLException ex) {
             ex.getMessage();
         }
         return staff;
@@ -82,6 +101,23 @@ public class StaffDA {
         try {
             PreparedStatement stmt = conn.prepareStatement(sqlQuery);
             stmt.setString(1, staffName);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                staff.add(new Staff(rs.getString(1), rs.getString(2),rs.getString(3), rs.getString(4),rs.getString(5), rs.getString(6),rs.getString(7), rs.getDouble(8),new Address(rs.getString(9)),new Role(rs.getString(10))));
+            }
+            stmt.close();
+        }catch (SQLException ex) {
+            ex.getMessage();
+        }
+        return staff;
+    }
+    
+    public ArrayList<Staff> listStaffOrder(String order){
+        ArrayList<Staff> staff=new ArrayList<Staff>();
+        String sqlQuery="SELECT * FROM Staff ORDER BY STAFF_NAME =?";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sqlQuery);
+            stmt.setString(1, order);
             rs = stmt.executeQuery();
             while (rs.next()) {
                 staff.add(new Staff(rs.getString(1), rs.getString(2),rs.getString(3), rs.getString(4),rs.getString(5), rs.getString(6),rs.getString(7), rs.getDouble(8),new Address(rs.getString(9)),new Role(rs.getString(10))));

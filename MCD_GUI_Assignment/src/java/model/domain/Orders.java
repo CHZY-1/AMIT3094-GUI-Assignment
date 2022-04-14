@@ -3,6 +3,7 @@ package model.domain;
 import java.io.Serializable;
 import java.util.*;
 
+
 public class Orders implements Serializable {
     
     private String orderId;

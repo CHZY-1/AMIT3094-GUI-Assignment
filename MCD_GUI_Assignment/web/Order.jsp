@@ -10,8 +10,6 @@
 
         <title>Order</title>
 
-
-
         <style>
             div.form-check{
                 margin-top: 3%;
@@ -83,10 +81,9 @@
     </head>
 
 
-
-
     <body class="d-flex flex-column min-vh-100">
-        <%
+        <%            
+            
             ArrayList<Product> cart = new ArrayList<Product>();
             Customer customer = new Customer();
 
@@ -119,7 +116,6 @@
 
 
         %>
-
 
         <%@ include file="HTML_parts/Header.jsp" %>
 
@@ -199,7 +195,7 @@
 
                         <div class="container-fluid">
                             <div class="row border-bottom">
-                                <div class="col-12 pl-5 py-2"><h2>Order # <%= paymentID %></h2></div>
+                                <div class="col-12 pl-5 py-2"><h2>Order # <%= paymentID%></h2></div>
                             </div>
 
                             <div id="order-row" class="row d-flex h-100 border-bottom">
@@ -297,12 +293,12 @@
                                 <div class="col-8 d-block mb-3">
 
                                     <div class="form-check" id="payment-method">
-                                        <input class="form-check-input" type="radio" name="payment-method-radios" value="" id="payment-method" checked required>
+                                        <input class="form-check-input" type="radio" name="payment-method-radios" value="Credit" id="payment-method" checked required>
                                         <label class="form-check-label" id="payment-method" for="payment-method">Credit Card</label>
                                     </div>
 
                                     <div class="form-check" id="payment-method">
-                                        <input class="form-check-input" type="radio" name="payment-method-radios" value="" id="payment-method" required>
+                                        <input class="form-check-input" type="radio" name="payment-method-radios" value="Debit" id="payment-method" required>
                                         <label class="form-check-label" id="payment-method" for="payment-method">Debit Card</label>
                                     </div>
 

@@ -3,7 +3,7 @@ package model.da;
 import model.domain.*;
 import java.sql.*;
 
-public final class PaymentDA {
+public class PaymentDA {
 
     private String host = "jdbc:derby://localhost:1527/MCD";
     private String user = "nbuser";
@@ -149,6 +149,7 @@ public final class PaymentDA {
             while (rs.next()) {
                 PaymentID = rs.getString(1);
             }
+            
             stmt.close();
         } catch (SQLException ex) {
             ex.getMessage();

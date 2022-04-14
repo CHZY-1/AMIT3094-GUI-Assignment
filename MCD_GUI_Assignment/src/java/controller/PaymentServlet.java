@@ -54,29 +54,71 @@ public class PaymentServlet extends HttpServlet {
         String orderStatus = "Order Placed";
         Timestamp paymentTime = payment.getPaymentTimestamp();
         
-        payment = new Payment(paymentID, paymentMethod, totalPaymentAmount, orderStatus, paymentTime, customer, card);
+        
+        
         
         PaymentDA paymentDA = new PaymentDA();
+        payment = new Payment(paymentDA.newPaymentID(), paymentMethod, totalPaymentAmount, orderStatus, paymentTime, customer, card);
+        
         int affectedRows = paymentDA.insertPayment(payment);
         
         out.println("Payment Insert Success: " + cardInsertSuccess);
         
         // Orders
         
-        ArrayList<Product> cartProductList =(ArrayList<Product>) session.getAttribute("cart");
+        Orders order= new Orders();
+        OrderController orderControl = new OrderController();
         
+        ArrayList<Product> cartProductList =(ArrayList<Product>) session.getAttribute("cart");
+         ArrayList<Orders> orderList = new ArrayList<Orders>();
+        
+        String comment = "";
+        String rating = "";
+        int ordersinsertSuccess = 0;
+        
+        String orderID = orderControl.generateNewOrderID();
+        
+        // Loop every product in the cart List
+        for (Product product : cartProductList){
+            
+            orderList.add(new Orders(orderID, comment, rating, product.getOrderQuantity(), product, payment));
+            
+            orderID = orderIdIncrement(orderID);
+                    
+        }
+        
+        
+        ordersinsertSuccess = orderControl.insertMultipleOrders(orderList);
+        
+        out.println("Orders Insert Success: " + ordersinsertSuccess);
+        
+        if(ordersinsertSuccess > 0){
+            session.removeAttribute("cart");
+            session.removeAttribute("totalPrice");
+            
+            response.sendRedirect("Home.jsp");
+        }
         
         String deliveryTimeOption = request.getParameter("delivery-time-radios");
         String deliveryLaterDate = request.getParameter("delivery-later-date");
         String deliveryLaterTime = request.getParameter("delivery-later-time");
         
+        
+        
            
-        }catch(SQLException ex){
-            out.println(ex.getMessage());
-        }catch(NullPointerException ex){
+        }catch(SQLException | NullPointerException ex){
             out.println(ex.getMessage());
         }
         
+    }
+    
+    protected String orderIdIncrement(String orderID) {
+        String[] id = orderID.split("-");
+        int no = Integer.parseInt(id[1]);
+        no +=1 ;
+        String seq = String.format("%03d", no);
+        String PID = id[0] + "-" + seq;
+        return PID;
     }
 
 }
