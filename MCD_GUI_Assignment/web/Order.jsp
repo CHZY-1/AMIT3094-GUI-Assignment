@@ -1,3 +1,4 @@
+<%@page import="model.da.OrderDA"%>
 <%@page import="model.domain.Customer"%>
 <%@page import="model.domain.Product"%>
 <%@page import="java.util.ArrayList"%>
@@ -88,13 +89,17 @@
         <%
             ArrayList<Product> cart = new ArrayList<Product>();
             Customer customer = new Customer();
+
+            OrderDA orderDA = new OrderDA();
+            String orderID = orderDA.newOrderID();
+
             double totalPrice = 0.0;
             double tax = 0.0;
             boolean cartIsEmpty = true;
-            
-            if(session.getAttribute("customer") != null){
+
+            if (session.getAttribute("customer") != null) {
                 customer = (Customer) session.getAttribute("customer");
-            }else{
+            } else {
                 response.sendRedirect("Menu.jsp");
             }
 
@@ -102,7 +107,7 @@
                 cart = (ArrayList<Product>) session.getAttribute("cart");
                 totalPrice = (Double) session.getAttribute("totalPrice");
                 tax = totalPrice * 0.06;
-            }else{
+            } else {
                 response.sendRedirect("Menu.jsp");
             }
 
@@ -111,8 +116,8 @@
             } else {
                 cartIsEmpty = true;
             }
-            
-            
+
+
         %>
 
 
@@ -158,7 +163,7 @@
                                     <h5 class="my-0"> <%= cartProduct.getProductName()%> </h5>
                                     <small class="text-muted"><%= cartProduct.getProductCategory().getCategoryName()%> </small>
                                 </div>
-                                <span class="text-muted">RM <%= String.format("%.2f", cartProduct.getProductPrice()*cartProduct.getOrderQuantity() )%></span>
+                                <span class="text-muted">RM <%= String.format("%.2f", cartProduct.getProductPrice() * cartProduct.getOrderQuantity())%></span>
                             </li>
 
                             <% }%>
@@ -187,127 +192,137 @@
 
                 </div>
 
+
+
                 <div id="order-form" class="col-md-8 order-md-1 border">
+                    <form action="Card.jsp" method="post">
 
-                    <div class="container-fluid">
-                        <div class="row border-bottom">
-                            <div class="col-12 pl-5 py-2"><h2>Order #1234</h2></div>
-                        </div>
+                        <div class="container-fluid">
+                            <div class="row border-bottom">
+                                <div class="col-12 pl-5 py-2"><h2>Order # <%= orderID%></h2></div>
+                            </div>
 
-                        <div id="order-row" class="row d-flex h-100 border-bottom">
+                            <div id="order-row" class="row d-flex h-100 border-bottom">
 
-                            <div class="col-4"><div class="pt-2"><h5>Delivery Time</h5></div></div>
+                                <div class="col-4"><div class="pt-2"><h5>Delivery Time</h5></div></div>
 
-                            <div class="col-8 align-items-center">
+                                <div class="col-8 align-items-center">
 
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="delivery-time-radios" value="delivery-now" id="orderNow" checked required>
-                                    <label id="time" class="form-check-label" for="delivery-now">
-                                        Delivery Now
-                                    </label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="delivery-time-radios" value="delivery-now" id="orderNow" checked required>
+                                        <label id="time" class="form-check-label" for="delivery-now">
+                                            Delivery Now
+                                        </label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="delivery-time-radios" value="delivery-later" id="orderLater" required>
+                                        <label id="time" class="form-check-label" for="delivery-later">
+                                            Delivery Later
+                                        </label>
+                                    </div>
+
                                 </div>
 
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="delivery-time-radios" value="delivery-later" id="orderLater" required>
-                                    <label id="time" class="form-check-label" for="delivery-later">
-                                        Delivery Later
-                                    </label>
+
+                                <div class="row align-items-center mb-3 mt-2 w-100" id="deliveryLaterDiv">
+                                    <div class="col-6 pl-4">
+                                        <label id="delivery-later-date" for="delivery-later-date">Select a Date: </label>
+                                        <input  type="date" id="appt" name="delivery-later-date">
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="delivery-later-time">Time: </label>
+                                        <input  type="time" id="appt" name="delivery-later-time">
+                                    </div>
                                 </div>
 
                             </div>
 
+                            <div id="order-row" class="row h-100 border-bottom">
 
-                            <div class="row align-items-center mb-3 mt-2 w-100" id="deliveryLaterDiv">
-                                <div class="col-6 pl-4">
-                                    <label id="delivery-later-date" for="delivery-later-date">Select a Date: </label>
-                                    <input  type="date" id="appt" name="delivery-later-date">
+                                <div class="col-4">
+                                    <div class="pt-2">
+                                        <h5>Customer Details</h5>
+                                        <a href="CustomerEdit.jsp">Edit</a>
+                                    </div>
                                 </div>
-                                <div class="col-6">
-                                    <label for="delivery-later-time">Time: </label>
-                                    <input  type="time" id="appt" name="delivery-later-time">
+
+                                <div class="col-8 d-flex align-items-center mb-3">
+                                    <div class="container-fluid">
+
+                                        <div id="customer-details" class="row">
+                                            <table>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><p>ID</p></td>
+                                                        <td><p><%= customer.getCustomerID()%></p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p>Name</p></td>
+                                                        <td><p><%= customer.getCustomerName()%></p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p>Email</p></td>
+                                                        <td><p><%= customer.getEmail()%></p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p>Phone</p></td>
+                                                        <td><p><%= customer.getPhoneNum()%></p></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
 
-                        </div>
+                            <div id="order-row" class="row h-100 border-bottom">
 
-                        <div id="order-row" class="row h-100 border-bottom">
+                                <div class="col-4"><div class="pt-2"><h5>Address</h5></div></div>
 
-                            <div class="col-4">
-                                <div class="pt-2">
-                                    <h5>Customer Details</h5>
-                                    <a href="CustomerEdit.jsp">Edit</a>
-                                </div>
-                            </div>
-
-                            <div class="col-8 d-flex align-items-center mb-3">
-                                <div class="container-fluid">
-
-                                    <div id="customer-details" class="row">
-                                        <table>
-                                            <tbody>
-                                                <tr>
-                                                    <td><p>ID</p></td>
-                                                    <td><p><%= customer.getCustomerID() %></p></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><p>Name</p></td>
-                                                    <td><p><%= customer.getCustomerName() %></p></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><p>Email</p></td>
-                                                    <td><p><%= customer.getEmail() %></p></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><p>Phone</p></td>
-                                                    <td><p><%= customer.getPhoneNum() %></p></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                <div class="col-8 d-flex align-items-center mb-3">
+                                    <div>
+                                        <p><%= customer.getAddress().toString()%></p>
+                                        <span><a href="CustomerEdit.jsp">Change Address</a></span>
                                     </div>
 
                                 </div>
                             </div>
-                        </div>
 
-                        <div id="order-row" class="row h-100 border-bottom">
+                            <div id="order-row" class="row h-100 border-bottom">
 
-                            <div class="col-4"><div class="pt-2"><h5>Address</h5></div></div>
+                                <div class="col-4"><div class="pt-2"><h5>Payment Method</h5></div></div>
 
-                            <div class="col-8 d-flex align-items-center mb-3">
-                                <div>
-                                    <p><%= customer.getAddress().toString() %></p>
-                                    <span><a href="CustomerEdit.jsp">Change Address</a></span>
-                                </div>
+                                <div class="col-8 d-block mb-3">
 
-                            </div>
-                        </div>
+                                    <div class="form-check" id="payment-method">
+                                        <input class="form-check-input" type="radio" name="payment-method-radios" value="" id="payment-method" checked required>
+                                        <label class="form-check-label" id="payment-method" for="payment-method">Credit Card</label>
+                                    </div>
 
-                        <div id="order-row" class="row h-100 border-bottom">
+                                    <div class="form-check" id="payment-method">
+                                        <input class="form-check-input" type="radio" name="payment-method-radios" value="" id="payment-method" required>
+                                        <label class="form-check-label" id="payment-method" for="payment-method">Debit Card</label>
+                                    </div>
 
-                            <div class="col-4"><div class="pt-2"><h5>Payment Method</h5></div></div>
-
-                            <div class="col-8 d-block mb-3">
-
-                                <div class="form-check" id="payment-method">
-                                    <input class="form-check-input" type="radio" name="payment-method-radios" value="" id="payment-method" checked required>
-                                    <label class="form-check-label" id="payment-method" for="payment-method">Credit Card</label>
-                                </div>
-
-                                <div class="form-check" id="payment-method">
-                                    <input class="form-check-input" type="radio" name="payment-method-radios" value="" id="payment-method" required>
-                                    <label class="form-check-label" id="payment-method" for="payment-method">Debit Card</label>
                                 </div>
 
                             </div>
 
+                            <input type="hidden" name="orderID" id="orderID" value="<%= orderID%>" />
+
+                            <div class="row mt-5 mb-5">
+                                <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                            </div>
+
                         </div>
 
-                        <div class="row mt-5 mb-5">
-                            <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
-                        </div>
+                    </form>
 
-                    </div>
                 </div>
+
+
 
 
             </div>
@@ -334,7 +349,7 @@
 
                 }
             });
-            
+
         });
 
     </script>
