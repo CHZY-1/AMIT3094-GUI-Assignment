@@ -38,7 +38,7 @@ public final class PaymentDA {
         }
     }
      
-     public Payment getPaymentRecord(String paymentID) throws SQLException  {
+     public Payment retievePaymentRecord(String paymentID) throws SQLException  {
         String queryStr = "SELECT * FROM " + tableName + " WHERE PAYMENT_ID = ?";
 
         Payment payment = null;
@@ -101,7 +101,7 @@ public final class PaymentDA {
     }
 
        
-      public int insertNewOrder(Payment payment) throws SQLException {
+      public int insertPayment(Payment payment) throws SQLException {
         String sqlStr = "INSERT INTO PAYMENT VALUES(?,?,?,?,?,?,?)";
         int rows = 0;
 

@@ -46,22 +46,18 @@ public class CustomerUpdateServlet extends HttpServlet {
                 int successCustomer = customerDA.updateRecord(customerToInsert);
                 addressDA.modAddress(customerToInsert.getAddress());
 
-                if (successCustomer > 0) {
-                    HttpSession session = request.getSession();
+                HttpSession session = request.getSession();
 
-                    String msg = "Successfully updated account information";
+                String msg = "Successfully updated account information";
 
-                    Customer customer = customerDA.getRecordById(customerToInsert.getCustomerID());
+                Customer customer = customerDA.getRecordById(customerToInsert.getCustomerID());
+                Address address = addressDA.retrieveAddress(customerToInsert.getAddress().getAddressId());
+                customer.setAddress(address);
+                
+                session.removeAttribute("customer");
+                session.setAttribute("customer", customer);
 
-                    session.setAttribute("customer", customer);
-                    
-                    response.sendRedirect("CustomerProfile.jsp");
-                    
-                } else {
-                    
-                    String msg = "Update account information failed";
-                    response.sendRedirect("CustomerEdit.jsp");
-                }
+                response.sendRedirect("Order.jsp");
 
             } catch (IOException | SQLException ex) {
                 StackTraceElement[] elements = ex.getStackTrace();

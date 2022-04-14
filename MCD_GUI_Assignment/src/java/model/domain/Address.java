@@ -62,4 +62,10 @@ public class Address implements Serializable{
     public void setPostcode(String postcode) {
         this.postcode = postcode;
     }
+
+    @Override
+    public String toString() {
+        return street + " , " + postcode + " , " + state  + ", Malaysia";
+    }
+    
 }

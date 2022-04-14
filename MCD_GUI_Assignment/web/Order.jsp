@@ -1,5 +1,5 @@
+<%@page import="model.domain.Customer"%>
 <%@page import="model.domain.Product"%>
-<%@page import="java.util.ArrayList"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!doctype html>
@@ -85,17 +85,25 @@
 
 
     <body class="d-flex flex-column min-vh-100">
-
         <%
             ArrayList<Product> cart = new ArrayList<Product>();
+            Customer customer = new Customer();
             double totalPrice = 0.0;
             double tax = 0.0;
             boolean cartIsEmpty = true;
+            
+            if(session.getAttribute("customer") != null){
+                customer = (Customer) session.getAttribute("customer");
+            }else{
+                response.sendRedirect("Menu.jsp");
+            }
 
             if (session.getAttribute("cart") != null) {
                 cart = (ArrayList<Product>) session.getAttribute("cart");
                 totalPrice = (Double) session.getAttribute("totalPrice");
                 tax = totalPrice * 0.06;
+            }else{
+                response.sendRedirect("Menu.jsp");
             }
 
             if (session.getAttribute("cart") != null && !cart.isEmpty()) {
@@ -103,7 +111,8 @@
             } else {
                 cartIsEmpty = true;
             }
-
+            
+            
         %>
 
 
@@ -226,7 +235,7 @@
                             <div class="col-4">
                                 <div class="pt-2">
                                     <h5>Customer Details</h5>
-                                    <a href="#">Edit</a>
+                                    <a href="CustomerEdit.jsp">Edit</a>
                                 </div>
                             </div>
 
@@ -238,19 +247,19 @@
                                             <tbody>
                                                 <tr>
                                                     <td><p>ID</p></td>
-                                                    <td><p>Cust-1</p></td>
+                                                    <td><p><%= customer.getCustomerID() %></p></td>
                                                 </tr>
                                                 <tr>
                                                     <td><p>Name</p></td>
-                                                    <td><p>John</p></td>
+                                                    <td><p><%= customer.getCustomerName() %></p></td>
                                                 </tr>
                                                 <tr>
                                                     <td><p>Email</p></td>
-                                                    <td><p>John@gmail.com</p></td>
+                                                    <td><p><%= customer.getEmail() %></p></td>
                                                 </tr>
                                                 <tr>
                                                     <td><p>Phone</p></td>
-                                                    <td><p>0111223344</p></td>
+                                                    <td><p><%= customer.getPhoneNum() %></p></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -266,8 +275,8 @@
 
                             <div class="col-8 d-flex align-items-center mb-3">
                                 <div>
-                                    <p>Street 1, address 2, state1, country</p>
-                                    <span><a href="#">Change Address</a></span>
+                                    <p><%= customer.getAddress().toString() %></p>
+                                    <span><a href="CustomerEdit.jsp">Change Address</a></span>
                                 </div>
 
                             </div>

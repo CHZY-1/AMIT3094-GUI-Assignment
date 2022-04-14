@@ -115,7 +115,7 @@
                             <%
                             if(request.getParameter("errMsg") != ""  || request.getParameter("errMsg") != null){ 
                             %>  
-                                <p><pre class="error">${errMsg}</pre><br/>
+                            <pre class="error">${errMsg}</pre>
                             <%
                               }
                             %>
@@ -124,7 +124,7 @@
                             if(request.getParameter("successMsg") != "" || request.getParameter("successMsg") != null){
                                 
                             %>  
-                            <p><pre class="info">${successMsg}</pre><br/>
+                            <pre class="info">${successMsg}</pre>
                             <%
                               }
                             %>
