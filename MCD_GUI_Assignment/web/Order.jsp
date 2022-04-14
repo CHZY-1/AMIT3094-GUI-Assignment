@@ -89,6 +89,7 @@
 
             PaymentDA paymentDA = new PaymentDA();
             String paymentID = paymentDA.newPaymentID();
+            session.setAttribute("paymentID", paymentID);
 
             double totalPrice = 0.0;
             double tax = 0.0;
@@ -178,7 +179,7 @@
                         </ul>
 
                         <div class="container pt-2 mb-3">
-                            <button class="btn btn-primary btn-lg btn-block" type="submit">Continue Order</button>
+                            <button class="btn btn-primary btn-lg btn-block" onclick="window.location.href='Menu.jsp' " type="submit">Continue Order</button>
                         </div>
 
                     </div>
@@ -309,7 +310,7 @@
                             <input type="hidden" name="paymentID" id="paymentID" value="<%= paymentID%>" />
 
                             <div class="row mt-5 mb-5">
-                                <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                                <button class="btn btn-primary btn-lg btn-block" type="submit">Proceed to checkout</button>
                             </div>
 
                         </div>

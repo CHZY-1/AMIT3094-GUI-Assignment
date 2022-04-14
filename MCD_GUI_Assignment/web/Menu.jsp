@@ -149,7 +149,7 @@
 
         <div id="main-body-container" class="container-fluid">
 
-            <div class="row border" id="main">
+            <div class="row" id="main">
 
                 <div class="col-2 nav">
                     <div class="sidebar">

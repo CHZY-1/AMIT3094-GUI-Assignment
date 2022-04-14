@@ -52,6 +52,27 @@ public class CustomerDA {
         return detect;
     }
 
+    public boolean ForgetPasswordUsage(String customerID, String email) {
+        boolean detect = true;
+        String queryStr = "SELECT * FROM " + tableName + " WHERE CUSTOMER_ID = ? AND EMAIL = ? ";
+        Customer cust = null;
+        try {
+            stmt = conn.prepareStatement(queryStr);
+            stmt.setString(1, customerID);
+            stmt.setString(2, email);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                cust = new Customer(rs.getString("CUSTOMER_ID"), rs.getString("CUSTOMER_NAME"), rs.getString("EMAIL"), rs.getString("PHONE"), rs.getString("PASSWORD"));
+            } else {
+                detect = false;
+            }
+        } catch (SQLException ex) {
+            System.out.println("ERROR: " + ex.toString());
+        }
+        return detect;
+    }
+
     public void addCustomer(Customer cust) {
         //not recommend use JOption Pane
         String insertStr = "INSERT INTO CUSTOMER VALUES(?,?,?,?,?,?)";
@@ -82,10 +103,10 @@ public class CustomerDA {
             rs = stmt.executeQuery();
             while (rs.next()) {
                 customer.add(new Customer(rs.getString("CUSTOMER_ID"),
-                        rs.getString("CUSTOMER_NAME"), 
+                        rs.getString("CUSTOMER_NAME"),
                         rs.getString("EMAIL"),
-                        rs.getString("PHONE"), 
-                        rs.getString("PASSWORD"), 
+                        rs.getString("PHONE"),
+                        rs.getString("PASSWORD"),
                         new Address(rs.getString("ADDRESS_ID"))));
             }
             stmt.close();
@@ -104,10 +125,10 @@ public class CustomerDA {
             rs = stmt.executeQuery();
             while (rs.next()) {
                 customer.add(new Customer(rs.getString("CUSTOMER_ID"),
-                        rs.getString("CUSTOMER_NAME"), 
+                        rs.getString("CUSTOMER_NAME"),
                         rs.getString("EMAIL"),
-                        rs.getString("PHONE"), 
-                        rs.getString("PASSWORD"), 
+                        rs.getString("PHONE"),
+                        rs.getString("PASSWORD"),
                         new Address(rs.getString("ADDRESS_ID"))));
             }
             stmt.close();

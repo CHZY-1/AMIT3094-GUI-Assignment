@@ -48,6 +48,8 @@ public class PaymentServlet extends HttpServlet {
         // Payment
         Payment payment = new Payment();
         
+        String sessionPaymentID = (String) session.getAttribute("paymentID");
+        
         String paymentID = request.getParameter("paymentID");
         String paymentMethod = request.getParameter("payment-method-radios");
         double totalPaymentAmount = (Double) session.getAttribute("totalPrice");
@@ -58,7 +60,7 @@ public class PaymentServlet extends HttpServlet {
         
         
         PaymentDA paymentDA = new PaymentDA();
-        payment = new Payment(paymentDA.newPaymentID(), paymentMethod, totalPaymentAmount, orderStatus, paymentTime, customer, card);
+        payment = new Payment(sessionPaymentID, paymentMethod, totalPaymentAmount, orderStatus, paymentTime, customer, card);
         
         int affectedRows = paymentDA.insertPayment(payment);
         
@@ -92,19 +94,21 @@ public class PaymentServlet extends HttpServlet {
         
         out.println("Orders Insert Success: " + ordersinsertSuccess);
         
+        session.setAttribute("payment", payment);
+        
         if(ordersinsertSuccess > 0){
             session.removeAttribute("cart");
             session.removeAttribute("totalPrice");
             
-            response.sendRedirect("Home.jsp");
+            
+            response.sendRedirect("Receipt.jsp");
+            
+//            request.getRequestDispatcher("Receipt.jsp").forward(request, response);
         }
         
         String deliveryTimeOption = request.getParameter("delivery-time-radios");
         String deliveryLaterDate = request.getParameter("delivery-later-date");
         String deliveryLaterTime = request.getParameter("delivery-later-time");
-        
-        
-        
            
         }catch(SQLException | NullPointerException ex){
             out.println(ex.getMessage());
@@ -115,7 +119,7 @@ public class PaymentServlet extends HttpServlet {
     protected String orderIdIncrement(String orderID) {
         String[] id = orderID.split("-");
         int no = Integer.parseInt(id[1]);
-        no +=1 ;
+        no ++;
         String seq = String.format("%03d", no);
         String PID = id[0] + "-" + seq;
         return PID;

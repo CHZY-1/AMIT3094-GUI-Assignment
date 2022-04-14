@@ -2,6 +2,8 @@ package model.da;
 
 import model.domain.*;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PaymentDA {
 
@@ -140,27 +142,32 @@ public class PaymentDA {
     }
 
     public String newPaymentID() {
-        String PaymentID = null;
+        String PaymentID = "";
         String sqlQuery = "SELECT PAYMENT_ID FROM PAYMENT";
 
         try {
             PreparedStatement stmt = conn.prepareStatement(sqlQuery);
             ResultSet rs = stmt.executeQuery();
+            
             while (rs.next()) {
-                PaymentID = rs.getString(1);
+                PaymentID = rs.getString("PAYMENT_ID");
             }
             
+            
+            
+            rs.close();
             stmt.close();
+            
         } catch (SQLException ex) {
             ex.getMessage();
         }
-
+        
         PaymentID = newID(PaymentID);
         return PaymentID;
     }
 
-    public String newID(String ProductID) {
-        String[] id = ProductID.split("-");
+    public String newID(String paymentID) {
+        String[] id = paymentID.split("-");
         int no = Integer.parseInt(id[1]);
         no++;
 
@@ -185,6 +192,17 @@ public class PaymentDA {
             } catch (SQLException ex) {
                 throw ex;
             }
+        }
+    }
+    
+    public static void main (String args[]){
+        try {
+            PaymentDA paymentDA = new PaymentDA();
+//            System.out.println(paymentDA.newPaymentID());
+//            System.out.println(paymentDA.newID("PAY-3"));
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(PaymentDA.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
