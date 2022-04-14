@@ -1,4 +1,4 @@
-<%@page import="model.da.OrderDA"%>
+<%@page import="model.da.PaymentDA"%>
 <%@page import="model.domain.Customer"%>
 <%@page import="model.domain.Product"%>
 <%@page import="java.util.ArrayList"%>
@@ -90,8 +90,8 @@
             ArrayList<Product> cart = new ArrayList<Product>();
             Customer customer = new Customer();
 
-            OrderDA orderDA = new OrderDA();
-            String orderID = orderDA.newOrderID();
+            PaymentDA paymentDA = new PaymentDA();
+            String paymentID = paymentDA.newPaymentID();
 
             double totalPrice = 0.0;
             double tax = 0.0;
@@ -199,7 +199,7 @@
 
                         <div class="container-fluid">
                             <div class="row border-bottom">
-                                <div class="col-12 pl-5 py-2"><h2>Order # <%= orderID%></h2></div>
+                                <div class="col-12 pl-5 py-2"><h2>Order # <%= paymentID %></h2></div>
                             </div>
 
                             <div id="order-row" class="row d-flex h-100 border-bottom">
@@ -310,7 +310,7 @@
 
                             </div>
 
-                            <input type="hidden" name="orderID" id="orderID" value="<%= orderID%>" />
+                            <input type="hidden" name="paymentID" id="paymentID" value="<%= paymentID%>" />
 
                             <div class="row mt-5 mb-5">
                                 <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>

@@ -157,6 +157,7 @@
                     <input type="submit" name="submit" value="Confirm" class="button btn btn-primary"/>
                 </div>
                 
+                <input type="hidden" name="paymentID" id="paymentID" value="<%= request.getParameter("paymentID") %>" />
                 <input type="hidden" name="delivery-time-radios" id="delivery-time-radios" value="<%= request.getParameter("delivery-time-radios") %>" />
                 <input type="hidden" name="delivery-later-date" id="delivery-later-date" value="<%= request.getParameter("delivery-later-date") %>" />
                 <input type="hidden" name="delivery-later-time" id="delivery-later-time" value="<%= request.getParameter("delivery-later-time") %>" />

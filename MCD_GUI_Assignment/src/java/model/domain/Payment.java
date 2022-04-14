@@ -64,6 +64,8 @@ public final class Payment implements Serializable {
         this.customer = customer;
         this.card = card;
     }
+    
+    
 
     public String getPaymentID() {
         return paymentID;

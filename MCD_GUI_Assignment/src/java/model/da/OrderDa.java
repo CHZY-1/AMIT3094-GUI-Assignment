@@ -79,7 +79,7 @@ public final class OrderDA {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                orders = new Orders( rs.getString("ORDER_ID"),
+                orders = new Orders(rs.getString("ORDER_ID"),
                         rs.getString("COMMENT"),
                         rs.getString("RATING"),
                         rs.getInt("ORDER_QUANTITY"),
@@ -88,10 +88,10 @@ public final class OrderDA {
 
                 orderList.add(orders);
             }
-            
+
             rs.close();
             stmt.close();
-            
+
         } catch (SQLException ex) {
             throw ex;
         }
@@ -106,7 +106,11 @@ public final class OrderDA {
             stmt = conn.prepareStatement(sqlStr);
 
             stmt.setString(1, orders.getOrderId());
-            stmt.setInt(2, orders.getOrderQuantity());
+            stmt.setInt(2, orders.getProduct().getOrderQuantity());
+            stmt.setString(3, orders.getComment());
+            stmt.setString(4, orders.getRating());
+            stmt.setString(5, orders.getPayment().getPaymentID());
+            stmt.setString(6, orders.getProduct().getProductID());
 
             rows = stmt.executeUpdate();
 
@@ -117,6 +121,17 @@ public final class OrderDA {
         }
 
         return rows;
+    }
+
+    public int insertMultipleOrders(ArrayList<Orders> orderList) throws SQLException {
+
+        int affectedRows = 0;
+
+        for (Orders order : orderList) {
+            affectedRows = insertNewOrder(order);
+        }
+
+        return affectedRows;
     }
 
     public int updateOrder(Orders orders) throws SQLException {
@@ -170,33 +185,33 @@ public final class OrderDA {
 
         return rows;
     }
-    
-    public String newOrderID(){
-        String ProductID=null;
-        String sqlQuery="SELECT ORDER_ID FROM ORDERS";
-        
+
+    public String newOrderID() {
+        String ProductID = null;
+        String sqlQuery = "SELECT ORDER_ID FROM ORDERS";
+
         try {
             PreparedStatement stmt = conn.prepareStatement(sqlQuery);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                ProductID=rs.getString(1);
+                ProductID = rs.getString(1);
             }
             stmt.close();
-        }catch (SQLException ex) {
+        } catch (SQLException ex) {
             ex.getMessage();
         }
-        
-        ProductID=newID(ProductID);
+
+        ProductID = newID(ProductID);
         return ProductID;
     }
-    
-    public String newID(String ProductID){
-       String[] id = ProductID.split("-");
-       int no=Integer.parseInt(id[1]);
+
+    public String newID(String ProductID) {
+        String[] id = ProductID.split("-");
+        int no = Integer.parseInt(id[1]);
         no++;
-        
+
         String seq = String.format("%03d", no);
-        String PID=id[0]+"-"+seq;
+        String PID = id[0] + "-" + seq;
         return PID;
     }
 
