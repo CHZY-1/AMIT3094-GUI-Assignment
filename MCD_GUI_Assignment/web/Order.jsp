@@ -158,7 +158,7 @@
                                     <h5 class="my-0"> <%= cartProduct.getProductName()%> </h5>
                                     <small class="text-muted"><%= cartProduct.getProductCategory().getCategoryName()%> </small>
                                 </div>
-                                <span class="text-muted">RM <%= String.format("%.2f", cartProduct.getProductPrice())%></span>
+                                <span class="text-muted">RM <%= String.format("%.2f", cartProduct.getProductPrice()*cartProduct.getOrderQuantity() )%></span>
                             </li>
 
                             <% }%>
@@ -201,7 +201,7 @@
                             <div class="col-8 align-items-center">
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="delivery-time-radios" value="delivery-now" id="orderNow" required>
+                                    <input class="form-check-input" type="radio" name="delivery-time-radios" value="delivery-now" id="orderNow" checked required>
                                     <label id="time" class="form-check-label" for="delivery-now">
                                         Delivery Now
                                     </label>
@@ -289,7 +289,7 @@
                             <div class="col-8 d-block mb-3">
 
                                 <div class="form-check" id="payment-method">
-                                    <input class="form-check-input" type="radio" name="payment-method-radios" value="" id="payment-method" required>
+                                    <input class="form-check-input" type="radio" name="payment-method-radios" value="" id="payment-method" checked required>
                                     <label class="form-check-label" id="payment-method" for="payment-method">Credit Card</label>
                                 </div>
 
@@ -316,7 +316,7 @@
         <%@ include file="HTML_parts/Footer.jsp" %>
     </body>
 
-    <script">
+    <script>
 
         $(document).ready(function () {
 

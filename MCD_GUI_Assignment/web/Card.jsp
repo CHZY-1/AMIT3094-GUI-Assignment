@@ -1,8 +1,3 @@
-<%-- 
-    Document   : Card]
-    Created on : 6 Apr 2022, 8:06:02 pm
-    Author     : James
---%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="model.domain.Customer"%>
 <%@ page import="java.util.*;"%>
