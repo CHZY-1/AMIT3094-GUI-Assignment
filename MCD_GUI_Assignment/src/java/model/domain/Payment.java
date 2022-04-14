@@ -5,8 +5,8 @@ import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-public class Payment implements Serializable{
-    
+public final class Payment implements Serializable {
+
     private String paymentID;
     private String paymentMethod;
     private double totalPaymentAmount;
@@ -16,6 +16,13 @@ public class Payment implements Serializable{
     private Card card;
 
     public Payment() {
+        setDateTimeNow();
+    }
+
+    public Payment(String paymentID) {
+        this.paymentID = paymentID;
+
+        setDateTimeNow();
     }
 
     public Payment(String paymentMethod, double totalPaymentAmount, Customer customer, Card card) {
@@ -23,6 +30,8 @@ public class Payment implements Serializable{
         this.totalPaymentAmount = totalPaymentAmount;
         this.customer = customer;
         this.card = card;
+
+        setDateTimeNow();
     }
 
     public Payment(String paymentID, String paymentMethod, double totalPaymentAmount, Customer customer, Card card) {
@@ -31,11 +40,9 @@ public class Payment implements Serializable{
         this.totalPaymentAmount = totalPaymentAmount;
         this.customer = customer;
         this.card = card;
-        
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        Date date = new Date();
-        this.dateTime = date;
-        
+
+        setDateTimeNow();
+
     }
 
     public Payment(String paymentID, String paymentMethod, double totalPaymentAmount, String orderStatus, Date dateTime, Customer customer, Card card) {
@@ -46,8 +53,9 @@ public class Payment implements Serializable{
         this.dateTime = dateTime;
         this.customer = customer;
         this.card = card;
-    }
 
+        setDateTimeNow();
+    }
 
     public String getPaymentID() {
         return paymentID;
@@ -72,11 +80,15 @@ public class Payment implements Serializable{
     public Card getCard() {
         return card;
     }
-    
-    private String getDateTime() {
+
+    private String getDateTimeString() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         return dateFormat.format(date);
+    }
+
+    public Date getDateTime() {
+        return dateTime;
     }
 
     public void setPaymentID(String paymentID) {
@@ -107,6 +119,12 @@ public class Payment implements Serializable{
         this.dateTime = dateTime;
     }
 
+    public void setDateTimeNow() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        this.dateTime = date;
+    }
+
     @Override
     public String toString() {
         return "Payment{" + "PaymentID=" + paymentID + ", "
@@ -116,6 +134,5 @@ public class Payment implements Serializable{
                 + "customer=" + customer.getCustomerName() + ", "
                 + "card=" + card.getCardNo() + '}';
     }
-    
-    
+
 }

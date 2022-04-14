@@ -6,10 +6,10 @@ import java.util.*;
 public class Orders implements Serializable {
     
     private String orderId;
-    private Product product;
     private String comment;
     private String rating;
     private int orderQuantity;
+    private Product product;
     private Payment payment;
 
     public Orders() {
@@ -26,12 +26,12 @@ public class Orders implements Serializable {
         this.payment = payment;
     }
 
-    public Orders(String orderId, Product product, String comment, String rating, int orderQuantity, Payment payment) {
+    public Orders(String orderId, String comment, String rating, int orderQuantity, Product product,  Payment payment) {
         this.orderId = orderId;
-        this.product = product;
         this.comment = comment;
         this.rating = rating;
         this.orderQuantity = orderQuantity;
+        this.product = product;
         this.payment = payment;
     }
 

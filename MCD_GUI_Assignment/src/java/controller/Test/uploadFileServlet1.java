@@ -1,5 +1,6 @@
-package controller;
+package controller.Test;
 
+import controller.ProductController;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;

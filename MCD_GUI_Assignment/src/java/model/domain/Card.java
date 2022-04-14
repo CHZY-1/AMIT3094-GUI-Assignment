@@ -20,6 +20,7 @@ public class Card implements Serializable{
         this.expiredMonth = expiredMonth;
         this.expiredYear = expiredYear;
     }
+    
 
     public String getCardNo() {
         return cardNo;
