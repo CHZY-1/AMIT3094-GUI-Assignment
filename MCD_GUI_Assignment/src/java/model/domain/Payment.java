@@ -1,6 +1,7 @@
 package model.domain;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -45,16 +46,23 @@ public final class Payment implements Serializable {
 
     }
 
-    public Payment(String paymentID, String paymentMethod, double totalPaymentAmount, String orderStatus, Date dateTime, Customer customer, Card card) {
+    public Payment(String paymentID, String paymentMethod, double totalPaymentAmount, Date paymentTime, Customer customer, Card card) {
+        this.paymentID = paymentID;
+        this.paymentMethod = paymentMethod;
+        this.totalPaymentAmount = totalPaymentAmount;
+        this.dateTime = paymentTime;
+        this.customer = customer;
+        this.card = card;
+    }
+
+    public Payment(String paymentID, String paymentMethod, double totalPaymentAmount, String orderStatus, Date paymentTime, Customer customer, Card card) {
         this.paymentID = paymentID;
         this.paymentMethod = paymentMethod;
         this.totalPaymentAmount = totalPaymentAmount;
         this.orderStatus = orderStatus;
-        this.dateTime = dateTime;
+        this.dateTime = paymentTime;
         this.customer = customer;
         this.card = card;
-
-        setDateTimeNow();
     }
 
     public String getPaymentID() {
@@ -79,12 +87,6 @@ public final class Payment implements Serializable {
 
     public Card getCard() {
         return card;
-    }
-
-    private String getDateTimeString() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        Date date = new Date();
-        return dateFormat.format(date);
     }
 
     public Date getDateTime() {
@@ -123,6 +125,23 @@ public final class Payment implements Serializable {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         this.dateTime = date;
+    }
+
+    public Timestamp getPaymentTimestamp() {
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        Date date = new Date();
+        Timestamp paymentTime = new Timestamp(date.getTime());
+
+        this.dateTime = new Date(System.currentTimeMillis());
+
+        return paymentTime;
+    }
+
+    public static Date convertTimestampToDate(Timestamp timestamp) {
+
+        Date date = new Date(timestamp.getTime());
+        return date;
     }
 
     @Override

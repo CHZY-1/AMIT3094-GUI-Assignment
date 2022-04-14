@@ -134,6 +134,59 @@ public final class ProductDA {
         return productList;
     }
 
+    public ArrayList<Product> getAllProductByCategory(String category) throws SQLException, NullPointerException{
+        String queryStr = "SELECT * FROM " + tableName + 
+                " INNER JOIN PRODUCT_CATEGORY "
+                + "ON PRODUCT.CATEGORY_ID = PRODUCT_CATEGORY.CATEGORY_ID "
+                + "WHERE PRODUCT.CATEGORY_ID=? ORDER BY CATEGORY_NAME";
+        Product product = new Product();
+        ArrayList<Product> productList = new ArrayList<Product>();
+
+        try {
+            //bind query and parameter
+            stmt = conn.prepareStatement(queryStr);
+            stmt.setString(1, category);
+            //execute query
+            ResultSet rs = stmt.executeQuery();
+            byte[] imageBytes = new byte[0];
+
+            while (rs.next()) {
+//                System.out.println("Record Found");
+//                System.out.println(rs.getString("PRODUCT_ID"));
+                
+                //Note: Product Image cannot be Null else will throw null pointer exception
+                Blob blob = rs.getBlob("PRODUCT_IMAGE");
+
+                if(blob != null){
+                        //retrieve image blob length
+                        int blobLength = (int) blob.length();
+
+                        //convert blob to bytes array
+                        imageBytes = blob.getBytes(1, blobLength);
+                        blob.free();
+                    }
+                
+                product = new Product(rs.getString("PRODUCT_ID"),
+                        rs.getString("PRODUCT_NAME"),
+                        imageBytes,
+                        rs.getDouble("PRODUCT_PRICE"),
+                        rs.getBoolean("HIDDEN"),
+                        new ProductCategory(rs.getString("CATEGORY_ID"),rs.getString("CATEGORY_NAME")));
+
+                productList.add(product);
+
+            }
+
+            rs.close();
+            stmt.close();
+
+        } catch (SQLException ex) {
+            throw ex;
+        }
+
+        return productList;
+    }
+    
     public int insertNewProduct(Product product) throws SQLException, IOException {
         String sqlStr = "INSERT INTO PRODUCT(PRODUCT_ID, PRODUCT_NAME, PRODUCT_IMAGE, PRODUCT_PRICE, HIDDEN, CATEGORY_ID) VALUES(?,?,?,?,?,?)";
         int affectedRows = 0;
@@ -164,9 +217,32 @@ public final class ProductDA {
 
         return affectedRows;
     }
-
-    public void updateProductImageBlob(String productID) {
-
+    
+    public String newProductID(){
+        String ProductID=null;
+        String sqlQuery="SELECT PRODUCT_ID FROM PRODUCT";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sqlQuery);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                ProductID=rs.getString(1);
+            }
+            stmt.close();
+        }catch (SQLException ex) {
+            ex.getMessage();
+        }
+        
+        ProductID=newID(ProductID);
+        return ProductID;
+    }
+    public String newID(String ProductID){
+       String[] id = ProductID.split("-");
+       int no=Integer.parseInt(id[1]);
+        no++;
+        //(int)id[1]=Integer.parseInt(id[1])+1;
+        String seq = String.format("%03d", no);
+        String PID=id[0]+"-"+seq;
+        return PID;
     }
 
     public int updateProduct(Product product) throws SQLException, IOException {
@@ -206,9 +282,56 @@ public final class ProductDA {
 
         return affectedRows;
     }
+    
+    public int updateProductWithoutImage(Product product) throws SQLException, IOException {
+
+        String sqlStr = "UPDATE PRODUCT SET PRODUCT_NAME=?, "
+                + "PRODUCT_PRICE=?, "
+                + "CATEGORY_ID=? "
+                + "WHERE PRODUCT_ID=?";
+
+        int affectedRows = 0;
+
+        try {
+            stmt = conn.prepareStatement(sqlStr);
+
+            stmt.setString(1, product.getProductName());
+            stmt.setDouble(2, product.getProductPrice());
+            stmt.setString(3, product.getProductCategory().getCategoryID());
+            stmt.setString(4, product.getProductID());
+
+            affectedRows = stmt.executeUpdate();
+
+            stmt.close();
+
+        } catch (SQLException ex) {
+            throw ex;
+        }
+
+        return affectedRows;
+    }
 
     public int deleteProduct(String productID) throws SQLException {
         String sqlStr = "DELETE FROM PRODUCT WHERE PRODUCT_ID = ?";
+        int affectedRows = 0;
+
+        try {
+            stmt = conn.prepareStatement(sqlStr);
+
+            stmt.setString(1, productID);
+
+            affectedRows = stmt.executeUpdate();
+
+            stmt.close();
+
+        } catch (SQLException ex) {
+            throw ex;
+        }
+
+        return affectedRows;
+    }
+    public int hideProduct(String productID) throws SQLException {
+        String sqlStr = "UPDATE PRODUCT SET HIDDEN=TRUE WHERE PRODUCT_ID = ?";
         int affectedRows = 0;
 
         try {

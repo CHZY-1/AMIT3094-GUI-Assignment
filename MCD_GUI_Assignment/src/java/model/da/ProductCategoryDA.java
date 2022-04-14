@@ -100,11 +100,37 @@ public final class ProductCategoryDA{
         
         return affectedRows;
     }
-    
+       public String newPCaID(){
+        String PCA=null;
+        String sqlQuery="SELECT CATEGORY_ID FROM PRODUCT_CATEGORY";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sqlQuery);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                PCA=rs.getString(1);
+            }
+            stmt.close();
+        }catch (SQLException ex) {
+            ex.getMessage();
+        }
+        
+        PCA=newID(PCA);
+        return PCA;
+    }
+       
+    public String newID(String StaffID){
+        char first=StaffID.charAt(0);
+        String second=StaffID.substring(1);
+        int se=Integer.parseInt(second);
+        se++;
+        second=String.valueOf(se);
+        String SID=first+second;
+        return SID;
+    }
     
     public int updateProductCategory(ProductCategory productCategory) throws SQLException{
         
-        String sqlStr = "UPDATE STUDENT SET CATEGORY_ID=?, CATEGORY_NAME=? WHERE CATEGORY_ID=?";
+        String sqlStr = "UPDATE PRODUCT_CATEGORY SET CATEGORY_ID=?, CATEGORY_NAME=? WHERE CATEGORY_ID=?";
         int affectedRows= 0;
         
         try{

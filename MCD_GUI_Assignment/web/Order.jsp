@@ -273,37 +273,6 @@
                             </div>
                         </div>
 
-                        <!--                        <div class="container-fluid mb-5 mt-5">
-                                                    
-                                                    <div class="row mt-3">
-                                                    <div class="col-9 mb-3">
-                                                        <label for="address">Street</label>
-                                                        <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
-                                                    </div>
-                                                 </div>
-                        
-                                                    <div class="row">
-                                                        <div class="col-md-3 mb-3">
-                                                            <label for="state">State</label>
-                                                            <select class="custom-select" id="state" required>
-                                                                <option value="">Choose...</option>
-                                                                <option>California</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-md-3 mb-3 ml-3">
-                                                            <label for="zip">Postcode</label>
-                                                            <input type="text" class="form-control" id="postcode" placeholder="" required>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <div class="row mt-3 border-bottom">
-                                                        <div class="col-12">
-                                                            <button class="btn btn-primary btn-lg btn-block" type="submit">Save Address</button>
-                                                        </div>
-                                                    </div>
-                                                </div>-->
-
-
                         <div id="order-row" class="row h-100 border-bottom">
 
                             <div class="col-4"><div class="pt-2"><h5>Payment Method</h5></div></div>

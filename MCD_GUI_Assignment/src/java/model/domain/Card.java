@@ -13,6 +13,10 @@ public class Card implements Serializable{
     public Card(){
     }
 
+    public Card(String cardNo) {
+        this.cardNo = cardNo;
+    }
+
     public Card(String cardNo, String cardHolderName, String cardType, String expiredMonth, int expiredYear) {
         this.cardNo = cardNo;
         this.cardHolderName = cardHolderName;

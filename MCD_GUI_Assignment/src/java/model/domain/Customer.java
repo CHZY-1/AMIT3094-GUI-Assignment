@@ -1,6 +1,8 @@
 package model.domain;
 
 import java.io.Serializable;
+import model.domain.Address;
+import java.util.regex.Pattern;
 
 public class Customer implements Serializable{
     private String customerID;
@@ -10,14 +12,20 @@ public class Customer implements Serializable{
     private String password;
     private Address address;
 
-    public Customer() {
+    public Customer(){
     }
     
     public Customer(String customerName) {
         this.customerName = customerName;
     }
 
-    public Customer(String customerName, String password) {
+    public Customer(String customerID, String password) {
+        this.customerID = customerID;
+        this.password = password;
+    }
+
+    public Customer(String customerID, String customerName, String password) {
+        this.customerID = customerID;
         this.customerName = customerName;
         this.password = password;
     }
@@ -30,58 +38,132 @@ public class Customer implements Serializable{
         this.password = password;
         this.address = address;
     }
-    
-    // Getters
+
+    public Customer(String customerID, String customerName, String email, String phoneNum, String password) {
+        this.customerID = customerID;
+        this.customerName = customerName;
+        this.email = email;
+        this.phoneNum = phoneNum;
+        this.password = password;
+    }
+
     public String getCustomerID() {
         return customerID;
     }
-
+    
+    public void setCustomerId(String customerID) {
+        this.customerID = customerID;
+    }
+    
     public String getCustomerName() {
         return customerName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPhoneNum() {
-        return phoneNum;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-    
-    
-    // Setters
-    public void setCustomerID(String customerID) {
-        this.customerID = customerID;
     }
 
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhoneNum() {
+        return phoneNum;
     }
 
     public void setPhoneNum(String phoneNum) {
         this.phoneNum = phoneNum;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Address getAddress() {
+        return address;
     }
 
     public void setAddress(Address address) {
         this.address = address;
     }
-
+   
     
+    public String validateUsername(String customerName){
+        String errMsg1 = "";
+        
+        if(customerName == null){
+            errMsg1 += "Customer Name cannot be empty\n\n";
+        
+        }else if(customerName.length() > 30){
+            errMsg1 += "Customer Name cannot have more then 30 characters\n\n";
+         
+        }else if(!Pattern.matches("^[a-zA-Z]+$", customerName)){
+            errMsg1 += "Customer Name should only have alphabets and don't have space\n\n";
+            
+        }
+        
+        return errMsg1;
+        
+    }
+    
+    public String validatePhoneNum(String phoneNum){
+        String errMsg2 = "";
+        
+        if(phoneNum == null){
+            errMsg2 += "Phone Number field cannot be empty\n\n";
+            
+        }else if(phoneNum.length() > 12){
+            errMsg2 += "Phone Number length cannot be more than 12 numbers\n\n"; 
+            
+        }else if(!Pattern.matches("^01[0-9]-[0-9]+$", phoneNum)){
+            errMsg2 += "Your Mobile phone number format is invalid. \nThe format should be 01x-xxxxxxxx" +
+                " and should start with 01\n\n";
+        }
+
+        return errMsg2;
+        
+    }
+    
+    public String validatePassword(String password){
+        
+        String errMsg3 = "";
+        
+        if(password == null ){
+            errMsg3 += "Password field cannot be empty" + "\n\n";
+            
+        }else if(password.length() > 7){
+            errMsg3 += "Password cannot have more than 7 alpha-numeric" + "\n\n";
+            
+        }else if(!Pattern.matches("^[a-zA-Z_0-9]+$", password)){
+            errMsg3 += "Your should have at least 1 digit and 1 letter" + "\n\n"; 
+        }
+        
+        return errMsg3;
+        
+    }
+    
+    public String validateCustomerID(String customerID){
+        
+        String errMsg4 = "";
+        
+        if(customerID == null){
+            errMsg4 = "Customer ID cannot be empty" + "\n\n";
+        }else if(customerID.length() > 6){
+            errMsg4 += "Password cannot have more than 7 alpha-numeric" + "\n\n";
+        }else if(!Pattern.matches("^CU-[0-9][0-9][0-9]+$", customerID)){
+            errMsg4 += "Your Customer ID should be CU-xxx" + "\n\n"; 
+        }
+        
+        return errMsg4;
+    }
+
     
 }
