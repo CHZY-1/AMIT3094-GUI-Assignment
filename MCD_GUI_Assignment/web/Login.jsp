@@ -2,15 +2,14 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <%@ include file="HTML_parts/Meta.jsp" %>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" 
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
         <title>Login</title>
         <style>
             /*Reset margin and padding for all */
             *{
-                    margin: 0;
-                    padding: 0;
+                margin: 0;
+                padding: 0;
             }
 
             /*beginning of login and registration*/
@@ -93,7 +92,7 @@
                 box-shadow: 0 5px 20px rgba(14,15,18,.3);
                 color:#003399;
             }
-            
+
             .textarea {
                 border: none;
                 background-color: transparent;
@@ -102,8 +101,11 @@
             }
         </style>
     </head>
-    
-    <body>
+
+    <body class="d-flex flex-column min-vh-100">
+
+        <%@ include file="HTML_parts/Header.jsp" %>
+
         <section id="home" class="about-us">
             <div class="login">
                 <div class="col-sm-12">
@@ -112,22 +114,21 @@
                         <h6>Welcome Back !</h6>
                         <br/><br/>
                         <!-- JAVA CODE HERE -->
-                            <%
-                            if(request.getParameter("errMsg") != ""  || request.getParameter("errMsg") != null){ 
-                            %>  
-                            <pre class="error">${errMsg}</pre>
-                            <%
-                              }
-                            %>
-                            
-                            <%
-                            if(request.getParameter("successMsg") != "" || request.getParameter("successMsg") != null){
-                                
-                            %>  
-                            <pre class="info">${successMsg}</pre>
-                            <%
-                              }
-                            %>
+                        <%
+                            if (request.getParameter("errMsg") != "" || request.getParameter("errMsg") != null) {
+                        %>  
+                        <pre class="error">${errMsg}</pre>
+                        <%
+                            }
+                        %>
+
+                        <%
+                            if (request.getParameter("successMsg") != "" || request.getParameter("successMsg") != null) {
+
+                        %>  
+                        <pre class="info">${successMsg}</pre>
+                        <%                                }
+                        %>
                         <form action="LoginServlet" method="POST">
                             <div>
                                 <div class="email">
@@ -139,7 +140,7 @@
                                            placeholder="Eg: CU-001" size="16" value="">
                                 </div>
                             </div>
-                            
+
                             <div>
                                 <div class="password">
                                     <label for="password">Password<span style="color:red">*</span>:</label>
@@ -149,21 +150,21 @@
                                     <input type="password" name="password" class="form-control" placeholder="Eg : abc1234" size="16" required> 
                                 </div><br/>
                             </div>
-                            
+
                             <div class="col-sm-12">
                                 <button class="btn" type="submit" name="submit" id="submit" value="Submit">Login</button>
                             </div><br/>
-                            
+
                             <div class="col-sm-12">
                                 <button class="btn" name="refresh" type="button" id="refresh" onclick="location = 'Login.jsp'">Reset</button>
                             </div>
                         </form>
                         <br/>
-                        
+
                         <div>
                             <p>Have yet to sign up ? <a href="Register.jsp"> Create Account</a></p>
                         </div>
-                        
+
                         <div>
                             <p>Forget Your Password ? <a href="ForgetPassword.jsp" >Forget Password</a></p>
                         </div>
@@ -171,5 +172,7 @@
                 </div>
             </div>
         </section>
+
+        <%@ include file="HTML_parts/Footer.jsp" %>
     </body>
 </html>

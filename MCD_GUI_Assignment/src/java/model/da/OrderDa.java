@@ -170,6 +170,35 @@ public final class OrderDA {
 
         return rows;
     }
+    
+    public String newOrderID(){
+        String ProductID=null;
+        String sqlQuery="SELECT ORDER_ID FROM ORDERS";
+        
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sqlQuery);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                ProductID=rs.getString(1);
+            }
+            stmt.close();
+        }catch (SQLException ex) {
+            ex.getMessage();
+        }
+        
+        ProductID=newID(ProductID);
+        return ProductID;
+    }
+    
+    public String newID(String ProductID){
+       String[] id = ProductID.split("-");
+       int no=Integer.parseInt(id[1]);
+        no++;
+        
+        String seq = String.format("%03d", no);
+        String PID=id[0]+"-"+seq;
+        return PID;
+    }
 
     //create connection object
     private void createConnection() throws SQLException {

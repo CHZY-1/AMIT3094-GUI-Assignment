@@ -72,16 +72,16 @@
                     </ol>
                     <div class="carousel-inner">
                       <div class="carousel-item home-carousel-Img active" data-interval="3000">
-                        <img class="rounded img-fluid mx-auto d-block" src="Pictures/MCD-Home1.jpg" alt="First slide">
+                        <img class="rounded img-fluid mx-auto d-block" src="image/MCD-Home1.jpg" alt="First slide">
                       </div>
                       <div class="carousel-item home-carousel-Img" data-interval="3000">
-                        <img class="rounded img-fluid mx-auto d-block" src="Pictures/MCD-Home2.png" alt="Second slide">
+                        <img class="rounded img-fluid mx-auto d-block" src="image/MCD-Home2.png" alt="Second slide">
                       </div>
                       <div class="carousel-item home-carousel-Img" data-interval="3000">
-                        <img class="rounded img-fluid mx-auto d-block" src="Pictures/MCD-Home3.png" alt="Third slide">
+                        <img class="rounded img-fluid mx-auto d-block" src="image/MCD-Home3.png" alt="Third slide">
                       </div>
                       <div class="carousel-item home-carousel-Img" data-interval="3000">
-                        <img class="rounded img-fluid mx-auto d-block" src="Pictures/MCD-Home5.png" alt="Fourth slide">
+                        <img class="rounded img-fluid mx-auto d-block" src="image/MCD-Home5.png" alt="Fourth slide">
                       </div>
                         
                     </div>
@@ -124,7 +124,7 @@
                 <div class="row"><div class="col bg-warning rounded d-flex align-items-center justify-content-center"><h1>About Us</h1><br/></div></div>
                 
                 <div class="row" style="margin-bottom: 30px; margin-top: 30px;">
-                    <img class="img-fluid mx-auto d-block" src="Pictures/MCD-About-us.jpg" alt=""/>
+                    <img class="img-fluid mx-auto d-block" src="image/MCD-About-us.jpg" alt=""/>
                 </div>
                 
                 <div class="row-text-center">
@@ -140,7 +140,7 @@
             <div class="container custom-container">
                 <div class="row" style="margin-bottom: 40px;">
                     <a href="productMenuServlet">
-                    <img class="img-fluid mx-auto d-block" src="Pictures/MCD-Home4.png" alt=""/>
+                    <img class="img-fluid mx-auto d-block" src="image/MCD-Home4.png" alt=""/>
                     </a>
                 </div>
             </div>

@@ -217,7 +217,7 @@
                             </div>
 
 
-                            <div class="row d-flex align-items-center mb-3 mt-2 w-100" id="deliveryLaterDiv">
+                            <div class="row align-items-center mb-3 mt-2 w-100" id="deliveryLaterDiv">
                                 <div class="col-6 pl-4">
                                     <label id="delivery-later-date" for="delivery-later-date">Select a Date: </label>
                                     <input  type="date" id="appt" name="delivery-later-date">
@@ -316,7 +316,7 @@
         <%@ include file="HTML_parts/Footer.jsp" %>
     </body>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+    <script">
 
         $(document).ready(function () {
 

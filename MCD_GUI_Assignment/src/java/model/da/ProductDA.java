@@ -412,6 +412,10 @@ public final class ProductDA {
                 System.out.println(product.toString());
             });
             
+            String id = productDA.newProductID();
+            System.out.println(productDA.newID("pd-012"));
+            
+            
             
         } catch (SQLException ex) {
             Logger.getLogger(ProductDA.class.getName()).log(Level.SEVERE, null, ex);

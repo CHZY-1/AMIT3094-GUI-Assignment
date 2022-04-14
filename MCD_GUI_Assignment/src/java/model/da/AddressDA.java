@@ -20,7 +20,7 @@ public class AddressDA {
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             conn = DriverManager.getConnection(host, user, password);
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             //System.out.println("Error. Cannot connect to database");
             ex.getMessage();
         }
@@ -134,5 +134,14 @@ public class AddressDA {
         return AID;
     }
     
-    
+    //close connection object
+    private void shutDown() throws SQLException {
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                throw ex;
+            }
+        }
+    }
 }
