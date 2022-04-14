@@ -173,23 +173,15 @@ public class CustomerDA {
     }
 
     public int updateRecord(Customer customer) throws SQLException {
-        String sqlStr = "UPDATE ORDERS SET ORDERS_ID=?, "
-                + "ORDERS_ID=?, "
-                + "ORDERS_QUANTITY=?, "
-                + "COMMENT=?, "
-                + "RATING=?, "
-                + "PAYMENT_ID=?, "
-                + "PRODUCT_ID=? "
-                + "WHERE PRODUCT_ID=?";
-        String queryStr = "UPDATE " + tableName + " SET CUSTOMER_NAME =? EMAIL =?, PHONE =?, PASSWORD = ? , ADDRESS_ID = ? WHERE CUSTOMER_ID =?";
-        int count = 0; //for what ?
+        String queryStr = "UPDATE " + tableName + " SET CUSTOMER_NAME =?, EMAIL =?, PHONE =?, PASSWORD = ? , ADDRESS_ID = ? WHERE CUSTOMER_ID =?";
+        int count = 0;
 
         stmt = conn.prepareStatement(queryStr);
         stmt.setString(1, customer.getCustomerName());
         stmt.setString(2, customer.getEmail());
         stmt.setString(3, customer.getPhoneNum());
         stmt.setString(4, customer.getPassword());
-        stmt.setString(5, String.valueOf(customer.getAddress()));
+        stmt.setString(5, customer.getAddress().getAddressId());
         stmt.setString(6, customer.getCustomerID());
 
         count = stmt.executeUpdate();
@@ -206,8 +198,11 @@ public class CustomerDA {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 cus = new Customer(rs.getString("CUSTOMER_ID"),
-                        rs.getString("CUSTOMER_NAME"), rs.getString("EMAIL"),
-                        rs.getString("PHONE"), rs.getString("PASSWORD"));
+                        rs.getString("CUSTOMER_NAME"), 
+                        rs.getString("EMAIL"),
+                        rs.getString("PHONE"), 
+                        rs.getString("PASSWORD"),
+                        new Address(rs.getString("ADDRESS_ID")));
             }
 
         } catch (SQLException ex) {

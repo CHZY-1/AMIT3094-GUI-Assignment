@@ -65,26 +65,6 @@ public class AddressDA {
             ResultSet rs = stmt.executeQuery();
             
             if (rs.next()) {
-                address = new Address(rs.getString("ADDRESS_ID"));
-            }
-            stmt.close();
-        } catch (SQLException ex) {
-            ex.getMessage();
-        }
-
-        return address;
-    }
-    
-    public Address getAddress(String addressID){
-        String query = "SELECT * FROM ADDRESS WHERE ADDRESS_ID = ?";
-        Address address = null;
-        
-        try {
-            stmt = conn.prepareStatement(query);
-            stmt.setString(1, addressID);
-            ResultSet rs = stmt.executeQuery();
-            
-            if (rs.next()) {
                 address = new Address(rs.getString("ADDRESS_ID"),rs.getString("ADDRESS_STREET"),rs.getString("ADDRESS_STATE"),rs.getString("POSTCODE"));
             }
             stmt.close();
@@ -94,6 +74,7 @@ public class AddressDA {
 
         return address;
     }
+    
     
       public void modAddress(Address addr){
         String sql = "UPDATE  Address SET  ADDRESS_STREET= ?,ADDRESS_STATE=?,POSTCODE=? WHERE ADDRESS_ID = ?";

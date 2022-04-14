@@ -44,9 +44,9 @@ public class CustomerUpdateServlet extends HttpServlet {
 
             try {
                 int successCustomer = customerDA.updateRecord(customerToInsert);
-                Address successAddress = addressDA.addAddress(customerToInsert.getAddress());
+                addressDA.modAddress(customerToInsert.getAddress());
 
-                if (successCustomer > 0 && successAddress != null) {
+                if (successCustomer > 0) {
                     HttpSession session = request.getSession();
 
                     String msg = "Successfully updated account information";

@@ -40,7 +40,9 @@ public class LoginServlet extends HttpServlet {
 
             //write in servlet 
             CustomerDA customerDA = new CustomerDA();  //object
+            AddressDA addressDA = new AddressDA();  //object
             Customer cust = new Customer();
+            Address address = new Address();
 
             //errMsg += customer.validateUsername(); 
             errMsg += cust.validateCustomerID(customerID);
@@ -52,9 +54,13 @@ public class LoginServlet extends HttpServlet {
                 request.setAttribute("errMsg", errMsg);
                 RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
                 dispatcher.forward(request, response);
+                
             } else {
 
                 cust = customerDA.retrieveCustomer(customerID);
+                address = addressDA.retrieveAddress(cust.getAddress().getAddressId());
+                
+                cust.setAddress(address);
 
                 //create httpSession one if it does not exist 
                 HttpSession httpSession = request.getSession();
