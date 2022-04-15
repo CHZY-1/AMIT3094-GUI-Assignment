@@ -1,12 +1,19 @@
-# TARUC College AMIT3094 Assignment
+This repository contains the assignment of course AMIT3094 GUI AND WEB APPLICATION PROGRAMMING (Diploma) from TARUC College
 
-Course : AMIT3094  GUI AND WEB APPLICATION PROGRAMMING (Diploma)
 
-E-commerce - Food Ordering Website
+Description
+
+# This project is an E-commerce web application - Food Order Website for McDonald's.
 
 Built With
-- Java
-- Jsp
-- Sevlets
+- Html
+- CSS
 - Bootstrap
 - Jquery
+- Java
+- Jsp
+- JavaBeans
+- Sevlet
+- JDBC
+
+# The images used in this project are for educational purposes only.
