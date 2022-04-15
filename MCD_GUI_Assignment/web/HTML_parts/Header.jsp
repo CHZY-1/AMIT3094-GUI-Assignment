@@ -29,11 +29,12 @@
             <ul class="navbar-nav nav-tabs nav-fill w-100">
                 <!---Before Login -->
                 <li class="nav-item">
-                    <a href="#" class="navbar-brand">Logo</a>
+                    <a href="Home.jsp" class="navbar-brand"><img src="image/MCD-logo.png" height="40" width="50" /></a>
                 </li>
 
                 <li class="nav-item">
                     <a href="Home.jsp" class="nav-link ${pageContext.request.requestURI.endsWith('/Home.jsp') ? 'active' : ''}">Home</a>
+                    
                 </li>
 
                 <li class="nav-item">
@@ -41,11 +42,11 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link ${pageContext.request.requestURI.endsWith('/Login.jsp') ? 'active' : ''}">Login</a>
+                    <a href="Login,jsp" class="nav-link ${pageContext.request.requestURI.endsWith('/Login.jsp') ? 'active' : ''}">Login</a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link ${pageContext.request.requestURI.endsWith('/Register.jsp') ? 'active' : ''}">Register</a>
+                    <a href="Register.jsp" class="nav-link ${pageContext.request.requestURI.endsWith('/Register.jsp') ? 'active' : ''}">Register</a>
                 </li>
             </ul>
         </div>
@@ -61,7 +62,7 @@
             <ul class="navbar-nav nav-tabs nav-fill w-100">
                 <!---Before Login -->
                 <li class="nav-item">
-                    <a href="#" class="navbar-brand">Logo</a>
+                    <a href="Home.jsp" class="navbar-brand"><img src="image/MCD-logo.png" height="40" width="50" /></a>
                 </li>
 
                 <li class="nav-item">
@@ -77,11 +78,11 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link ${pageContext.request.requestURI.endsWith('/Cart.jsp') ? 'active' : ''}">Cart</a>
+                    <a href="Cart.jsp" class="nav-link ${pageContext.request.requestURI.endsWith('/Cart.jsp') ? 'active' : ''}">Cart</a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link ${pageContext.request.requestURI.endsWith('/Logout.jsp') ? 'active' : ''}">Log out</a>
+                    <a href="Logout,jsp" class="nav-link ${pageContext.request.requestURI.endsWith('/Logout.jsp') ? 'active' : ''}">Log out</a>
                 </li>
             </ul>
         </div>
