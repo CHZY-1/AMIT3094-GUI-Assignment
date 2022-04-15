@@ -100,7 +100,7 @@
                         <div class="cvv">
                             <h3>CVV</h3>
                             <div class="input-field">
-                                <input type="password" name="cvv" required>
+                                <input type="password" maxlength="3" name="cvv" pattern="[0-9]{3}" required>
                             </div>
                         </div>
                     </div>
@@ -109,7 +109,7 @@
                         <div class="card-number">
                             <h3>Card Number</h3>
                             <div class="input-field">
-                                <input type="text" name="cardNum" required>
+                                <input type="tel" inputmode="numeric" name="cardNum" maxlength="19" name="cardNum" pattern="[0-9\s]{13,19}" autocomplete="cc-number" placeholder="xxxx xxxx xxxx xxxx"  required>
                             </div>
                         </div>
                     </div>

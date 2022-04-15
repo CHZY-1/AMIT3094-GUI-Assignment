@@ -132,7 +132,7 @@
         ArrayList<Product> productList = new ArrayList<Product>();
         ArrayList<ProductCategory> productCategoryList = new ArrayList<ProductCategory>();
         String active = "";
-        int index=0;
+        int index = 0;
 
         if (session.getAttribute("productList") == null || session.getAttribute("productCategoryList") == null) {
             response.sendRedirect("productMenuServlet");
@@ -202,8 +202,8 @@
                     <div id="product" class="container-fluid">
 
                         <div id="menu" class="row">
-                            
-                            <% if(!productList.isEmpty()) { %>
+
+                            <% if (!productList.isEmpty()) { %>
 
                             <% for (Product product : productList) {%>
 
@@ -222,19 +222,19 @@
 
                                                 <div id="input-group" class="input-group mb-3">
                                                     <span class="input-group-btn">
-                                                        <button type="button" id="<%= index %>" class="quantity-left-minus btn btn-number"  data-type="minus" data-field="">
+                                                        <button type="button" id="<%= index%>" class="quantity-left-minus btn btn-number"  data-type="minus" data-field="">
                                                             <i class="fa fa-minus"></i>
                                                         </button>
                                                     </span>
-                                                    <input type="text" id="quantity-<%= index %>" name="productQuantity" class="form-control input-number bg-light text-center rounded" value="1" min="1" max="100" readonly>
+                                                    <input type="text" id="quantity-<%= index%>" name="productQuantity" class="form-control input-number bg-light text-center rounded" value="1" min="1" max="100" readonly>
                                                     <span class="input-group-btn">
-                                                        <button type="button" id="<%= index %>" class="quantity-right-plus btn btn-number" data-type="plus" data-field="">
+                                                        <button type="button" id="<%= index%>" class="quantity-right-plus btn btn-number" data-type="plus" data-field="">
                                                             <i class="fa fa-plus"></i>
                                                         </button>
                                                     </span>
                                                 </div>
 
-                                                <input type="hidden" name="productQuantity" id="product-quantity-<%= index %>" value="1" />
+                                                <input type="hidden" name="productQuantity" id="product-quantity-<%= index%>" value="1" />
                                                 <input type="hidden" name="productID" value="<%= product.getProductID()%>" />
                                                 <input type="hidden" name="productName" value="<%= product.getProductName()%>" />
                                                 <input type="hidden" name="productImage" value="<%= product.getProductImageBase64()%>" />
@@ -243,8 +243,9 @@
                                                 <input type="hidden" name="productCategoryName" value="<%= product.getProductCategory().getCategoryName()%>" />
                                                 <input type="hidden" name="action" value="addToCart" />
 
+                                                <% if (session.getAttribute("customer") != null) { %>
                                                 <div class="container pt-2"><input type="submit" id="add-to-cart" class="btn btn-primary w-100" name="add-to-cart-button" value="Add To Cart"/></div>
-
+                                                <% } %>
 
                                             </div>
                                         </div>
@@ -257,12 +258,12 @@
                             <% }%> 
 
                         </div>
-                            
-                           <% }else{ %>
-                           
-                           <div class="container d-block pt-3 text-center" style="height: 400px;"><h2>No Products Found</h2></div>
-                           
-                           <% } %>
+
+                        <% } else { %>
+
+                        <div class="container d-block pt-3 text-center" style="height: 400px;"><h2>No Products Found</h2></div>
+
+                        <% }%>
 
 
                     </div>
@@ -277,24 +278,24 @@
 
 <script>
 
-   // Quantity Plus and Minus function 
+    // Quantity Plus and Minus function 
     $(document).ready(function () {
 
         var quantitiy = 0;
         $('.quantity-right-plus').click(function (e) {
 
             e.preventDefault();
-            
+
             var id = $(this).attr('id');
-            
-            var quantityFieldID = "#quantity-"+id;
+
+            var quantityFieldID = "#quantity-" + id;
 
             var quantity = parseInt($(quantityFieldID).val());
-            var hiddenProductQuantityID = '#product-quantity-'+id;
+            var hiddenProductQuantityID = '#product-quantity-' + id;
 
             $(quantityFieldID).val(quantity + 1);
             $(hiddenProductQuantityID).val(quantity + 1);
-            
+
 //            console.log(id);
 //            console.log(quantityFieldID);
             console.log(hiddenProductQuantityID);
@@ -305,21 +306,21 @@
         $('.quantity-left-minus').click(function (e) {
 
             e.preventDefault();
-            
+
             var id = $(this).attr('id');
-            
-            var quantityFieldID = "#quantity-"+id;
-            
-            var hiddenProductQuantityID = '#product-quantity-'+id;
+
+            var quantityFieldID = "#quantity-" + id;
+
+            var hiddenProductQuantityID = '#product-quantity-' + id;
 
             var quantity = parseInt($(quantityFieldID).val());
 
             if (quantity > 1) {
                 $(quantityFieldID).val(quantity - 1);
-                
+
                 $(hiddenProductQuantityID).val(quantity - 1);
             }
-            
+
         });
 
     });
