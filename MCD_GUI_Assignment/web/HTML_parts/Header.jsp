@@ -42,7 +42,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="Login,jsp" class="nav-link ${pageContext.request.requestURI.endsWith('/Login.jsp') ? 'active' : ''}">Login</a>
+                    <a href="Login.jsp" class="nav-link ${pageContext.request.requestURI.endsWith('/Login.jsp') ? 'active' : ''}">Login</a>
                 </li>
 
                 <li class="nav-item">
@@ -82,7 +82,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="Logout,jsp" class="nav-link ${pageContext.request.requestURI.endsWith('/Logout.jsp') ? 'active' : ''}">Log out</a>
+                    <a href="LogoutServlet" class="nav-link ${pageContext.request.requestURI.endsWith('/LogoutServlet') ? 'active' : ''}">Log out</a>
                 </li>
             </ul>
         </div>

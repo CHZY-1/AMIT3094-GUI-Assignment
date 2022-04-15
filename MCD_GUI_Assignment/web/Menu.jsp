@@ -219,6 +219,8 @@
                                                 <h4 class="card-title pl-3"><%= product.getProductName()%></h4>
 
                                                 <p class="card-text pl-3">Price: RM <%= String.format("%.2f", product.getProductPrice())%> </p>
+                                                
+                                                <% if (session.getAttribute("customer") != null) { %>
 
                                                 <div id="input-group" class="input-group mb-3">
                                                     <span class="input-group-btn">
@@ -243,7 +245,7 @@
                                                 <input type="hidden" name="productCategoryName" value="<%= product.getProductCategory().getCategoryName()%>" />
                                                 <input type="hidden" name="action" value="addToCart" />
 
-                                                <% if (session.getAttribute("customer") != null) { %>
+                                                
                                                 <div class="container pt-2"><input type="submit" id="add-to-cart" class="btn btn-primary w-100" name="add-to-cart-button" value="Add To Cart"/></div>
                                                 <% } %>
 

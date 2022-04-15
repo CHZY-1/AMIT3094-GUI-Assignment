@@ -13,7 +13,7 @@
 
             #card-body{
                 width: 750px;
-                height: 500px;
+                height: 600px;
                 border: 1px solid black;
                 background-color: white;
                 display: flex;
@@ -79,6 +79,37 @@
                 min-height: 50px; 
                 width: 100%;
             }
+            
+             #page-progress .active {
+                font-weight: 700;
+                position: relative
+            }
+
+            #page-progress .active .fa-check {
+                position: absolute;
+                left: 45%;
+                bottom: -35px;
+                background-color: #fff;
+                font-size: 0.7rem;
+                padding: 5px;
+                border: 1px solid #008000;
+                border-radius: 50%;
+                color: #008000
+            }
+
+            .progress {
+                height: 15px;
+                background-color: #ccc
+            }
+            .progress div {
+                display: flex;
+                align-items: center;
+                justify-content: center
+            }
+            .progress .progress-bar {
+                width: 75%;
+            }
+
         </style>
     </head>
     <body class="d-flex flex-column min-vh-100">
@@ -86,10 +117,23 @@
         <%@ include file="HTML_parts/Header.jsp" %>
 
         <div class="container py-2 rounded" id="card-body">
-
             <div id="payment-form" class="">
                 <form action="PaymentServlet" method="POST">
                     <h1 class="text-center">Payment</h1><br>
+
+                    <div class='row mb-4'>
+                        <div class="col-12">
+                            <div id="page-progress" class="d-flex justify-content-center align-items-center pt-4 pb-3">
+                                <div class="px-sm-5 px-2">CART</div>
+                                <div class="px-sm-5 px-2">ORDER DETAILS</div>
+                                <div class="px-sm-5 px-2  active">PAYMENT<i class="fas fa-check"></i></div>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="first-row pb-2">
                         <div class="owner">
                             <h3>Owner</h3>
