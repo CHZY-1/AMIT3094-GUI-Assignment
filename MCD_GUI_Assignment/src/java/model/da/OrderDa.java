@@ -1,3 +1,5 @@
+// Author:Chan Zhi Yang
+// Description:A Class that uses JDBC function to connect with the derby database. This class mainly provides functions of CRUD operations for the Orders table. 
 package model.da;
 
 import model.domain.Orders;
@@ -9,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public final class OrderDA{
 
@@ -187,22 +191,29 @@ public final class OrderDA{
     }
 
     public String newOrderID() {
-        String ProductID = null;
+        String orderID = "";
         String sqlQuery = "SELECT ORDER_ID FROM ORDERS";
 
         try {
             PreparedStatement stmt = conn.prepareStatement(sqlQuery);
             ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                ProductID = rs.getString(1);
+            
+            if (rs.next() == false) {
+                 orderID = "ORD-000";
+            } else {
+                do {
+                  orderID = rs.getString("ORDER_ID");
+                } while (rs.next());
             }
+            
+            rs.close();
             stmt.close();
         } catch (SQLException ex) {
             ex.getMessage();
         }
 
-        ProductID = newID(ProductID);
-        return ProductID;
+        orderID = newID(orderID);
+        return orderID;
     }
 
     public String newID(String ProductID) {
@@ -233,6 +244,16 @@ public final class OrderDA{
             } catch (SQLException ex) {
                 throw ex;
             }
+        }
+    }
+    
+    public static void main (String args[]){
+        try {
+            OrderDA orderDA = new OrderDA();
+            System.out.println(orderDA.newOrderID());
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(PaymentDA.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

@@ -1,6 +1,9 @@
+// Author:Lim Wei Zhe
+// Description:The Customer Class provides all of the attributes of the customer information such as the customer ID, email, password and also the address information from the Address Class 
 package model.domain;
 
 import java.io.Serializable;
+import java.util.Objects;
 import model.domain.Address;
 import java.util.regex.Pattern;
 
@@ -164,6 +167,11 @@ public class Customer implements Serializable{
         
         return errMsg4;
     }
+    
 
+    
+//    public String validateEmail(){
+//        String errMsg
+//    }
     
 }

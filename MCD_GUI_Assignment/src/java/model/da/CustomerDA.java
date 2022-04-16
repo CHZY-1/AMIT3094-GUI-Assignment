@@ -1,3 +1,5 @@
+// Author:Lim Wei Zhe
+// Description:To enable the connection to the database to be able to perform the  add and as well as the retrieve function in the database. 
 package model.da;
 
 import model.domain.Address;
@@ -195,13 +197,19 @@ public class CustomerDA {
         try {
             stmt = conn.prepareStatement(sqlQuery);
             ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                customerID = rs.getString("CUSTOMER_ID");
+            
+            if (rs.next() == false) {
+                customerID = "CUST-000";
+            } else {
+                do {
+                    customerID = rs.getString("CUSTOMER_ID");
+                } while (rs.next());
             }
 
         } catch (SQLException ex) {
             ex.getMessage();
         }
+        
         customerID = newID(customerID);
 
         return customerID;
@@ -216,6 +224,23 @@ public class CustomerDA {
         String seq = String.format("%03d", no);
         String CID = id[0] + "-" + seq;
         return CID;
+    }
+
+    public int updatePassword(Customer updateCust) {
+        String querySql = "UPDATE CUSTOMER SET PASSWORD = ? WHERE CUSTOMER_ID = ?";
+        int count = 0;
+
+        try {
+            stmt = conn.prepareStatement(querySql);
+            stmt.setString(1, updateCust.getPassword());
+            stmt.setString(2, updateCust.getCustomerID());
+            count = stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            ex.getMessage();
+        }
+
+        return count;
     }
 
     public int updateRecord(Customer customer) throws SQLException {
@@ -252,6 +277,11 @@ public class CustomerDA {
             System.out.println("ERROR: " + ex.toString());
         }
         return cus;
+    }
+    
+    public static void main (String args[]){
+        CustomerDA customerDA = new CustomerDA();
+        System.out.println(customerDA.generateLatestID());
     }
 
 }

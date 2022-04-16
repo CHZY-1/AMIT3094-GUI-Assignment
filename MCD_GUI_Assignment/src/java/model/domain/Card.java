@@ -1,3 +1,5 @@
+// Author:Sew Min Yan
+// Description:The Card Class provides the attributes of the card details. This allows storing the card information that users type into the database. 
 package model.domain;
 
 import java.io.Serializable;

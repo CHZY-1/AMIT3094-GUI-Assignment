@@ -1,3 +1,7 @@
+//Author:Chan Zhi Yang
+//Description:The Product class provides the attribute of product details, and it has an aggregation relationship 
+//with the product category class. For example, product name, product price and product image. 
+//This class also provides functions that are needed to store and retrieve images from the database. 
 package model.domain;
 
 import java.io.Serializable;
@@ -26,8 +30,7 @@ public class Product implements Serializable {
     private boolean hidden;
     private ProductCategory productCategory;
 
-    public Product() {
-    }
+    public Product() {}
 
     public Product(String productID) {
         this.productID = productID;
@@ -221,7 +224,7 @@ public class Product implements Serializable {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         //ImageIO.write is a must to correctly compress the image and write buffered image into bytes array
-        ImageIO.write(bImage, "jpg", baos); //write buffered image into byteArrayOutput Stream
+        ImageIO.write(bImage, "png", baos); //write buffered image into byteArrayOutput Stream
         byte[] data = baos.toByteArray();  //convert content of output stream to byte array
 
         bImage.flush();

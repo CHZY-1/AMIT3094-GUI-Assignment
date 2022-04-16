@@ -1,10 +1,14 @@
-package model.da;
+// Author:Lim Wei Zhe
+// Description:To make the connection to the Address Table in the database and also add and retrieve the address information in the database 
 
+package model.da;
 import model.domain.Address;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AddressDA {
-    private String host = "jdbc:derby://localhost:1527/MCD";
+     private String host = "jdbc:derby://localhost:1527/MCD";
     private String user = "nbuser";
     private String password = "nbuser";
     private String tableName = "ADDRESS";
@@ -104,22 +108,50 @@ public class AddressDA {
         }
       }
     
+    public Address getAddress(String addressID){
+        String query = "SELECT * FROM ADDRESS WHERE ADDRESS_ID = ?";
+        Address address = null;
+        
+        try {
+            stmt = conn.prepareStatement(query);
+            stmt.setString(1, addressID);
+            ResultSet rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                address = new Address(rs.getString("ADDRESS_ID"),rs.getString("ADDRESS_STREET"),rs.getString("ADDRESS_STATE"),rs.getString("POSTCODE"));
+            }
+            stmt.close();
+        } catch (SQLException ex) {
+            ex.getMessage();
+        }
+
+        return address;
+    }
+    
     public String generateLatestAddressID(){
-        String customerID = "";
+        String addressID = "";
         String sqlQuery="SELECT ADDRESS_ID FROM ADDRESS";
         try {
             PreparedStatement stmt = conn.prepareStatement(sqlQuery);
             ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                customerID=rs.getString("ADDRESS_ID");
+            
+            if (rs.next() == false) {
+                addressID = "ADDR-000";
+            } else {
+                do {
+                    addressID = rs.getString("ADDRESS_ID");
+                } while (rs.next());
             }
+            
+            rs.close();
             stmt.close();
+            
         }catch (SQLException ex) {
             ex.getMessage();
         }
         
-        customerID = newAddressID(customerID);
-        return customerID;
+        addressID = newAddressID(addressID);
+        return addressID;
         
     }
     
@@ -143,5 +175,11 @@ public class AddressDA {
                 throw ex;
             }
         }
+    }
+    
+    public static void main (String args[]){
+        AddressDA addressDA = new AddressDA();
+        System.out.println(addressDA.generateLatestAddressID());
+//            System.out.println(paymentDA.newID("PAY-3"));
     }
 }

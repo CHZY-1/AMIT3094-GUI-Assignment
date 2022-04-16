@@ -1,3 +1,5 @@
+// Author:Chan Zhi Yang
+// Description:A Class that uses JDBC function to connect with the derby database. This class mainly provides functions of CRUD operations for the Payment table. 
 package model.da;
 
 import model.domain.*;
@@ -142,19 +144,21 @@ public class PaymentDA {
     }
 
     public String newPaymentID() {
-        String PaymentID = "";
+        String paymentID = "";
         String sqlQuery = "SELECT PAYMENT_ID FROM PAYMENT";
 
         try {
             PreparedStatement stmt = conn.prepareStatement(sqlQuery);
             ResultSet rs = stmt.executeQuery();
             
-            while (rs.next()) {
-                PaymentID = rs.getString("PAYMENT_ID");
+             if (rs.next() == false) {
+                 paymentID = "PAY-000";
+            } else {
+                do {
+                  paymentID = rs.getString(1);
+                } while (rs.next());
             }
-            
-            
-            
+             
             rs.close();
             stmt.close();
             
@@ -162,8 +166,8 @@ public class PaymentDA {
             ex.getMessage();
         }
         
-        PaymentID = newID(PaymentID);
-        return PaymentID;
+        paymentID = newID(paymentID);
+        return paymentID;
     }
 
     public String newID(String paymentID) {
@@ -198,7 +202,7 @@ public class PaymentDA {
     public static void main (String args[]){
         try {
             PaymentDA paymentDA = new PaymentDA();
-//            System.out.println(paymentDA.newPaymentID());
+            System.out.println(paymentDA.newPaymentID());
 //            System.out.println(paymentDA.newID("PAY-3"));
             
         } catch (SQLException ex) {

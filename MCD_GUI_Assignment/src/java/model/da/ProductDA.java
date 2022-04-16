@@ -1,3 +1,5 @@
+// Author:Chan Zhi Yang
+// Description:A Class that uses JDBC function to connect with the derby database. This class mainly provides functions of CRUD operations for the Product table. 
 package model.da;
 
 import java.io.ByteArrayInputStream;
@@ -41,7 +43,7 @@ public final class ProductDA {
         }
     }
 
-    public Product getProduct(String productID) throws SQLException, NullPointerException{
+    public Product getProduct(String productID) throws SQLException, NullPointerException {
         String queryStr = "SELECT * FROM " + tableName + " WHERE PRODUCT_ID = ?";
         Product product = null;
         byte[] imageBytes = new byte[0];
@@ -55,8 +57,8 @@ public final class ProductDA {
                 if (rs.next()) {
 
                     Blob blob = rs.getBlob("PRODUCT_IMAGE");
-                    
-                    if(blob != null){
+
+                    if (blob != null) {
                         //retrieve image blob length
                         int blobLength = (int) blob.length();
 
@@ -82,9 +84,9 @@ public final class ProductDA {
         return product;
     }
 
-    public ArrayList<Product> getAllProduct() throws SQLException, NullPointerException{
-        String queryStr = "SELECT * FROM " + tableName + 
-                " INNER JOIN PRODUCT_CATEGORY "
+    public ArrayList<Product> getAllProduct() throws SQLException, NullPointerException {
+        String queryStr = "SELECT * FROM " + tableName
+                + " INNER JOIN PRODUCT_CATEGORY "
                 + "ON PRODUCT.CATEGORY_ID = PRODUCT_CATEGORY.CATEGORY_ID "
                 + "ORDER BY CATEGORY_NAME";
         Product product = new Product();
@@ -100,25 +102,25 @@ public final class ProductDA {
             while (rs.next()) {
 //                System.out.println("Record Found");
 //                System.out.println(rs.getString("PRODUCT_ID"));
-                
+
                 //Note: Product Image cannot be Null else will throw null pointer exception
                 Blob blob = rs.getBlob("PRODUCT_IMAGE");
 
-                if(blob != null){
-                        //retrieve image blob length
-                        int blobLength = (int) blob.length();
+                if (blob != null) {
+                    //retrieve image blob length
+                    int blobLength = (int) blob.length();
 
-                        //convert blob to bytes array
-                        imageBytes = blob.getBytes(1, blobLength);
-                        blob.free();
-                    }
-                
+                    //convert blob to bytes array
+                    imageBytes = blob.getBytes(1, blobLength);
+                    blob.free();
+                }
+
                 product = new Product(rs.getString("PRODUCT_ID"),
                         rs.getString("PRODUCT_NAME"),
                         imageBytes,
                         rs.getDouble("PRODUCT_PRICE"),
                         rs.getBoolean("HIDDEN"),
-                        new ProductCategory(rs.getString("CATEGORY_ID"),rs.getString("CATEGORY_NAME")));
+                        new ProductCategory(rs.getString("CATEGORY_ID"), rs.getString("CATEGORY_NAME")));
 
                 productList.add(product);
 
@@ -134,9 +136,9 @@ public final class ProductDA {
         return productList;
     }
 
-    public ArrayList<Product> getAllProductByCategory(String category) throws SQLException, NullPointerException{
-        String queryStr = "SELECT * FROM " + tableName + 
-                " INNER JOIN PRODUCT_CATEGORY "
+    public ArrayList<Product> getAllProductByCategory(String category) throws SQLException, NullPointerException {
+        String queryStr = "SELECT * FROM " + tableName
+                + " INNER JOIN PRODUCT_CATEGORY "
                 + "ON PRODUCT.CATEGORY_ID = PRODUCT_CATEGORY.CATEGORY_ID "
                 + "WHERE PRODUCT.CATEGORY_ID=? ORDER BY CATEGORY_NAME";
         Product product = new Product();
@@ -153,25 +155,25 @@ public final class ProductDA {
             while (rs.next()) {
 //                System.out.println("Record Found");
 //                System.out.println(rs.getString("PRODUCT_ID"));
-                
+
                 //Note: Product Image cannot be Null else will throw null pointer exception
                 Blob blob = rs.getBlob("PRODUCT_IMAGE");
 
-                if(blob != null){
-                        //retrieve image blob length
-                        int blobLength = (int) blob.length();
+                if (blob != null) {
+                    //retrieve image blob length
+                    int blobLength = (int) blob.length();
 
-                        //convert blob to bytes array
-                        imageBytes = blob.getBytes(1, blobLength);
-                        blob.free();
-                    }
-                
+                    //convert blob to bytes array
+                    imageBytes = blob.getBytes(1, blobLength);
+                    blob.free();
+                }
+
                 product = new Product(rs.getString("PRODUCT_ID"),
                         rs.getString("PRODUCT_NAME"),
                         imageBytes,
                         rs.getDouble("PRODUCT_PRICE"),
                         rs.getBoolean("HIDDEN"),
-                        new ProductCategory(rs.getString("CATEGORY_ID"),rs.getString("CATEGORY_NAME")));
+                        new ProductCategory(rs.getString("CATEGORY_ID"), rs.getString("CATEGORY_NAME")));
 
                 productList.add(product);
 
@@ -186,7 +188,7 @@ public final class ProductDA {
 
         return productList;
     }
-    
+
     public int insertNewProduct(Product product) throws SQLException, IOException {
         String sqlStr = "INSERT INTO PRODUCT(PRODUCT_ID, PRODUCT_NAME, PRODUCT_IMAGE, PRODUCT_PRICE, HIDDEN, CATEGORY_ID) VALUES(?,?,?,?,?,?)";
         int affectedRows = 0;
@@ -217,31 +219,43 @@ public final class ProductDA {
 
         return affectedRows;
     }
-    
-    public String newProductID(){
-        String ProductID=null;
-        String sqlQuery="SELECT PRODUCT_ID FROM PRODUCT";
+
+    public String newProductID() {
+        String productID = "";
+        String sqlQuery = "SELECT PRODUCT_ID FROM PRODUCT";
         try {
             PreparedStatement stmt = conn.prepareStatement(sqlQuery);
             ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                ProductID=rs.getString(1);
+
+            if (rs.next() == false) {
+                productID = "PROD-000";
+            } else {
+                do {
+                    productID = rs.getString("PRODUCT_ID");
+                } while (rs.next());
             }
+            
+            rs.close();
             stmt.close();
-        }catch (SQLException ex) {
+        } catch (SQLException ex) {
             ex.getMessage();
         }
         
-        ProductID=newID(ProductID);
-        return ProductID;
+        productID = newID(productID);
+
+        return productID;
     }
-    public String newID(String ProductID){
-       String[] id = ProductID.split("-");
-       int no=Integer.parseInt(id[1]);
+
+    public String newID(String ProductID) {
+        String[] id = ProductID.split("-");
+//        System.out.println(id);
+        int no = Integer.parseInt(id[1]);
         no++;
         //(int)id[1]=Integer.parseInt(id[1])+1;
         String seq = String.format("%03d", no);
-        String PID=id[0]+"-"+seq;
+//        System.out.println(seq);
+        String PID = id[0] + "-" + String.valueOf(seq);
+//        System.out.println(PID);
         return PID;
     }
 
@@ -282,7 +296,7 @@ public final class ProductDA {
 
         return affectedRows;
     }
-    
+
     public int updateProductWithoutImage(Product product) throws SQLException, IOException {
 
         String sqlStr = "UPDATE PRODUCT SET PRODUCT_NAME=?, "
@@ -330,6 +344,7 @@ public final class ProductDA {
 
         return affectedRows;
     }
+
     public int hideProduct(String productID) throws SQLException {
         String sqlStr = "UPDATE PRODUCT SET HIDDEN=TRUE WHERE PRODUCT_ID = ?";
         int affectedRows = 0;
@@ -402,26 +417,27 @@ public final class ProductDA {
             }
         }
     }
-    
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         try {
             ProductDA productDA = new ProductDA();
-            ArrayList<Product> productList = productDA.getAllProduct();
             
-            productList.forEach((product) -> {
-                System.out.println(product.toString());
-            });
+//            ArrayList<Product> productList = productDA.getAllProduct();
+//
+//            productList.forEach((product) -> {
+//                System.out.println(product.toString());
+//            });
+
+            String pid = productDA.newProductID();
+            System.out.println(pid);
             
-            String id = productDA.newProductID();
-            System.out.println(productDA.newID("pd-012"));
+//            System.out.println(productDA.newID("pd-012"));
             
-            
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(ProductDA.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+
     }
 
 }

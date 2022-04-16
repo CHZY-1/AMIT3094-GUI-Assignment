@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="model.domain.Product"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -45,6 +47,16 @@
         </style>
         
     </head>
+    
+    <%
+        ArrayList<Product> productList = new ArrayList<Product>();
+        
+        if(request.getAttribute("randomProductList") == null){
+            response.sendRedirect("HomeServlet");
+        }else{
+            productList = (ArrayList<Product>) request.getAttribute("randomProductList");
+        }
+    %>
 
     <body class="d-flex flex-column min-vh-100">
             <%@ include file="HTML_parts/Header.jsp" %>
@@ -60,16 +72,16 @@
                     </ol>
                     <div class="carousel-inner">
                       <div class="carousel-item home-carousel-Img active" data-interval="3000">
-                        <img class="rounded img-fluid mx-auto d-block" src="Pictures/MCD-Home1.jpg" alt="First slide">
+                        <img class="rounded img-fluid mx-auto d-block" src="image/MCD-Home1.jpg" alt="First slide">
                       </div>
                       <div class="carousel-item home-carousel-Img" data-interval="3000">
-                        <img class="rounded img-fluid mx-auto d-block" src="Pictures/MCD-Home2.png" alt="Second slide">
+                        <img class="rounded img-fluid mx-auto d-block" src="image/MCD-Home2.png" alt="Second slide">
                       </div>
                       <div class="carousel-item home-carousel-Img" data-interval="3000">
-                        <img class="rounded img-fluid mx-auto d-block" src="Pictures/MCD-Home3.png" alt="Third slide">
+                        <img class="rounded img-fluid mx-auto d-block" src="image/MCD-Home3.png" alt="Third slide">
                       </div>
                       <div class="carousel-item home-carousel-Img" data-interval="3000">
-                        <img class="rounded img-fluid mx-auto d-block" src="Pictures/MCD-Home5.png" alt="Fourth slide">
+                        <img class="rounded img-fluid mx-auto d-block" src="image/MCD-Home5.png" alt="Fourth slide">
                       </div>
                         
                     </div>
@@ -85,26 +97,24 @@
             </div>
             
             
-            <div id="home-recommend" class="container custom-container bg-light">
+            <div id="home-recommend" class="container custom-container bg-light rounded">
                 
-                <div class="row mb-3"><div class="col bg-warning rounded d-flex align-items-center justify-content-center"><h1>Recommended</h1></div></div>
+                <div class="row mb-3"><div class="col bg-warning rounded d-flex align-items-center justify-content-center"><h2>Recommended</h2></div></div>
                 
-                <div class="row text-center mb-3">
+                <div class="row text-center mb-1">
+                    
+                    <% for(Product product : productList) { %>
                     <div class="col">
                         <div class="product">
-                            <h1> Product 1 </h1>
+                            <div>
+                                <a href="productMenuServlet">
+                                <img class="card-img-top rounded" src="data:image/jpg;base64,<%= product.getProductImageBase64()%>" height="250" width="60" alt="<%= product.getProductName()%>">
+                                </a>
+                            </div>
+                            <h4> <%= product.getProductName()%> </h4>
                         </div>
                     </div>
-                    <div class="col">
-                        <div class="product">
-                            <h1> Product 2 </h1>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="product">
-                            <h1> Product 3 </h1>
-                        </div>
-                    </div>
+                    <% } %>
                 </div>
                 
             </div>
@@ -114,7 +124,7 @@
                 <div class="row"><div class="col bg-warning rounded d-flex align-items-center justify-content-center"><h1>About Us</h1><br/></div></div>
                 
                 <div class="row" style="margin-bottom: 30px; margin-top: 30px;">
-                    <img class="img-fluid mx-auto d-block" src="Pictures/MCD-About-us.jpg" alt=""/>
+                    <img class="img-fluid mx-auto d-block" src="image/MCD-About-us.jpg" alt=""/>
                 </div>
                 
                 <div class="row-text-center">
@@ -129,7 +139,9 @@
             
             <div class="container custom-container">
                 <div class="row" style="margin-bottom: 40px;">
-                    <img class="img-fluid mx-auto d-block" src="Pictures/MCD-Home4.png" alt=""/>
+                    <a href="productMenuServlet">
+                    <img class="img-fluid mx-auto d-block" src="image/MCD-Home4.png" alt=""/>
+                    </a>
                 </div>
             </div>
             

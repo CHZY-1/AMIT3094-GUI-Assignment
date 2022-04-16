@@ -1,3 +1,5 @@
+// Author:Chan Zhi Yang
+// Description:The product category class contains product category name and product category id. 
 package model.domain;
 
 import java.io.Serializable;

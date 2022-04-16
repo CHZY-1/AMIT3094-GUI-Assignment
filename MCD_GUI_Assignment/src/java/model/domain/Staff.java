@@ -1,8 +1,14 @@
+// Author:Lim Sheng Yang
+// Description:This is the domain class of staff which is used to store the details of the staff 
+// such as name, ic,phone number, password, gender and salary. This class contains has-a relationship with the Address and Role class. 
 package model.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
+//validation to be put in this file
 
 public class Staff implements Serializable{
     
@@ -34,16 +40,18 @@ public class Staff implements Serializable{
         this.roleID = roleID;
     }
 
-    public Staff(String staffID, String name, String ic, String password, String phoneNo, String gender) {
+    public Staff(String staffID, String name, String ic, String password, String phoneNo, String gender, Address address) {
         this.staffID = staffID;
         this.name = name;
         this.ic = ic;
         this.password = password;
         this.phoneNo = phoneNo;
         this.gender = gender;
+        this.address = address;
     }
+    
 
-    public Staff(String staffID, String name, String ic, String status, String phoneNo, String gender, double salary) {
+    public Staff(String staffID, String name, String ic, String status, String phoneNo, String gender, double salary, Address address) {
         this.staffID = staffID;
         this.name = name;
         this.ic = ic;
@@ -51,9 +59,11 @@ public class Staff implements Serializable{
         this.phoneNo = phoneNo;
         this.gender = gender;
         this.salary = salary;
+        this.address = address;
     }
     
-    public ArrayList<String> validateStaff(Staff s,Address a,String pass){
+    
+    public ArrayList<String> validateStaff(Staff s,String pass){
        ArrayList<String> err=new ArrayList<String>();
         //name
         if(s.getName() == null){
@@ -83,20 +93,20 @@ public class Staff implements Serializable{
         }
         
         //street
-        if(a.getStreet()== null){
+        if(s.getAddress().getStreet()== null){
             err.add("Address Street cannot be empty");
-        }else if(a.getStreet().length() > 30){
+        }else if(s.getAddress().getStreet().length() > 30){
             err.add("Address Street cannot have more then 30 characters");
-        }else if(!Pattern.matches("^[0-9A-Za-z, ]+$", a.getStreet())){
+        }else if(!Pattern.matches("^[0-9A-Za-z, ]+$", s.getAddress().getStreet())){
             err.add("Address Street contain invalid characters");
         }
         
         //postcode
-        if(a.getPostcode()== null){
+        if(s.getAddress().getPostcode()== null){
             err.add("Address Postcode cannot be empty");
-        }else if(a.getPostcode().length() != 5){
+        }else if(s.getAddress().getPostcode().length() != 5){
             err.add("Address Postcode should have 5 digits");
-        }else if(!Pattern.matches("^[0-9]+$", a.getPostcode())){
+        }else if(!Pattern.matches("^[0-9]+$", s.getAddress().getPostcode())){
             err.add("Address Postcode contain invalid characters");
         }
         
@@ -115,7 +125,7 @@ public class Staff implements Serializable{
         
         return err;
     }
-    public ArrayList<String> validateStaffe(Staff s,Address a){
+    public ArrayList<String> validateStaffe(Staff s){
        ArrayList<String> err=new ArrayList<String>();
         //name
         if(s.getName() == null){
@@ -145,20 +155,20 @@ public class Staff implements Serializable{
         }
         
         //street
-        if(a.getStreet()== null){
+        if(s.getAddress().getStreet()== null){
             err.add("Address Street cannot be empty");
-        }else if(a.getStreet().length() > 30){
+        }else if(s.getAddress().getStreet().length() > 30){
             err.add("Address Street cannot have more then 30 characters");
-        }else if(!Pattern.matches("^[0-9A-Za-z, ]+$", a.getStreet())){
+        }else if(!Pattern.matches("^[0-9A-Za-z, ]+$", s.getAddress().getStreet())){
             err.add("Address Street contain invalid characters");
         }
         
         //postcode
-        if(a.getPostcode()== null){
+        if(s.getAddress().getPostcode()== null){
             err.add("Address Postcode cannot be empty");
-        }else if(a.getPostcode().length() > 5){
-            err.add("Address Postcode cannot have more then 5 digits");
-        }else if(!Pattern.matches("^[0-9]+$", a.getPostcode())){
+        }else if(s.getAddress().getPostcode().length() != 5){
+            err.add("Address Postcode should have 5 digits");
+        }else if(!Pattern.matches("^[0-9]+$", s.getAddress().getPostcode())){
             err.add("Address Postcode contain invalid characters");
         }
         

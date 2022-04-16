@@ -1,3 +1,5 @@
+// Author:Lim Wei Zhe
+// Description:The Address Class will provide all the attributes of the address information like the address ID, the state, the postcode and more. This class have a relationship with the Customer Class  
 package model.domain;
 
 import java.io.Serializable;

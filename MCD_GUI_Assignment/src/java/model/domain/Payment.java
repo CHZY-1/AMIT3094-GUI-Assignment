@@ -1,3 +1,5 @@
+// Author:Chan Zhi Yang
+// Description:The Payment Class provides the attributes of the payment information such as payment id, payment time, and total payment amount. This class contains has-a relationship with the Card and Customer class. 
 package model.domain;
 
 import java.io.Serializable;

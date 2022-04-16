@@ -1,5 +1,6 @@
+// Author:Lim Sheng Yang
+// Description:To perform the connection with the STAFF table and enable it to do the  CRUD operation toward the staff table 
 package model.da;
-
 import model.domain.Role;
 import model.domain.Staff;
 import model.domain.Address;
@@ -20,7 +21,7 @@ public class StaffDA {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             conn = DriverManager.getConnection(host, user, password);
             // stmt = conn.prepareStatement(sqlQueryStr);
-        } catch (ClassNotFoundException | SQLException ex) {
+        } catch (Exception ex) {
             ex.getMessage();
         }
     }
@@ -57,7 +58,7 @@ public class StaffDA {
                 staff.add(new Staff(rs.getString(1), rs.getString(2),rs.getString(3), rs.getString(4),rs.getString(5), rs.getString(6),rs.getString(7), rs.getDouble(8),new Address(rs.getString(9)),new Role(rs.getString(10))));
             }
             stmt.close();
-        }catch (SQLException ex) {
+        }catch (Exception ex) {
             ex.getMessage();
         }
         return staff;
@@ -73,7 +74,7 @@ public class StaffDA {
                 staff.add(new Staff(rs.getString(1), rs.getString(2),rs.getString(3), rs.getString(4),rs.getString(5), rs.getString(6),rs.getString(7), rs.getDouble(8),new Address(rs.getString(9)),new Role(rs.getString(10))));
             }
             stmt.close();
-        }catch (SQLException ex) {
+        }catch (Exception ex) {
             ex.getMessage();
         }
         return staff;
@@ -123,28 +124,36 @@ public class StaffDA {
                 staff.add(new Staff(rs.getString(1), rs.getString(2),rs.getString(3), rs.getString(4),rs.getString(5), rs.getString(6),rs.getString(7), rs.getDouble(8),new Address(rs.getString(9)),new Role(rs.getString(10))));
             }
             stmt.close();
-        }catch (SQLException ex) {
+        }catch (Exception ex) {
             ex.getMessage();
         }
         return staff;
     }
     
     public String newStaffID(){
-        String StaffID=null;
+        String staffID="";
         String sqlQuery="SELECT Staff_ID FROM Staff";
         try {
             PreparedStatement stmt = conn.prepareStatement(sqlQuery);
             rs = stmt.executeQuery();
-            while (rs.next()) {
-                StaffID=rs.getString(1);
+            
+            if (rs.next() == false) {
+                staffID = "SF-000";
+                
+            } else {
+                do {
+                    staffID = rs.getString("Staff_ID");
+                } while (rs.next());
             }
+            
+            rs.close();
             stmt.close();
         }catch (SQLException ex) {
             ex.getMessage();
         }
         
-        StaffID=newID(StaffID);
-        return StaffID;
+        staffID=newID(staffID);
+        return staffID;
     }
     public String newID(String StaffID){
         
@@ -225,4 +234,9 @@ public class StaffDA {
            throw ex;
         }
     }*/
+    
+    public static void main (String args[]){
+        StaffDA staffDA = new StaffDA();
+        System.out.println(staffDA.newStaffID());
+    }
 }

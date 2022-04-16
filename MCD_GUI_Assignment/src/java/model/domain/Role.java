@@ -1,3 +1,5 @@
+// Author:Lim Sheng Yang
+// Description:This is the domain class for staff roles which consist of the information of the role such as name of the role and the permission for this role to enter a specific module. 
 package model.domain;
 
 import java.io.Serializable;
@@ -34,6 +36,8 @@ public class Role implements Serializable{
         this.sale = sale;
         this.admin = admin;
     }
+    
+    
     
     //getter
     public String getRoleID() {

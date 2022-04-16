@@ -1,3 +1,8 @@
+// Author:Lim Sheng En
+// Description: The Orders Class provides the attributes of the product details in orders statement, 
+//              it  has an aggregation relationship with product and payment. 
+//              The class also provides a few functions that are needed to store and auto generate order ID in the class.
+
 package model.domain;
 
 import java.io.Serializable;

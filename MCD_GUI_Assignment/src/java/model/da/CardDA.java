@@ -1,3 +1,5 @@
+// Author:Sew Min Yan
+// Description:To make the connection to the Card table and able to save card details into database 
 package model.da;
 
 import model.domain.Card;
